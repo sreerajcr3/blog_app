@@ -61,8 +61,6 @@ class _SplashScreenState extends State<SplashScreen> {
                                             Subtitle(words: "Write."),
 
                       Subtitle(words: "Empower."),
-
-                       
                       ],
                     ),
                   )
