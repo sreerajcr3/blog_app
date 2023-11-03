@@ -73,7 +73,6 @@ backgroundColor: Colors.transparent,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                     
                       Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Divider(color: Colors.white),
