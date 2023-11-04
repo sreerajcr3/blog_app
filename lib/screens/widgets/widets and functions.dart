@@ -76,7 +76,8 @@ class HeadingWithIcon extends StatelessWidget {
             padding: const EdgeInsets.only(top: 10),
             child: InkWell(
               onLongPress: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=> AdminPanel()));
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (ctx) => AdminPanel()));
               },
               child: IconButton(
                   onPressed: () {
@@ -327,7 +328,8 @@ class PasswordTestformfield extends StatelessWidget {
       {super.key,
       required this.controller,
       required this.hintTest,
-      required this.validator, required this.obscuretext});
+      required this.validator,
+      required this.obscuretext});
 
   @override
   Widget build(BuildContext context) {
@@ -349,3 +351,30 @@ class PasswordTestformfield extends StatelessWidget {
   }
 }
 
+class Button extends StatelessWidget {
+  void Function() onPressed;
+  void Function() onLongPress;
+  final Widget child;
+
+  Button(
+      {super.key,
+      required this.child,
+      required this.onLongPress,
+      required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: child,
+        onLongPress: onLongPress,style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.yellow,
+          fixedSize: Size.fromWidth(200),foregroundColor: Colors.black,shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50)
+          )
+        ),
+      ),
+    );
+  }
+}

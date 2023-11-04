@@ -4,6 +4,7 @@ import 'package:blog_app/screens/Screens/Home.dart';
 import 'package:blog_app/screens/Screens/Loginpage.dart';
 import 'package:blog_app/screens/Screens/addBlog.dart';
 import 'package:blog_app/screens/Screens/categories.dart';
+import 'package:blog_app/screens/Screens/signup.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,9 +73,9 @@ class _MenuState extends State<Menu> {
                       height: 30,
                     ),
                     AppText(
-                        words: 'Profile',
+                        words: 'Sign in',
                         action: () {
-                          // Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>LoginScreen()));
+                           Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SignUp()));
                         }),
                     SizedBox(
                       height: 30,

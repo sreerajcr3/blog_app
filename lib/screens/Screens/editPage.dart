@@ -241,11 +241,43 @@ class _EditPageState extends State<EditPage> {
                                 child: Text('cancel')),
                             TextButton(
                                 onPressed: () {
+                                  print("widget.index: ${widget.index}");
+                                  print(
+                                      "scienceBox length: ${scienceBox.length}");
+
+                                  if (widget.index >= 0 &&
+                                      widget.index < scienceBox.length) {
+                                    scienceBox.deleteAt(widget.index);
+                                  }
+
+                                  if (widget.index >= 0 &&
+                                      widget.index < natureBox.length) {
+                                    natureBox.deleteAt(widget.index);
+                                  }
+
+                                  if (widget.index >= 0 &&
+                                      widget.index < politicsBox.length) {
+                                    politicsBox.deleteAt(widget.index);
+                                  }
+
+                                  if (widget.index >= 0 &&
+                                      widget.index < entertainmentBox.length) {
+                                    entertainmentBox.deleteAt(widget.index);
+                                  }
                                   blogBox.deleteAt(widget.index);
-                                  natureBox.deleteAt(widget.index);
-                                  politicsBox.deleteAt(widget.index);
-                                  scienceBox.deleteAt(widget.index);
-                                  entertainmentBox.deleteAt(widget.index);
+
+                                  // Access the item at the specified index
+                                  //  var blog = scienceBox.getAt(index);
+                                  //  scienceBox.deleteAt(widget.index);
+                                  // blogBox.deleteAt(widget.index);
+                                  // natureBox.deleteAt(widget.index);
+                                  // politicsBox.deleteAt(widget.index);
+
+                                  // entertainmentBox.deleteAt(widget.index);
+                                  // Now you can safely use the 'blog' object.
+
+                                  // blogBox.deleteAt(widget.index);
+
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                           builder: (ctx) => HomeScreen()));
@@ -314,6 +346,23 @@ class _EditPageState extends State<EditPage> {
           description: _descriptionController.text);
 
       blogBox.putAt(widget.index, value);
+
+      if (widget.index >= 0 && widget.index < scienceBox.length) {
+        scienceBox.putAt(widget.index, value);
+      }
+
+      if (widget.index >= 0 && widget.index < natureBox.length) {
+        natureBox.putAt(widget.index, value);
+      }
+
+      if (widget.index >= 0 && widget.index < politicsBox.length) {
+        politicsBox.putAt(widget.index, value);
+      }
+
+      if (widget.index >= 0 && widget.index < entertainmentBox.length) {
+        entertainmentBox.putAt(widget.index, value);
+      }
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('updated successfully'),
         backgroundColor: Colors.blue,

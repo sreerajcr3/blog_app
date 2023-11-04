@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, use_build_context_synchronously
 import 'dart:io';
-import 'dart:math';
 
 import 'package:blog_app/screens/Screens/Home.dart';
 import 'package:blog_app/screens/Screens/Loginpage.dart';
@@ -61,8 +60,8 @@ class _AddBlogState extends State<AddBlog> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-title: const HeadingWithIcon(),
-backgroundColor: Colors.transparent,
+        title: const HeadingWithIcon(),
+        backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
         child: Column(
@@ -157,23 +156,22 @@ backgroundColor: Colors.transparent,
                         child: Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Row(
-                            mainAxisAlignment:MainAxisAlignment.center,
-                            
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   height: 35,
                                   width: 110,
-                                  
                                   decoration: BoxDecoration(
-                                     color: Colors.white,
-                                     borderRadius: BorderRadius.circular(30)
-                                  ),
-                                 
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(30)),
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
-                                    child: Text( "${_selectedDate.day} - ${_selectedDate.month} - ${_selectedDate.year}",style: TextStyle(color: Colors.black),),
+                                    child: Text(
+                                      "${_selectedDate.day} - ${_selectedDate.month} - ${_selectedDate.year}",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -190,8 +188,16 @@ backgroundColor: Colors.transparent,
                                         _selectedDate = dateTime;
                                       });
                                     }
-                                    
-                                  },style: ElevatedButton.styleFrom(shape:RoundedRectangleBorder(borderRadius: BorderRadiusDirectional.circular(30),),side: BorderSide(width: 2,color: Colors.white),backgroundColor: Colors.transparent ,),
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusDirectional.circular(30),
+                                    ),
+                                    side: BorderSide(
+                                        width: 2, color: Colors.white),
+                                    backgroundColor: Colors.transparent,
+                                  ),
                                   child: Text('Select date'))
                             ],
                           ),
@@ -201,12 +207,15 @@ backgroundColor: Colors.transparent,
                         alignment: Alignment.bottomLeft,
                         child: Apptext(words: 'Add title'),
                       ),
-                     testformfield(controller: titleContoller, hintTest: 'Title is required', validator: (value){
-                      if(value !.isEmpty){
-                        return 'title is required';
-                      }
-                      return null;
-                     }),
+                      testformfield(
+                          controller: titleContoller,
+                          hintTest: 'Title is required',
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'title is required';
+                            }
+                            return null;
+                          }),
                       SizedBox(
                         height: 30,
                       ),
@@ -237,27 +246,16 @@ backgroundColor: Colors.transparent,
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 150, right: 150, top: 50, bottom: 10),
-                        child: ElevatedButton(
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Button(
+                          child: Text('Save'),
+                          onLongPress: () {},
                           onPressed: () {
                             saveData();
-                            titleContoller.clear();
-                            descriptionController.clear();
-
-
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            backgroundColor: Colors.yellow,
-                            foregroundColor: Colors.black,
-                          ),
-                          child: Text('Save'),
-                        ),
-                      ),
+                          
+                          }),
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: footerText(
@@ -290,11 +288,14 @@ backgroundColor: Colors.transparent,
     if (_key.currentState!.validate() &&
         _selectedValue != null &&
         _selectedValue != 'A') {
-      final blogData = Blog(date: _selectedDate.toString(),  title: titleContoller.text,
+      final blogData = Blog(
+          date: _selectedDate.toString(),
+          title: titleContoller.text,
           imagePath: imagePath!,
           description: descriptionController.text);
-      
-      
+            // titleContoller.clear();
+            //                 descriptionController.clear();
+
       blogBox.add(blogData);
       switch (selectedCategory) {
         case 'B':
@@ -309,10 +310,9 @@ backgroundColor: Colors.transparent,
         case 'E':
           politicsBox.add(getCopy());
           break;
-          
       }
-       Navigator.of(context).push(MaterialPageRoute(
-                                builder: (ctx) => HomeScreen()));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
 
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -320,6 +320,8 @@ backgroundColor: Colors.transparent,
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.blue,
         margin: EdgeInsets.all(20),
+
+        
       ));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -344,8 +346,10 @@ backgroundColor: Colors.transparent,
   }
 
   Blog getCopy() {
-    return Blog(date: _selectedDate.toString(),  title: titleContoller.text,
-          imagePath: imagePath!,
-          description: descriptionController.text);
+    return Blog(
+        date: _selectedDate.toString(),
+        title: titleContoller.text,
+        imagePath: imagePath!,
+        description: descriptionController.text);
   }
 }

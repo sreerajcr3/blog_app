@@ -86,36 +86,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       PasswordTestformfield(
-                          controller: _passwordController,
-                          hintTest: 'Enter your password',
-                          validator: (value) {
-                            if (value !.isEmpty) {
-                              return 'password is required';
-                            }
-                            return null;
-                          },
-                          obscuretext: true,
-                          ),
+                        controller: _passwordController,
+                        hintTest: 'Enter your password',
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'password is required';
+                          }
+                          return null;
+                        },
+                        obscuretext: true,
+                      ),
                       SizedBox(
                         height: 30,
                       ),
-                      Align(
-                        child: ElevatedButton(
-                            onPressed: () {
-                              gotoHome();
-                              validate();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.yellow,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: Text(
-                              '                   Log in                      ',
-                              style: TextStyle(color: Colors.black),
-                            )),
-                      ),
+                      Button(
+                          child: Text('Log in'),
+                          onLongPress: () {},
+                          onPressed: () {
+                            gotoHome();
+                            validate();
+                          }),
                       SizedBox(
                         height: 40,
                       ),
@@ -167,56 +157,38 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+Future<void> gotoHome() async {
+  final username = _usernameController.text;
+  final password = _passwordController.text;
+  bool credentialsMatch = false;
 
-  Future<void> gotoHome() async {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
-
-    for (int index = 0; index < userId.length; ) {
-      final id = userId.getAt(index);
-      if (id.username == username && id.password == password) {
-        // Username and password match, you can navigate to the logged-in page.
-        // For example, you can use Navigator to navigate to the new page.
-
-        final sharedprefs = await SharedPreferences.getInstance();
-        await sharedprefs.setBool(savedkey, true);
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog()));
-      } else if (username.isEmpty || password.isEmpty) {
-        // Do nothing when fields are empty
-        return;
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('username and password does not match'),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.red,
-          margin: EdgeInsets.all(20),
-        ));
-      }
-
-      // Navigator.of(context)
-      //     .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
-      print('matched');
-      return; // Exit the loop since a match is found.
+  for (int index = 0; index < userId.length; index++) {
+    final id = userId.getAt(index);
+    if (id.username == username && id.password == password) {
+      // Username and password match, set the flag to true.
+      credentialsMatch = true;
+      break; // Exit the loop since a match is found.
     }
   }
 
-  // if (email == '1234' && password == '1234') {
-  //   final sharedprefs = await SharedPreferences.getInstance();
-  //   await sharedprefs.setBool(savedkey, true);
-  //   Navigator.of(context)
-  //       .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog()));
-  // } else {
-  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //     content: Text('username and password does not match'),
-  //     behavior: SnackBarBehavior.floating,
-  //     backgroundColor: Colors.red,
-  //     margin: EdgeInsets.all(20),
-  //   ));
-  // }
-  
-Future<void> validate() async {
-  if (_key.currentState!.validate()) {}
-}
+  if (credentialsMatch) {
+    final sharedprefs = await SharedPreferences.getInstance();
+    await sharedprefs.setBool(savedkey, true);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog()));
+  } else if (username.isEmpty || password.isEmpty) {
+    // Do nothing when fields are empty
+    return;
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Username and password do not match'),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.red,
+      margin: EdgeInsets.all(20),
+    ));
+  }
 }
 
+  Future<void> validate() async {
+    if (_key.currentState!.validate()) {}
+  }
+}

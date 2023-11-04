@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:blog_app/screens/Screens/Loginpage.dart';
-import 'package:blog_app/screens/Screens/adminpanel.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,6 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -38,25 +36,29 @@ class _SignUpState extends State<SignUp> {
         title: HeadingWithIcon(),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 30,right: 30),
+        padding: const EdgeInsets.only(left: 30, right: 30),
         child: Form(
           key: _key,
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                 children: [
-                  SizedBox(height: 100,),
-                   TitleText(words: 'Sign up'),
-                 ],
-               ),
-               SizedBox(height: 30,),
-               Padding(
-                 padding: const EdgeInsets.only(left: 15,bottom: 5),
-                 child: Title(color: Colors.white, child: Text('Name')),
-               ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 100,
+                    ),
+                    TitleText(words: 'Sign up'),
+                  ],
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, bottom: 5),
+                  child: Title(color: Colors.white, child: Text('Name')),
+                ),
                 testformfield(
                   controller: _nameController,
                   hintTest: 'enter your name',
@@ -67,11 +69,14 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                 ),
-                 SizedBox(height: 30,),
-                    Padding(
-                 padding: const EdgeInsets.only(left: 15,bottom: 5),
-                 child: Title(color: Colors.white, child: Text('Username or email id')),
-               ),
+                SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, bottom: 5),
+                  child: Title(
+                      color: Colors.white, child: Text('Username or email id')),
+                ),
                 testformfield(
                   controller: _usernameController,
                   hintTest: 'enter your username',
@@ -82,12 +87,13 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                 ),
-                SizedBox(height: 30,),
-                   Padding(
-                 padding: const EdgeInsets.only(left: 15,bottom: 5),
-                 child: Title(color: Colors.white, child: Text('Password')),
-               ),
-              
+                SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, bottom: 5),
+                  child: Title(color: Colors.white, child: Text('Password')),
+                ),
                 PasswordTestformfield(
                   controller: _passwordController,
                   hintTest: 'enter your password',
@@ -99,26 +105,22 @@ class _SignUpState extends State<SignUp> {
                   },
                   obscuretext: true,
                 ),
-                SizedBox(height: 30,),
-                Center(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        saveUserId();
-                      },
-                      
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.yellow,
-                        foregroundColor: Colors.black,shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)
-                        ),
-                        
-                      ),
-                      
-                      child: Text('sign up')),
+                SizedBox(
+                  height: 30,
                 ),
-                Center(child: TextButton(onPressed: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=> LoginScreen()));
-                }, child: Text('Already have an account? Log in')))
+                Button(
+                    child: Text('Sign up'),
+                    onLongPress: () {},
+                    onPressed: () {
+                      saveUserId();
+                    }),
+                Center(
+                    child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (ctx) => LoginScreen()));
+                        },
+                        child: Text('Already have an account? Log in')))
               ],
             ),
           ),
@@ -134,15 +136,15 @@ class _SignUpState extends State<SignUp> {
         username: _usernameController.text,
         password: _passwordController.text);
     if (id.name.isNotEmpty &&
-       id.username.isNotEmpty  &&
-       id.password.isNotEmpty ) {
+        id.username.isNotEmpty &&
+        id.password.isNotEmpty) {
       userId.add(id);
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
     }
 
-   _nameController.clear();
-   _usernameController.clear();
+    _nameController.clear();
+    _usernameController.clear();
     _passwordController.clear();
   }
 }
