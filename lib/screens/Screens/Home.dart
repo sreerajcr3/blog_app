@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
-import 'package:blog_app/screens/Screens/signup.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:blog_app/screens/Screens/BlogDetailPage.dart';
@@ -86,14 +85,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-         Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SignUp()));
-        },
-        child: Icon(Icons.add),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SignUp()));
+      //   },
+      //   child: Icon(Icons.add),
       
      
-      ),
+      // ),
        backgroundColor: Colors.black,
 
       body: Container(
@@ -130,10 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ListView.builder(                   
                       itemCount: blogBox.length,
                       itemBuilder: (ctx, index) {
-                        var reversedIndex =
-                            blogBox.length - 1 - index; // Reverse the index
-                        var blog = blogBox.getAt(reversedIndex);
-                        // var blog = blogBox.getAt(index);
+                        // var reversedIndex =
+                        //     blogBox.length - 1 - index; // Reverse the index
+                        // var blog = blogBox.getAt(reversedIndex);
+                         var blog = blogBox.getAt(index);
                         String imagePath = blog.imagePath;
                         return GestureDetector(
                           onTap: () {
@@ -191,7 +190,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     color: Colors.yellow),
                                               ),
                                             ),
-                                            // Apptext(words: DateFormat('d MMM y').format(DateTime.parse(blog.date)))
                                           ],
                                         ),
                                         Padding(

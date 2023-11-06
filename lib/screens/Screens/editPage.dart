@@ -110,10 +110,11 @@ class _EditPageState extends State<EditPage> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      selectedDate.toString(),
+                      DateFormat('d MMM y').format(
+                        DateTime.parse(selectedDate.toString()),
+                      ),
                       style: TextStyle(color: Colors.black),
                     ),
-                    // Text(DateFormat('d MMM y').format(DateTime.parse(selectedDate.toString()),),style: GoogleFonts.poppins(fontWeight: FontWeight.w500),),
                   ),
                 ),
               ),
@@ -126,7 +127,7 @@ class _EditPageState extends State<EditPage> {
                         lastDate: DateTime(3000));
 
                     setState(() {
-                      selectedDate = dateTime!;
+                      this.selectedDate = dateTime!;
                     });
                   },
                   style: ElevatedButton.styleFrom(
@@ -340,7 +341,7 @@ class _EditPageState extends State<EditPage> {
       final updatedImagePath = _updatedImage?.path ?? widget.blog.imagePath;
 
       final value = Blog(
-          date: selectedDate.toIso8601String(),
+          date: selectedDate.toString(),
           title: _titleController.text,
           imagePath: updatedImagePath,
           description: _descriptionController.text);

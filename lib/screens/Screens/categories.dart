@@ -10,7 +10,9 @@ import 'package:blog_app/screens/Screens/editPage.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Categories extends StatefulWidget {
@@ -118,11 +120,27 @@ class _CategoriesState extends State<Categories> {
                                       File(blog.imagePath),
                                     ),
                                   ),
+                                    Row(
+                                      children: [
+                                        Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 8, top: 15),
+                                                  child: Text(
+                                                    DateFormat('d MMM y').format(
+                                                      DateTime.parse(blog.date),
+                                                    ),
+                                                    style: GoogleFonts.poppins(
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.yellow),
+                                                  ),
+                                                ),
+                                      ],
+                                    ),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      TitleText(words: blog.title),
+                                      Expanded(child: TitleText(words: blog.title)),
                                       IconButton(
                                           onPressed: () {
                                             Navigator.of(context).push(
