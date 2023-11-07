@@ -212,7 +212,27 @@ class _EditPageState extends State<EditPage> {
             padding: const EdgeInsets.only(left: 150, right: 150),
             child: ElevatedButton(
                 onPressed: () {
-                  update();
+                  final updatedImagePath =
+                      _updatedImage?.path ?? widget.blog.imagePath;
+                  final value = Blog(
+                      date: selectedDate.toString(),
+                      title: _titleController.text,
+                      imagePath: updatedImagePath,
+                      description: _descriptionController.text);
+
+                  final boxesToUpdate = [
+                    blogBox,
+                    natureBox,
+                    scienceBox,
+                    entertainmentBox,
+                    politicsBox
+                  ];
+                  // updateObjectInMultipleBoxes(
+                  //     value, boxesToUpdate, widget.index, context);
+
+                  // updateBlog(widget.index, value, context);
+                   update();
+
                   Navigator.of(context)
                       .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
                 },
@@ -314,44 +334,46 @@ class _EditPageState extends State<EditPage> {
           description: _descriptionController.text);
       updateBlog(widget.index, value, context);
 
-      //   blogBox.putAt(widget.index, value);
+        blogBox.putAt(widget.index, value);
+         natureBox.putAt(widget.index, value);
 
-      //   if (widget.index >= 0 && widget.index < scienceBox.length) {
-      //     scienceBox.putAt(widget.index, value);
-      //   }
+        if (widget.index >= 0 && widget.index < scienceBox.length) {
+          scienceBox.putAt(widget.index, value);
+        }
 
-      //   if (widget.index >= 0 && widget.index < natureBox.length) {
-      //     natureBox.putAt(widget.index, value);
-      //   }
+        if (widget.index >= 0 && widget.index < natureBox.length) {
+          natureBox.putAt(widget.index, value);
+        }
 
-      //   if (widget.index >= 0 && widget.index < politicsBox.length) {
-      //     politicsBox.putAt(widget.index, value);
-      //   }
+        if (widget.index >= 0 && widget.index < politicsBox.length) {
+          politicsBox.putAt(widget.index, value);
+        }
 
-      //   if (widget.index >= 0 && widget.index < entertainmentBox.length) {
-      //     entertainmentBox.putAt(widget.index, value);
-      //   }
+        if (widget.index >= 0 && widget.index < entertainmentBox.length) {
+          entertainmentBox.putAt(widget.index, value);
+        }
 
-      //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //     content: Text('updated successfully'),
-      //     backgroundColor: Colors.blue,
-      //     behavior: SnackBarBehavior.floating,
-      //   ));
-      // } else {
-      //   ScaffoldMessenger.of(context).clearSnackBars();
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(
-      //       content: Text('You must fill all required fields'),
-      //       behavior: SnackBarBehavior.floating,
-      //       backgroundColor: Colors.red,
-      //       margin: EdgeInsets.all(10),
-      //     ),
-      //   );
-      // }
-    }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('updated successfully'),
+          backgroundColor: Colors.blue,
+          behavior: SnackBarBehavior.floating,
+        ));
+      } else {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('You must fill all required fields'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+            margin: EdgeInsets.all(10),
+          ),
+        );
+      }
+    
 
-    //  showDialog(context: context, builder: (BuildContext (context) {
-    //   return AlertDialog();
-    // }));
-  }
+  //    showDialog(context: context, builder: (BuildContext (context) {
+  //     return AlertDialog();
+  //   }));
+  // }
+}
 }

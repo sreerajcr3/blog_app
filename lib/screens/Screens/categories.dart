@@ -120,27 +120,28 @@ class _CategoriesState extends State<Categories> {
                                       File(blog.imagePath),
                                     ),
                                   ),
-                                    Row(
-                                      children: [
-                                        Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 8, top: 15),
-                                                  child: Text(
-                                                    DateFormat('d MMM y').format(
-                                                      DateTime.parse(blog.date),
-                                                    ),
-                                                    style: GoogleFonts.poppins(
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.yellow),
-                                                  ),
-                                                ),
-                                      ],
-                                    ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 8, top: 15),
+                                        child: Text(
+                                          DateFormat('d MMM y').format(
+                                            DateTime.parse(blog.date),
+                                          ),
+                                          style: GoogleFonts.poppins(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.yellow),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Expanded(child: TitleText(words: blog.title)),
+                                      Expanded(
+                                          child: TitleText(words: blog.title)),
                                       IconButton(
                                           onPressed: () {
                                             Navigator.of(context).push(
@@ -172,8 +173,7 @@ class _CategoriesState extends State<Categories> {
                   height: 500,
                   child: Center(
                     child: AppText(
-                        words:
-                            'Sorry no blogs. Add new Blog? Click here',
+                        words: 'Sorry no blogs. Add new Blog? Click here',
                         action: () {
                           checkLoggedin();
                         }),

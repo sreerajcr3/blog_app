@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, use_build_context_synchronously
 import 'dart:io';
 
+import 'package:blog_app/Databse/functions.dart';
 import 'package:blog_app/screens/Screens/Home.dart';
 import 'package:blog_app/screens/Screens/Loginpage.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
@@ -51,8 +52,6 @@ class _AddBlogState extends State<AddBlog> {
     entertainmentBox = Hive.box('entertainment');
     scienceBox = Hive.box('science');
     politicsBox = Hive.box('politics');
-
-    // checkLoggedin();
   }
 
   @override
@@ -254,7 +253,6 @@ class _AddBlogState extends State<AddBlog> {
                           onLongPress: () {},
                           onPressed: () {
                             saveData();
-                          
                           }),
                       Padding(
                         padding: const EdgeInsets.all(15.0),
@@ -293,36 +291,8 @@ class _AddBlogState extends State<AddBlog> {
           title: titleContoller.text,
           imagePath: imagePath!,
           description: descriptionController.text);
-            // titleContoller.clear();
-            //                 descriptionController.clear();
 
-      blogBox.add(blogData);
-      switch (selectedCategory) {
-        case 'B':
-          natureBox.add(getCopy());
-          break;
-        case 'C':
-          entertainmentBox.add(getCopy());
-          break;
-        case 'D':
-          scienceBox.add(getCopy());
-          break;
-        case 'E':
-          politicsBox.add(getCopy());
-          break;
-      }
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
-
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Blog uploaded successfully'),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.blue,
-        margin: EdgeInsets.all(20),
-
-        
-      ));
+      saveBlog(blogData, selectedCategory, getCopy, context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Select Category'),
