@@ -170,11 +170,10 @@ class _CategoriesState extends State<Categories> {
                 )
               : SizedBox(
                   height: 500,
-                  child: Align(
-                    alignment: Alignment.center,
+                  child: Center(
                     child: AppText(
                         words:
-                            'No blogs Related to this category,Add new Blog? Click here',
+                            'Sorry no blogs. Add new Blog? Click here',
                         action: () {
                           checkLoggedin();
                         }),

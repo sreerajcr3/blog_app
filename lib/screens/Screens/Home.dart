@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'dart:io';
 import 'package:google_fonts/google_fonts.dart';
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 10),
-            child: Container(
+            child: SizedBox(
               height: 40,
               child: TextFormField(
                 textAlignVertical: TextAlignVertical.center,
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                onChanged: (query) {
+                onChanged: (value) {
                   setState(() {
                     performSearch();
                   });
@@ -90,14 +90,16 @@ class _HomeScreenState extends State<HomeScreen> {
       //    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SignUp()));
       //   },
       //   child: Icon(Icons.add),
-      
-     
+
       // ),
-       backgroundColor: Colors.black,
+      backgroundColor: Colors.black,
 
       body: Container(
         child: _searchController.text.isNotEmpty
-            ? ListView.builder(
+            ? _searchResults.isEmpty? Center(
+              child: Text('Sorry, No results found'),
+            ):
+            ListView.builder(
                 itemCount: _searchResults.length,
                 itemBuilder: (context, index) {
                   final blog = _searchResults[index];
@@ -116,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           blog.title,
                           style: TextStyle(color: Colors.white),
                         ),
-                        leading: Container(
+                        leading: SizedBox(
                             width: 80, child: Image.file(File(blog.imagePath))),
                       ),
                     ),
@@ -126,13 +128,13 @@ class _HomeScreenState extends State<HomeScreen> {
             : Column(
                 children: [
                   Flexible(
-                    child: ListView.builder(                   
+                    child: ListView.builder(
                       itemCount: blogBox.length,
                       itemBuilder: (ctx, index) {
                         // var reversedIndex =
                         //     blogBox.length - 1 - index; // Reverse the index
                         // var blog = blogBox.getAt(reversedIndex);
-                         var blog = blogBox.getAt(index);
+                        var blog = blogBox.getAt(index);
                         String imagePath = blog.imagePath;
                         return GestureDetector(
                           onTap: () {
@@ -233,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   const EdgeInsets.all(8.0),
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 10),  
+                                                    left: 10),
                                               ),
                                             )),
                                       ],
