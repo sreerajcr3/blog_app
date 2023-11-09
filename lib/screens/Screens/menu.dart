@@ -5,8 +5,11 @@ import 'package:blog_app/screens/Screens/Loginpage.dart';
 import 'package:blog_app/screens/Screens/addBlog.dart';
 import 'package:blog_app/screens/Screens/categories.dart';
 import 'package:blog_app/screens/Screens/signup.dart';
+import 'package:blog_app/screens/Screens/userProfile.dart';
+import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Menu extends StatefulWidget {
@@ -22,7 +25,13 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
- 
+ late Box userId;
+
+ @override
+  void initState() {
+    super.initState();
+    userId = Hive.box('userid');
+  }
 
  // var index;
 
@@ -118,10 +127,11 @@ class _MenuState extends State<Menu> {
                       height: 30,
                     ),
                     AppText(
-                        words: 'About',
+                        words: 'Profile',
                         action: () {
+                          var index;
                           Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (ctx) => LoginScreen()));
+                              MaterialPageRoute(builder: (ctx) => UserProfile(index:index)));
                         })
                   ],
                 ),
@@ -144,4 +154,5 @@ class _MenuState extends State<Menu> {
           .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog()));
     }
   }
+ 
 }

@@ -9,7 +9,8 @@ import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+ 
+   LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -167,6 +168,7 @@ Future<void> gotoHome() async {
     if (id.username == username && id.password == password) {
       // Username and password match, set the flag to true.
       credentialsMatch = true;
+      
       break; // Exit the loop since a match is found.
     }
   }
@@ -185,6 +187,25 @@ Future<void> gotoHome() async {
       backgroundColor: Colors.red,
       margin: EdgeInsets.all(20),
     ));
+  }
+}
+Future<int?> identifyUserIndex(String username, String password) async {
+  bool credentialsMatch = false;
+  int? index;
+
+  for (int i = 0; i < userId.length; i++) {
+    final id = userId.getAt(i);
+    if (id.username == username && id.password == password) {
+      credentialsMatch = true;
+      index = i;
+      break;
+    }
+  }
+
+  if (credentialsMatch) {
+    return index;
+  } else {
+    return null;
   }
 }
 
