@@ -5,6 +5,7 @@
 
 
 import 'package:blog_app/screens/Screens/Home.dart';
+import 'package:blog_app/screens/Screens/Loginpage.dart';
 
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  
 
   @override
   void initState() {
@@ -76,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> gotoLogin() async {
     await Future.delayed(Duration(seconds: 3));
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (ctx) => const HomeScreen()));
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
   }
 
  

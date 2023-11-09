@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:blog_app/screens/Screens/Home.dart';
-import 'package:blog_app/screens/Screens/addBlog.dart';
+// import 'package:blog_app/screens/Screens/addBlog.dart';
 import 'package:blog_app/screens/Screens/signup.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +9,7 @@ import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
- 
-   LoginScreen({super.key});
+  LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -32,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     //double screenHeight = MediaQuery.of(context).size.height;
-
+    int index = 0;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -127,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (ctx) => HomeScreen(),
+                                builder: (ctx) => HomeScreen(index: index,),
                               ),
                             );
                           },
@@ -158,56 +157,63 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-Future<void> gotoHome() async {
-  final username = _usernameController.text;
-  final password = _passwordController.text;
-  bool credentialsMatch = false;
 
-  for (int index = 0; index < userId.length; index++) {
-    final id = userId.getAt(index);
-    if (id.username == username && id.password == password) {
-      // Username and password match, set the flag to true.
-      credentialsMatch = true;
-      
-      break; // Exit the loop since a match is found.
+  Future<void> gotoHome() async {
+    final username = _usernameController.text;
+    final password = _passwordController.text;
+    bool credentialsMatch = false;
+
+    for (int index = 0; index < userId.length; index++) {
+      final id = userId.getAt(index);
+      if (id.username == username && id.password == password) {
+        // Username and password match, set the flag to true.
+        credentialsMatch = true;
+        identifyUserIndex(username, password);
+
+        break; // Exit the loop since a match is found.
+      }
+    }
+
+    if (credentialsMatch) {
+      final sharedprefs = await SharedPreferences.getInstance();
+      await sharedprefs.setBool(savedkey, true);
+    } else if (username.isEmpty || password.isEmpty) {
+      // Do nothing when fields are empty
+      return;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Username and password do not match'),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.red,
+        margin: EdgeInsets.all(20),
+      ));
     }
   }
 
-  if (credentialsMatch) {
-    final sharedprefs = await SharedPreferences.getInstance();
-    await sharedprefs.setBool(savedkey, true);
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog()));
-  } else if (username.isEmpty || password.isEmpty) {
-    // Do nothing when fields are empty
-    return;
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Username and password do not match'),
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.red,
-      margin: EdgeInsets.all(20),
-    ));
-  }
-}
-Future<int?> identifyUserIndex(String username, String password) async {
-  bool credentialsMatch = false;
-  int? index;
+  Future<int?> identifyUserIndex(String username, String password) async {
+    bool credentialsMatch = false;
+    int? index;
 
-  for (int i = 0; i < userId.length; i++) {
-    final id = userId.getAt(i);
-    if (id.username == username && id.password == password) {
-      credentialsMatch = true;
-      index = i;
-      break;
+    for (int i = 0; i < userId.length; i++) {
+      final id = userId.getAt(i);
+      if (id.username == username && id.password == password) {
+        credentialsMatch = true;
+        index = i;
+        print(index);
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (ctx) => HomeScreen(
+                  index: index,
+                )));
+        break;
+      }
+    }
+
+    if (credentialsMatch) {
+      return index;
+    } else {
+      return null;
     }
   }
-
-  if (credentialsMatch) {
-    return index;
-  } else {
-    return null;
-  }
-}
 
   Future<void> validate() async {
     if (_key.currentState!.validate()) {}

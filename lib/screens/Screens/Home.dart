@@ -15,11 +15,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 const savedkey = 'userLoggedin';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final int? index;
+  // const HomeScreen(this.index,{Key? key,    }) : super(key: key);
+  const HomeScreen({super.key, this.index});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
+
 
 class _HomeScreenState extends State<HomeScreen> {
   late Box blogBox;
@@ -47,12 +50,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final index = widget.index;
     //  performSearch();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: HeadingWithIcon(),
+        title: HeadingWithIcon( index??0),
         // const Subtitle(words: 'Recent Blog posts'),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
@@ -256,6 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> checkLoggedin() async {
+    final index = widget.index;
     final sharedprefs = await SharedPreferences.getInstance();
     final userLoggedIn = sharedprefs.getBool(savedkey);
     if (userLoggedIn == false || userLoggedIn == null) {
@@ -263,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
     } else {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog()));
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog(index!,)));
     }
   }
 

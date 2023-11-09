@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:blog_app/screens/Screens/Loginpage.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
@@ -33,7 +33,8 @@ class _SignUpState extends State<SignUp> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: HeadingWithIcon(),
+        // title: HeadingWithIcon(),
+        title: Text('Sign up'),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 30, right: 30),

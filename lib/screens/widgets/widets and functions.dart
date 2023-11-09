@@ -43,10 +43,12 @@ Widget heading() {
 }
 
 class HeadingWithIcon extends StatelessWidget {
-  const HeadingWithIcon({super.key});
+  final int index;
+  const HeadingWithIcon(this.index,{super.key,  });
 
   @override
   Widget build(BuildContext context) {
+       
     return Padding(
       padding: const EdgeInsets.only(top: 0, left: 10, right: 10, bottom: 0),
       child: Row(
@@ -84,7 +86,7 @@ class HeadingWithIcon extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (ctx) => Menu(),
+                        builder: (ctx) => Menu(index:index),
                       ),
                     );
                   },
@@ -208,60 +210,55 @@ class footerText extends StatelessWidget {
   }
 }
 
-class PageNavigationBar extends StatefulWidget {
-  const PageNavigationBar({super.key});
+// c//}
 
-  @override
-  State<PageNavigationBar> createState() => _PageNavigationBarState();
-}
+// class _PageNavigationBarState extends State<PageNavigationBar> {
+//   int index = 0;
+//   final dynamic pages = [HomeScreen()];
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: pages[index],
+//       bottomNavigationBar: BottomNavigationBar(
+//           showSelectedLabels: true,
+//           showUnselectedLabels: true,
+//           type: BottomNavigationBarType.fixed,
+//           onTap: (value) {
+//             setState(() {
+//               index = value;
+//             });
+//           },
+//           currentIndex: index,
+//           items: [
+//             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+//             BottomNavigationBarItem(
+//                 icon: GestureDetector(
+//                   onTap: () => checkLoggedin(),
+//                   child: Icon(Icons.note_add),
+//                 ),
+//                 label: 'Add Blog')
+//           ]),
+//     );
+//   }
 
-class _PageNavigationBarState extends State<PageNavigationBar> {
-  int index = 0;
-  final dynamic pages = [HomeScreen()];
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[index],
-      bottomNavigationBar: BottomNavigationBar(
-          showSelectedLabels: true,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-          onTap: (value) {
-            setState(() {
-              index = value;
-            });
-          },
-          currentIndex: index,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: GestureDetector(
-                  onTap: () => checkLoggedin(),
-                  child: Icon(Icons.note_add),
-                ),
-                label: 'Add Blog')
-          ]),
-    );
-  }
-
-  Future<void> checkLoggedin() async {
-    final sharedprefs = await SharedPreferences.getInstance();
-    final userLoggedIn = sharedprefs.getBool(savedkey);
-    if (userLoggedIn == false || userLoggedIn == null) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (ctx) => LoginScreen(),
-        ),
-      );
-    } else {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (ctx) => AddBlog(),
-        ),
-      );
-    }
-  }
-}
+//   Future<void> checkLoggedin() async {
+//     final sharedprefs = await SharedPreferences.getInstance();
+//     final userLoggedIn = sharedprefs.getBool(savedkey);
+//     if (userLoggedIn == false || userLoggedIn == null) {
+//       Navigator.of(context).push(
+//         MaterialPageRoute(
+//           builder: (ctx) => LoginScreen(),
+//         ),
+//       );
+//     } else {
+//       Navigator.of(context).pushReplacement(
+//         MaterialPageRoute(
+//           builder: (ctx) => AddBlog(),
+//         ),
+//       );
+//     }
+//   }
+// }
 
 class DropdownList extends StatefulWidget {
   const DropdownList({super.key});

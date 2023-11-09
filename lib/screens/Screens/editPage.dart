@@ -61,6 +61,7 @@ class _EditPageState extends State<EditPage> {
 
   @override
   Widget build(BuildContext context) {
+    final index = widget.index;
     return Scaffold(
       backgroundColor: Colors.black12,
       body: ListView(
@@ -212,21 +213,21 @@ class _EditPageState extends State<EditPage> {
             padding: const EdgeInsets.only(left: 150, right: 150),
             child: ElevatedButton(
                 onPressed: () {
-                  final updatedImagePath =
-                      _updatedImage?.path ?? widget.blog.imagePath;
-                  final value = Blog(
-                      date: selectedDate.toString(),
-                      title: _titleController.text,
-                      imagePath: updatedImagePath,
-                      description: _descriptionController.text);
+                  // final updatedImagePath =
+                  //     _updatedImage?.path ?? widget.blog.imagePath;
+                  // final value = Blog(
+                  //     date: selectedDate.toString(),
+                  //     title: _titleController.text,
+                  //     imagePath: updatedImagePath,
+                  //     description: _descriptionController.text);
 
-                  final boxesToUpdate = [
-                    blogBox,
-                    natureBox,
-                    scienceBox,
-                    entertainmentBox,
-                    politicsBox
-                  ];
+                  // final boxesToUpdate = [
+                  //   blogBox,
+                  //   natureBox,
+                  //   scienceBox,
+                  //   entertainmentBox,
+                  //   politicsBox
+                  // ];
                   // updateObjectInMultipleBoxes(
                   //     value, boxesToUpdate, widget.index, context);
 
@@ -234,7 +235,7 @@ class _EditPageState extends State<EditPage> {
                    update();
 
                   Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+                      .push(MaterialPageRoute(builder: (ctx) => HomeScreen( index: index,)));
                 },
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -268,7 +269,7 @@ class _EditPageState extends State<EditPage> {
 
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
-                                          builder: (ctx) => HomeScreen()));
+                                          builder: (ctx) => HomeScreen( index: index,)));
                                   ScaffoldMessenger.of(context)
                                       .clearSnackBars();
                                   ScaffoldMessenger.of(context).showSnackBar(

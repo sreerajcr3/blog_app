@@ -6,14 +6,14 @@ import 'package:blog_app/screens/Screens/addBlog.dart';
 import 'package:blog_app/screens/Screens/categories.dart';
 import 'package:blog_app/screens/Screens/signup.dart';
 import 'package:blog_app/screens/Screens/userProfile.dart';
-import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Menu extends StatefulWidget {
-  Menu({super.key});
+  final int index;
+  Menu({super.key, required this.index});
   final bool userLoggedIn = false;
 
   final Widget space = SizedBox(
@@ -37,6 +37,7 @@ class _MenuState extends State<Menu> {
 
   @override
   Widget build(BuildContext context) {
+    final index = widget.index;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
@@ -58,7 +59,7 @@ class _MenuState extends State<Menu> {
                         words: 'Home',
                         action: () {
                           Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (ctx) => HomeScreen()));
+                              MaterialPageRoute(builder: (ctx) => HomeScreen( index: index,)));
                         }),
                     SizedBox(
                       height: 30,
@@ -129,9 +130,9 @@ class _MenuState extends State<Menu> {
                     AppText(
                         words: 'Profile',
                         action: () {
-                          var index;
+                         
                           Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (ctx) => UserProfile(index:index)));
+                              MaterialPageRoute(builder: (ctx) => UserProfile(index: index,)));
                         })
                   ],
                 ),
@@ -144,6 +145,7 @@ class _MenuState extends State<Menu> {
   }
 
   Future<void> checkLoggedin() async {
+    final index = widget.index;
     final sharedprefs = await SharedPreferences.getInstance();
     final userLoggedIn = sharedprefs.getBool(savedkey);
     if (userLoggedIn == false || userLoggedIn == null) {
@@ -151,7 +153,7 @@ class _MenuState extends State<Menu> {
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
     } else {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog()));
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index,)));
     }
   }
  

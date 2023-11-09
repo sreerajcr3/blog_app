@@ -12,7 +12,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddBlog extends StatefulWidget {
-  const AddBlog({Key? key}) : super(key: key);
+   final int index;
+  const AddBlog( this.index,{Key? key, }) : super(key: key);
 
   @override
   State<AddBlog> createState() => _AddBlogState();
@@ -56,10 +57,11 @@ class _AddBlogState extends State<AddBlog> {
 
   @override
   Widget build(BuildContext context) {
+      final index = widget.index;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const HeadingWithIcon(),
+        title:  HeadingWithIcon(index,),
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
@@ -304,6 +306,7 @@ class _AddBlogState extends State<AddBlog> {
   }
 
   Future<void> checkLoggedin() async {
+    final index = widget.index;
     final sharedprefs = await SharedPreferences.getInstance();
     final userLoggedIn = sharedprefs.getBool(savedkey);
     if (userLoggedIn == false || userLoggedIn == null) {
@@ -311,7 +314,7 @@ class _AddBlogState extends State<AddBlog> {
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
     } else {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog()));
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index,)));
     }
   }
 

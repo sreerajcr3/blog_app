@@ -50,10 +50,11 @@ class _CategoriesState extends State<Categories> {
 
   @override
   Widget build(BuildContext context) {
+    final index = widget.index;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 50,
-        title: HeadingWithIcon(),
+        title: HeadingWithIcon( index!,),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,
@@ -185,6 +186,7 @@ class _CategoriesState extends State<Categories> {
   }
 
   Future<void> checkLoggedin() async {
+    final index = widget.index;
     final sharedprefs = await SharedPreferences.getInstance();
     final userLoggedIn = sharedprefs.getBool(savedkey);
     if (userLoggedIn == false || userLoggedIn == null) {
@@ -194,7 +196,7 @@ class _CategoriesState extends State<Categories> {
     } else {
       // ignore: use_build_context_synchronously
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog()));
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index!,)));
     }
   }
 }
