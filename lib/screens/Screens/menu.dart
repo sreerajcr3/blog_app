@@ -4,6 +4,7 @@ import 'package:blog_app/screens/Screens/Home.dart';
 import 'package:blog_app/screens/Screens/Loginpage.dart';
 import 'package:blog_app/screens/Screens/addBlog.dart';
 import 'package:blog_app/screens/Screens/categories.dart';
+import 'package:blog_app/screens/Screens/favorites.dart';
 import 'package:blog_app/screens/Screens/signup.dart';
 import 'package:blog_app/screens/Screens/userProfile.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
@@ -12,8 +13,8 @@ import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Menu extends StatefulWidget {
-  final int index;
-  Menu({super.key, required this.index});
+  final int? index;
+  Menu({super.key,  this.index});
   final bool userLoggedIn = false;
 
   final Widget space = SizedBox(
@@ -116,7 +117,7 @@ class _MenuState extends State<Menu> {
                             ),
                           );
                           Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (ctx) => LoginScreen()),
+                              MaterialPageRoute(builder: (ctx) =>LoginScreen()),
                               (route) => false);
                                     }, child: Text('ok'))
                                   ],
@@ -132,7 +133,7 @@ class _MenuState extends State<Menu> {
                         action: () {
                          
                           Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (ctx) => UserProfile(index: index,)));
+                              MaterialPageRoute(builder: (ctx) =>UserProfile(index: widget.index,)));
                         })
                   ],
                 ),
@@ -153,7 +154,7 @@ class _MenuState extends State<Menu> {
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
     } else {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index,)));
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index: index,)));
     }
   }
  

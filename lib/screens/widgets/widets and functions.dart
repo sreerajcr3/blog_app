@@ -39,8 +39,8 @@ Widget heading() {
 }
 
 class HeadingWithIcon extends StatelessWidget {
-  final int index;
-  const HeadingWithIcon(this.index,{super.key,  });
+  final int? index;
+  const HeadingWithIcon({super.key,this.index});
 
   @override
   Widget build(BuildContext context) {

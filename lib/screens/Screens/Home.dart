@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'dart:io';
+import 'package:blog_app/screens/Screens/favorites.dart';
+import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:blog_app/screens/Screens/BlogDetailPage.dart';
@@ -16,16 +18,16 @@ const savedkey = 'userLoggedin';
 
 class HomeScreen extends StatefulWidget {
   final int? index;
- 
+
   const HomeScreen({super.key, this.index});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-
 class _HomeScreenState extends State<HomeScreen> {
   late Box blogBox;
+  late Box favoriteBox;
   bool value = true;
   List<dynamic> _searchResults = [];
 
@@ -35,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     blogBox = Hive.box('blog');
+    favoriteBox = Hive.box('favorite');
     _searchResults = [];
   }
 
@@ -56,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: HeadingWithIcon( index??0),
+        title: HeadingWithIcon(index: index,),
         // const Subtitle(words: 'Recent Blog posts'),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
@@ -100,35 +103,37 @@ class _HomeScreenState extends State<HomeScreen> {
 
       body: Container(
         child: _searchController.text.isNotEmpty
-            ? _searchResults.isEmpty? Center(
-              child: Text('Sorry, No results found'),
-            ):
-            ListView.builder(
-                itemCount: _searchResults.length,
-                itemBuilder: (context, index) {
-                  final blog = _searchResults[index];
+            ? _searchResults.isEmpty
+                ? Center(
+                    child: Text('Sorry, No results found'),
+                  )
+                : ListView.builder(
+                    itemCount: _searchResults.length,
+                    itemBuilder: (context, index) {
+                      final blog = _searchResults[index];
 
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (ctx) => BlogPage(
-                                  blog: blog,
-                                )));
-                      },
-                      child: ListTile(
-                        title: Text(
-                          blog.title,
-                          style: TextStyle(color: Colors.white),
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (ctx) => BlogPage(
+                                      blog: blog,
+                                    )));
+                          },
+                          child: ListTile(
+                            title: Text(
+                              blog.title,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            leading: SizedBox(
+                                width: 80,
+                                child: Image.file(File(blog.imagePath))),
+                          ),
                         ),
-                        leading: SizedBox(
-                            width: 80, child: Image.file(File(blog.imagePath))),
-                      ),
-                    ),
-                  );
-                },
-              )
+                      );
+                    },
+                  )
             : Column(
                 children: [
                   Flexible(
@@ -161,23 +166,39 @@ class _HomeScreenState extends State<HomeScreen> {
                                             )),
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: Colors
-                                                      .transparent, // Removes the border
-                                                  width: 0.0,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(10)),
-                                            height: 250,
-                                            child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                                child: Image.file(
-                                                  File(imagePath),
-                                                  fit: BoxFit.fill,
-                                                )),
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                      color: Colors
+                                                          .transparent, // Removes the border
+                                                      width: 0.0,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                height: 250,
+                                                child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            30),
+                                                    child: Image.file(
+                                                      File(imagePath),
+                                                      fit: BoxFit.fill,
+                                                    )),
+                                              ),
+                                              Positioned(
+                                               right: 20,
+                                               top: 20,
+                                                child: IconButton(onPressed: (){
+                                                  setState(() {
+                                                    final values=Blog(date: blog.date, title: blog.title, imagePath: imagePath, description: blog.description,userindex: index);
+                                                    blog.isFavorite = !blog.isFavorite;
+                                                    blog.isFavorite?favoriteBox.add(values):favoriteBox.deleteAt(index);
+                                                  });
+                                                }, icon: Icon(Icons.favorite,color:blog. isFavorite?Colors.red:Colors.white))),
+                                            ],
                                           ),
                                         ),
                                         Row(
@@ -228,7 +249,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   index: index,
                                                                 )));
                                                   },
-                                                  icon: Icon(Icons.edit))
+                                                  icon: Icon(Icons.edit)),
+                                                  IconButton(onPressed: (){
+                                                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>Favorites(index: widget.index,)));
+                                                  }, icon: Icon(Icons.list))
                                             ],
                                           ),
                                         ),
@@ -267,8 +291,10 @@ class _HomeScreenState extends State<HomeScreen> {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
     } else {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog(index!,)));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (ctx) => AddBlog(
+               index: index,
+              )));
     }
   }
 
@@ -277,5 +303,8 @@ class _HomeScreenState extends State<HomeScreen> {
     //  blogBox.getAt(index);
     //   value = true;
     // });
+  }
+  void favorite(){
+    
   }
 }

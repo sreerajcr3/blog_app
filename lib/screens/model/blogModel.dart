@@ -20,7 +20,13 @@ class Blog extends HiveObject {
   @HiveField(3)
   final String date;
 
-  Blog( {required this.date,required this.title, required this.imagePath, required this.description});
+ @HiveField(4)
+ bool isFavorite;
+
+  @HiveField(4)
+ int? userindex;
+
+  Blog( {this.userindex,this.isFavorite=false,required this.date,required this.title, required this.imagePath, required this.description});
   }
 
 

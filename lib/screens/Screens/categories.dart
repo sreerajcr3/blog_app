@@ -54,7 +54,7 @@ class _CategoriesState extends State<Categories> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 50,
-        title: HeadingWithIcon( index!,),
+        title: HeadingWithIcon(index: index,),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,
@@ -196,7 +196,7 @@ class _CategoriesState extends State<Categories> {
     } else {
       // ignore: use_build_context_synchronously
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index!,)));
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog(index: index,)));
     }
   }
 }

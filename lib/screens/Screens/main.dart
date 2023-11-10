@@ -23,6 +23,7 @@ void main() async{
   await Hive.openBox('entertainment');
   await Hive.openBox('politics');
   await Hive.openBox('userid');
+  await Hive.openBox('favorite');
 
   runApp(MyApp());
 }

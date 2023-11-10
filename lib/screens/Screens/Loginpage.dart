@@ -21,6 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   final _key = GlobalKey<FormState>();
   //final bool userLoggedIn = false;
+   int index1=0;
 
   @override
   void initState() {
@@ -31,12 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     //double screenHeight = MediaQuery.of(context).size.height;
-    int index = 0;
+  
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
         children: [
-          heading(),
+          HeadingWithIcon(index:index1),
           Align(
             alignment: Alignment.center,
             child: Padding(
@@ -126,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (ctx) => HomeScreen(index: index,),
+                                builder: (ctx) => HomeScreen(index: index1,),
                               ),
                             );
                           },
@@ -199,6 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (id.username == username && id.password == password) {
         credentialsMatch = true;
         index = i;
+        index1=i;
         print(index);
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (ctx) => HomeScreen(

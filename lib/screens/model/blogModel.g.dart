@@ -17,6 +17,7 @@ class BlogAdapter extends TypeAdapter<Blog> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Blog(
+      isFavorite: fields[4] as bool,
       date: fields[3] as String,
       title: fields[0] as String,
       imagePath: fields[1] as String,
@@ -27,7 +28,7 @@ class BlogAdapter extends TypeAdapter<Blog> {
   @override
   void write(BinaryWriter writer, Blog obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class BlogAdapter extends TypeAdapter<Blog> {
       ..writeByte(2)
       ..write(obj.description)
       ..writeByte(3)
-      ..write(obj.date);
+      ..write(obj.date)
+      ..writeByte(4)
+      ..write(obj.isFavorite);
   }
 
   @override

@@ -12,8 +12,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddBlog extends StatefulWidget {
-   final int index;
-  const AddBlog( this.index,{Key? key, }) : super(key: key);
+   final int? index;
+  const AddBlog({super.key,this.index});
 
   @override
   State<AddBlog> createState() => _AddBlogState();
@@ -61,7 +61,7 @@ class _AddBlogState extends State<AddBlog> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title:  HeadingWithIcon(index,),
+        title:  HeadingWithIcon(index: index,),
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
@@ -292,7 +292,7 @@ class _AddBlogState extends State<AddBlog> {
           date: _selectedDate.toString(),
           title: titleContoller.text,
           imagePath: imagePath!,
-          description: descriptionController.text);
+          description: descriptionController.text,userindex: widget.index);
 
       saveBlog(blogData, selectedCategory, getCopy, context);
     } else {
@@ -314,7 +314,7 @@ class _AddBlogState extends State<AddBlog> {
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
     } else {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index,)));
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index: widget.index,)));
     }
   }
 
