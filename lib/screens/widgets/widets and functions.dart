@@ -1,17 +1,13 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
-import 'package:blog_app/screens/Screens/Home.dart';
-import 'package:blog_app/screens/Screens/Loginpage.dart';
-import 'package:blog_app/screens/Screens/addBlog.dart';
 import 'package:blog_app/screens/Screens/adminpanel.dart';
 import 'package:blog_app/screens/Screens/menu.dart';
-import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Widget heading() {
-  return Align(
+  return Center(
     child: Padding(
       padding: EdgeInsets.only(top: 20),
       child: Padding(

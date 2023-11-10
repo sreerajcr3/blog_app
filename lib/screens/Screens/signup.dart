@@ -34,7 +34,8 @@ class _SignUpState extends State<SignUp> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         // title: HeadingWithIcon(),
-        title: Text('Sign up'),
+        title: heading(),
+        automaticallyImplyLeading: false,
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 30, right: 30),

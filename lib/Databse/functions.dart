@@ -62,7 +62,7 @@ Future<void> updateBlog(index, value, context) async {
   //     ),
   //   );
   // }
-  print('blobbox updated');
+ 
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text('updated successfully'),
     backgroundColor: Colors.blue,
