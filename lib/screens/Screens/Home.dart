@@ -28,16 +28,21 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Box blogBox;
   late Box favoriteBox;
+  late Box commentBox;
   bool value = true;
   List<dynamic> _searchResults = [];
+  int Index= 0;
 
   final _searchController = TextEditingController();
+  final commentController = TextEditingController();
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
     blogBox = Hive.box('blog');
     favoriteBox = Hive.box('favorite');
+    commentBox = Hive.box('comment');
     _searchResults = [];
   }
 
@@ -53,13 +58,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final index = widget.index;
+
+    final Index =0;
     //  performSearch();
     return Scaffold(
+       key: _scaffoldKey,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: HeadingWithIcon(index: index,),
+        title: HeadingWithIcon(
+          index: Index,
+        ),
         // const Subtitle(words: 'Recent Blog posts'),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
@@ -189,15 +198,37 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     )),
                                               ),
                                               Positioned(
-                                               right: 20,
-                                               top: 20,
-                                                child: IconButton(onPressed: (){
-                                                  setState(() {
-                                                    final values=Blog(date: blog.date, title: blog.title, imagePath: imagePath, description: blog.description,userindex: index);
-                                                    blog.isFavorite = !blog.isFavorite;
-                                                    blog.isFavorite?favoriteBox.add(values):favoriteBox.deleteAt(index);
-                                                  });
-                                                }, icon: Icon(Icons.favorite,color:blog. isFavorite?Colors.red:Colors.white))),
+                                                  right: 20,
+                                                  top: 20,
+                                                  child: IconButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                      
+                                                          final values = Blog(
+                                                              date: blog.date,
+                                                              title: blog.title,
+                                                              imagePath:
+                                                                  imagePath,
+                                                              description: blog
+                                                                  .description,
+                                                              userindex:
+                                                                  Index);
+print(" userindex =   ${blog.userindex}");
+
+                                                          blog.isFavorite =
+                                                              !blog.isFavorite;
+                                                          blog.isFavorite
+                                                              ? favoriteBox
+                                                                  .add(values)
+                                                              : favoriteBox
+                                                                  .deleteAt(
+                                                                      index);
+                                                        });
+                                                      },
+                                                      icon: Icon(Icons.favorite,
+                                                          color: blog.isFavorite
+                                                              ? Colors.red
+                                                              : Colors.white))),
                                             ],
                                           ),
                                         ),
@@ -250,9 +281,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 )));
                                                   },
                                                   icon: Icon(Icons.edit)),
-                                                  IconButton(onPressed: (){
-                                                    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>Favorites(index: widget.index,)));
-                                                  }, icon: Icon(Icons.list))
+                                              IconButton(
+                                                  onPressed: () {
+                                                    // Navigator.of(context).push(
+                                                    //     MaterialPageRoute(
+                                                    //         builder: (ctx) =>
+                                                    //             Favorites(
+                                                    //               index: widget
+                                                    //                   .index,
+                                                    //             )));
+                                                   // Comment();
+                                                   _showCommentsSheet();
+                                                  },
+                                                  icon: Icon(Icons.list))
                                             ],
                                           ),
                                         ),
@@ -293,7 +334,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (ctx) => AddBlog(
-               index: index,
+                index: index,
               )));
     }
   }
@@ -304,7 +345,43 @@ class _HomeScreenState extends State<HomeScreen> {
     //   value = true;
     // });
   }
-  void favorite(){
-    
+  
+  void _showCommentsSheet() {
+  _scaffoldKey.currentState?.showBottomSheet(
+    (context) {
+      return DraggableScrollableSheet(
+        builder: (BuildContext context, ScrollController scrollController) {
+          return Container(
+            color: Colors.black,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: commentController,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(onPressed: (){
+                      
+                    }, icon: Icon(Icons.send))
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    controller: scrollController,
+                    itemCount: 30, // Replace with the actual number of comments
+                    itemBuilder: (BuildContext context, int index) {
+                      commentBox.getAt(index);
+                      return ListTile(
+                        title: Text('Comment $index',style: TextStyle(color:Colors. green),),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    },
+  );
 }
+
 }

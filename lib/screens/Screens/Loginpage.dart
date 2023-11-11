@@ -193,14 +193,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<int?> identifyUserIndex(String username, String password) async {
     bool credentialsMatch = false;
-    int? index;
+    //int? index;
 
     for (int i = 0; i < userId.length; i++) {
       final id = userId.getAt(i);
       if (id.username == username && id.password == password) {
         credentialsMatch = true;
-        index = i;
-        index1=i;
+       int index = i;
+       int index1=i;
         print(index);
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (ctx) => HomeScreen(
@@ -211,7 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     if (credentialsMatch) {
-      return index;
+     
     } else {
       return null;
     }

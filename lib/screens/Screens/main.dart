@@ -24,6 +24,7 @@ void main() async{
   await Hive.openBox('politics');
   await Hive.openBox('userid');
   await Hive.openBox('favorite');
+  await Hive.openBox('comment');
 
   runApp(MyApp());
 }

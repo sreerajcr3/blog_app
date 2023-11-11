@@ -24,7 +24,7 @@ class Blog extends HiveObject {
  bool isFavorite;
 
   @HiveField(4)
- int? userindex;
+  int? userindex;
 
   Blog( {this.userindex,this.isFavorite=false,required this.date,required this.title, required this.imagePath, required this.description});
   }

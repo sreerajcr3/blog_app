@@ -293,7 +293,7 @@ class _AddBlogState extends State<AddBlog> {
           title: titleContoller.text,
           imagePath: imagePath!,
           description: descriptionController.text,userindex: widget.index);
-
+       // print("widget.index-${widget.index}");
       saveBlog(blogData, selectedCategory, getCopy, context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
