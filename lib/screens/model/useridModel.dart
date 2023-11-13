@@ -35,11 +35,11 @@ class commentData extends HiveObject{
 class  favorites extends HiveObject {
 
   @HiveField(0)
-   bool isFavorite;
+   bool isfavorite;
 
   @HiveField(1)
    int userIndex;
 
-  favorites({this.isFavorite = false, required this.userIndex});
+  favorites({this.isfavorite = false, required this.userIndex});
   
 }

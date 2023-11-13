@@ -204,27 +204,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   top: 20,
                                                   child: IconButton(
                                                       onPressed: () {
-                                                        setState(() {
-                                                          final values = Blog(
+                                                        setState(
+                                                          () {
+                                                            final values = Blog(
                                                               date: blog.date,
                                                               title: blog.title,
                                                               imagePath:
                                                                   imagePath,
                                                               description: blog
                                                                   .description,
-                                                             );
-                                                          print(
-                                                              " userindex =   ${blog.userindex}");
+                                                            );final f=favorites(userIndex: 1);
 
-                                                          blog.isFavorite =
-                                                              !blog.isFavorite;
-                                                          blog.isFavorite
-                                                              ? favoriteBox
-                                                                  .add(values)
-                                                              : favoriteBox
-                                                                  .deleteAt(
-                                                                      index);
-                                                        });
+                                                            blog.isFavorite =
+                                                                !blog
+                                                                    .isFavorite;
+                                                            blog.isFavorite
+                                                                ? favoriteBox
+                                                                    .add(values,f)
+                                                                : favoriteBox
+                                                                    .deleteAt(
+                                                                        index);
+                                                          },
+                                                        );
                                                       },
                                                       icon: Icon(Icons.favorite,
                                                           color: blog.isFavorite
@@ -340,62 +341,60 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void _showCommentsSheet() {
+    int? index = widget.index;
 
- void _showCommentsSheet() {
-  int? index = widget.index;
+    _scaffoldKey.currentState?.showBottomSheet(
+      (context) {
+        return DraggableScrollableSheet(
+          shouldCloseOnMinExtent: true,
+          builder: (BuildContext context, ScrollController scrollController) {
+            return Container(
+              color: Colors.black,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      controller: scrollController,
+                      itemCount: commentBox.length,
+                      itemBuilder: (BuildContext context, int commentIndex) {
+                        final comment = commentBox.getAt(commentIndex);
+                        final user = userId.getAt(commentIndex);
 
-  _scaffoldKey.currentState?.showBottomSheet(
-    (context) {
-      return DraggableScrollableSheet(
-        shouldCloseOnMinExtent: true,
-        builder: (BuildContext context, ScrollController scrollController) {
-          return Container(
-            color: Colors.black,
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemCount: commentBox.length,
-                    itemBuilder: (BuildContext context, int commentIndex) {
-                      final comment = commentBox.getAt(commentIndex);
-                      final user = userId.getAt(commentIndex);
-
-                      return ListTile(
-                        title: Text(
-                          user?.name ?? 'Unknown User',
-                          style: TextStyle(color: Colors.green),
-                        ),
-                        subtitle: Text(
-                          comment?.text ?? '',
-                          style: TextStyle(color: Colors.green),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                TextFormField(
-                  controller: commentController,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        final comments = commentController.text;
-                        final user = userId.getAt(index!);
-                        final userName = user?.name ?? 'Unknown User';
-                        final commentDatas =commentData(userName, comments);
-                        commentBox.add(commentDatas);
+                        return ListTile(
+                          title: Text(
+                            user?.name ?? 'Unknown User',
+                            style: TextStyle(color: Colors.green),
+                          ),
+                          subtitle: Text(
+                            comment?.text ?? '',
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        );
                       },
-                      icon: Icon(Icons.send),
                     ),
                   ),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    },
-  );
-}
-
+                  TextFormField(
+                    controller: commentController,
+                    decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          final comments = commentController.text;
+                          final user = userId.getAt(index!);
+                          final userName = user?.name ?? 'Unknown User';
+                          final commentDatas = commentData(userName, comments);
+                          commentBox.add(commentDatas);
+                        },
+                        icon: Icon(Icons.send),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 }
