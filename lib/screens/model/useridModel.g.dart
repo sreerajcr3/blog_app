@@ -45,3 +45,77 @@ class useridAdapter extends TypeAdapter<userid> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
+
+class commentDataAdapter extends TypeAdapter<commentData> {
+  @override
+  final int typeId = 4;
+
+  @override
+  commentData read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return commentData(
+      fields[0] as String,
+      fields[1] as String,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, commentData obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.userName)
+      ..writeByte(1)
+      ..write(obj.comment);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is commentDataAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
+
+class favoritesAdapter extends TypeAdapter<favorites> {
+  @override
+  final int typeId = 2;
+
+  @override
+  favorites read(BinaryReader reader) {
+    final numOfFields = reader.readByte();
+    final fields = <int, dynamic>{
+      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
+    };
+    return favorites(
+      isFavorite: fields[0] as bool,
+      userIndex: fields[1] as int,
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, favorites obj) {
+    writer
+      ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.isFavorite)
+      ..writeByte(1)
+      ..write(obj.userIndex);
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is favoritesAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}

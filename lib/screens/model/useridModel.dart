@@ -19,3 +19,27 @@ final String password;
 
 
 }
+@HiveType(typeId: 4)
+class commentData extends HiveObject{
+
+  @HiveField(0)
+  final String userName;
+
+  @HiveField(1)
+  final String comment;
+
+  commentData(this.userName, this.comment);
+}
+
+@HiveType(typeId: 2)
+class  favorites extends HiveObject {
+
+  @HiveField(0)
+   bool isFavorite;
+
+  @HiveField(1)
+   int userIndex;
+
+  favorites({this.isFavorite = false, required this.userIndex});
+  
+}

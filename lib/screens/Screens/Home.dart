@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'package:blog_app/screens/Screens/favorites.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
+import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:blog_app/screens/Screens/BlogDetailPage.dart';
@@ -29,9 +30,10 @@ class _HomeScreenState extends State<HomeScreen> {
   late Box blogBox;
   late Box favoriteBox;
   late Box commentBox;
+  late Box userId;
   bool value = true;
   List<dynamic> _searchResults = [];
-  int Index= 0;
+  int Index = 0;
 
   final _searchController = TextEditingController();
   final commentController = TextEditingController();
@@ -43,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     blogBox = Hive.box('blog');
     favoriteBox = Hive.box('favorite');
     commentBox = Hive.box('comment');
+    userId = Hive.box('userid');
     _searchResults = [];
   }
 
@@ -58,11 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    final Index =0;
+    final Index = widget.index;
     //  performSearch();
     return Scaffold(
-       key: _scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -203,7 +205,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   child: IconButton(
                                                       onPressed: () {
                                                         setState(() {
-                                                      
                                                           final values = Blog(
                                                               date: blog.date,
                                                               title: blog.title,
@@ -211,9 +212,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   imagePath,
                                                               description: blog
                                                                   .description,
-                                                              userindex:
-                                                                  Index);
-print(" userindex =   ${blog.userindex}");
+                                                             );
+                                                          print(
+                                                              " userindex =   ${blog.userindex}");
 
                                                           blog.isFavorite =
                                                               !blog.isFavorite;
@@ -290,8 +291,8 @@ print(" userindex =   ${blog.userindex}");
                                                     //               index: widget
                                                     //                   .index,
                                                     //             )));
-                                                   // Comment();
-                                                   _showCommentsSheet();
+                                                    // Comment();
+                                                    _showCommentsSheet();
                                                   },
                                                   icon: Icon(Icons.list))
                                             ],
@@ -339,40 +340,53 @@ print(" userindex =   ${blog.userindex}");
     }
   }
 
-  void refreshData() async {
-    // setState(() async {
-    //  blogBox.getAt(index);
-    //   value = true;
-    // });
-  }
-  
-  void _showCommentsSheet() {
+
+ void _showCommentsSheet() {
+  int? index = widget.index;
+
   _scaffoldKey.currentState?.showBottomSheet(
     (context) {
       return DraggableScrollableSheet(
+        shouldCloseOnMinExtent: true,
         builder: (BuildContext context, ScrollController scrollController) {
           return Container(
             color: Colors.black,
             child: Column(
               children: [
-                TextFormField(
-                  controller: commentController,
-                  decoration: InputDecoration(
-                    suffixIcon: IconButton(onPressed: (){
-                      
-                    }, icon: Icon(Icons.send))
-                  ),
-                ),
                 Expanded(
                   child: ListView.builder(
                     controller: scrollController,
-                    itemCount: 30, // Replace with the actual number of comments
-                    itemBuilder: (BuildContext context, int index) {
-                      commentBox.getAt(index);
+                    itemCount: commentBox.length,
+                    itemBuilder: (BuildContext context, int commentIndex) {
+                      final comment = commentBox.getAt(commentIndex);
+                      final user = userId.getAt(commentIndex);
+
                       return ListTile(
-                        title: Text('Comment $index',style: TextStyle(color:Colors. green),),
+                        title: Text(
+                          user?.name ?? 'Unknown User',
+                          style: TextStyle(color: Colors.green),
+                        ),
+                        subtitle: Text(
+                          comment?.text ?? '',
+                          style: TextStyle(color: Colors.green),
+                        ),
                       );
                     },
+                  ),
+                ),
+                TextFormField(
+                  controller: commentController,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        final comments = commentController.text;
+                        final user = userId.getAt(index!);
+                        final userName = user?.name ?? 'Unknown User';
+                        final commentDatas =commentData(userName, comments);
+                        commentBox.add(commentDatas);
+                      },
+                      icon: Icon(Icons.send),
+                    ),
                   ),
                 ),
               ],

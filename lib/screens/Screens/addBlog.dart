@@ -292,7 +292,7 @@ class _AddBlogState extends State<AddBlog> {
           date: _selectedDate.toString(),
           title: titleContoller.text,
           imagePath: imagePath!,
-          description: descriptionController.text,userindex: widget.index);
+          description: descriptionController.text);
        // print("widget.index-${widget.index}");
       saveBlog(blogData, selectedCategory, getCopy, context);
     } else {

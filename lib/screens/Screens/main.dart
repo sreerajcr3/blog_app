@@ -16,6 +16,8 @@ void main() async{
   Hive.initFlutter('Hive_db');
   Hive.registerAdapter<Blog>(BlogAdapter());
   Hive.registerAdapter(useridAdapter());
+  Hive.registerAdapter(commentDataAdapter());
+  Hive.registerAdapter(favoritesAdapter());
   
   await Hive.openBox('blog');
   await Hive.openBox('nature');
@@ -24,7 +26,7 @@ void main() async{
   await Hive.openBox('politics');
   await Hive.openBox('userid');
   await Hive.openBox('favorite');
-  await Hive.openBox('comment');
+  await Hive.openBox('comment'); 
 
   runApp(MyApp());
 }

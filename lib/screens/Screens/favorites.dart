@@ -12,14 +12,13 @@ class Favorites extends StatefulWidget {
 }
 
 class _FavoritesState extends State<Favorites> {
-
   late Box favoriteBox;
   @override
   void initState() {
     super.initState();
     favoriteBox = Hive.box('favorite');
-  
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,24 +28,27 @@ class _FavoritesState extends State<Favorites> {
       body: Column(
         children: [
           Expanded(
-           child: ListView.builder(itemCount:favoriteBox.length ,itemBuilder: (ctx,index){
-              final blog = favoriteBox.getAt(index) as Blog;
-               
-              if(favoriteBox!=null){
-            print('blog.userindex: ${blog.userindex}');
-                  print('widget.index: ${widget.index}');
-               
-                 return ListTile(title: Text(blog.title));
-             }
-           }),
-         ),
+            child: ListView.builder(
+                itemCount: favoriteBox.length,
+                itemBuilder: (ctx, index) {
+                  final blog = favoriteBox.getAt(index) as Blog;
+
+                  // if (widget.index == blog.userindex) {
+                   // print('blog.userindex: ${}');
+                    print('widget.index: ${widget.index}');
+
+                    return ListTile(title: Text(blog.title));
+                 // }
+                }),
+          ),
         ],
       ),
     );
   }
-  void f(){
-    var index =0;
-      final blog = favoriteBox.getAt(index);
-     print(blog.title);
+
+  void f() {
+    var index = 0;
+    final blog = favoriteBox.getAt(index);
+    print(blog.title);
   }
 }

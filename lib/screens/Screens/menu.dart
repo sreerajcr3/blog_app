@@ -78,7 +78,7 @@ class _MenuState extends State<Menu> {
                         action: () {
                           var index;
                           Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (ctx) => Categories(index: index,)));
+                              MaterialPageRoute(builder: (ctx) => Categories(index: widget.index,)));
                         }),
                     SizedBox(
                       height: 30,
