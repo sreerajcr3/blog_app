@@ -151,10 +151,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ListView.builder(
                       itemCount: blogBox.length,
                       itemBuilder: (ctx, index) {
-                        // var reversedIndex =
-                        //     blogBox.length - 1 - index; // Reverse the index
-                        // var blog = blogBox.getAt(reversedIndex);
-                        var blog = blogBox.getAt(index);
+                        var reversedIndex =
+                            blogBox.length - 1 - index; // Reverse the index
+                        var blog = blogBox.getAt(reversedIndex);
+                       // var blog = blogBox.getAt(index);
                         String imagePath = blog.imagePath;
                         return GestureDetector(
                           onTap: () {
@@ -222,9 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     .isFavorite;
                                                             blog.isFavorite
                                                                 ? favoriteBox
-                                                                    .add(
-                                                                    values,
-                                                                  )
+                                                                    .add(values)
                                                                 : favoriteBox
                                                                     .deleteAt(
                                                                         index);
@@ -268,6 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   trimmed: true,
                                                 ),
                                               ),
+                                             
                                               IconButton(
                                                   onPressed: () {
                                                     Navigator.of(context).push(
@@ -313,6 +312,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     left: 10),
                                               ),
                                             )),
+                                             Row(
+                                               children: [
+                                                 Flexible(
+                                                   child:DescriptionText(words: blog.description)
+                                                 ),
+                                               ],
+                                             ),
                                       ],
                                     ),
                                   ),

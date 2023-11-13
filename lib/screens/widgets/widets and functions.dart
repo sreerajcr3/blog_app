@@ -176,13 +176,13 @@ class DescriptionText extends StatelessWidget {
   Widget build(BuildContext context) {
     final trimmedTest = trimmed ? words.trim() : words;
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 12,right: 12,bottom: 8),
       child: Align(
         alignment: AlignmentDirectional.topStart,
         child: Text(
           trimmedTest,
           style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500),
-          strutStyle: StrutStyle(height: 2),
+          strutStyle: StrutStyle(height: 2),maxLines:3 ,softWrap: false,overflow: TextOverflow.ellipsis,
         ),
       ),
     );

@@ -54,7 +54,9 @@ class _CategoriesState extends State<Categories> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 50,
-        title: HeadingWithIcon(index: index,),
+        title: HeadingWithIcon(
+          index: index,
+        ),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,
@@ -101,7 +103,8 @@ class _CategoriesState extends State<Categories> {
                   child: ListView.builder(
                     itemCount: box?.length,
                     itemBuilder: (ctx, index) {
-                      final blog = box?.getAt(index) as Blog;
+                      var reversedIndex = box!.length - 1 - index;
+                      final blog = box?.getAt(reversedIndex) as Blog;
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -161,6 +164,13 @@ class _CategoriesState extends State<Categories> {
                                           icon: Icon(Icons.edit))
                                     ],
                                   ),
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                          child: DescriptionText(
+                                              words: blog.description)),
+                                    ],
+                                  ),
                                 ],
                               ),
                             ),
@@ -195,8 +205,10 @@ class _CategoriesState extends State<Categories> {
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
     } else {
       // ignore: use_build_context_synchronously
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog(index: index,)));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (ctx) => AddBlog(
+                index: index,
+              )));
     }
   }
 }
