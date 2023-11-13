@@ -213,14 +213,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   imagePath,
                                                               description: blog
                                                                   .description,
-                                                            );final f=favorites(userIndex: 1);
+                                                            );
+                                                            final f = favorites(
+                                                                userIndex: 1);
 
                                                             blog.isFavorite =
                                                                 !blog
                                                                     .isFavorite;
                                                             blog.isFavorite
                                                                 ? favoriteBox
-                                                                    .add(values,f)
+                                                                    .add(
+                                                                    values,
+                                                                  )
                                                                 : favoriteBox
                                                                     .deleteAt(
                                                                         index);
