@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final _searchController = TextEditingController();
   final commentController = TextEditingController();
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                   )
-            : Column(
+            :Column(
                 children: [
                   Flexible(
                     child: ListView.builder(
