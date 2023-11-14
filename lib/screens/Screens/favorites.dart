@@ -29,17 +29,17 @@ class _FavoritesState extends State<Favorites> {
         children: [
           Expanded(
             child: ListView.builder(
-                itemCount: favoriteBox.length,
-                itemBuilder: (ctx, index) {
-                  final blog = favoriteBox.getAt(index) as Blog;
-
-                  // if (widget.index == blog.userindex) {
-                   // print('blog.userindex: ${}');
-                    print('widget.index: ${widget.index}');
-
-                    return ListTile(title: Text(blog.title));
-                 // }
-                }),
+              itemCount: favoriteBox.length,
+              itemBuilder: (ctx, index) {
+                final blog = favoriteBox.getAt(index) as Blog;
+                final currentIndex = index;
+                if (widget.index == 1) {
+                  f();
+                  return ListTile(title: Text(blog.title));
+                  // }
+                }
+              },
+            ),
           ),
         ],
       ),
@@ -48,7 +48,6 @@ class _FavoritesState extends State<Favorites> {
 
   void f() {
     var index = 0;
-    final blog = favoriteBox.getAt(index);
-    print(blog.title);
+    print('widget.index: ${widget.index}');
   }
 }

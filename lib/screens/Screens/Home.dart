@@ -53,8 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_searchController.text.isNotEmpty) {
       _searchResults = blogBox.values
           .where((blog) => blog.title.toLowerCase().contains(
-                _searchController.text.toLowerCase(),
-              ))
+                _searchController.text.toLowerCase(), 
+              ) || blog.description.toLowerCase().contains(
+                _searchController.text.toLowerCase(), 
+              ) 
+              )
           .toList();
     }
   }
@@ -145,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     },
                   )
-            :Column(
+            : Column(
                 children: [
                   Flexible(
                     child: ListView.builder(
@@ -154,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         var reversedIndex =
                             blogBox.length - 1 - index; // Reverse the index
                         var blog = blogBox.getAt(reversedIndex);
-                       // var blog = blogBox.getAt(index);
+                        // var blog = blogBox.getAt(index);
                         String imagePath = blog.imagePath;
                         return GestureDetector(
                           onTap: () {
@@ -214,18 +217,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               description: blog
                                                                   .description,
                                                             );
-                                                            final f = favorites(
-                                                                userIndex: 1);
+                                                            // final f = favorites(
+                                                            //     userIndex: 1);
 
                                                             blog.isFavorite =
                                                                 !blog
                                                                     .isFavorite;
                                                             blog.isFavorite
-                                                                ? favoriteBox
-                                                                    .add(values)
+                                                                ? favoriteBox.put(
+                                                                    index
+                                                                        .toString(),
+                                                                    values)
                                                                 : favoriteBox
                                                                     .deleteAt(
-                                                                        index);
+                                                                        index
+                                                                            );
                                                           },
                                                         );
                                                       },
@@ -266,7 +272,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   trimmed: true,
                                                 ),
                                               ),
-                                             
                                               IconButton(
                                                   onPressed: () {
                                                     Navigator.of(context).push(
@@ -303,22 +308,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                         Align(
-                                            alignment: Alignment.bottomLeft,
+                                          alignment: Alignment.bottomLeft,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 10),
+                                              padding: const EdgeInsets.only(
+                                                  left: 10),
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Flexible(
+                                              child: DescriptionText(
+                                                words: blog.description,
+                                                softwrap: false,
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
                                               ),
-                                            )),
-                                             Row(
-                                               children: [
-                                                 Flexible(
-                                                   child:DescriptionText(words: blog.description)
-                                                 ),
-                                               ],
-                                             ),
+                                            ),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ),

@@ -170,19 +170,22 @@ class TitleText extends StatelessWidget {
 class DescriptionText extends StatelessWidget {
   final bool trimmed;
   final String words;
-  const DescriptionText({super.key, required this.words, this.trimmed = false});
+  final int?maxLines;
+  final bool? softwrap;
+  final TextOverflow? overflow;
+  const DescriptionText({super.key, required this.words, this.trimmed = false, this.maxLines,  this.softwrap,  this.overflow});
 
   @override
   Widget build(BuildContext context) {
     final trimmedTest = trimmed ? words.trim() : words;
     return Padding(
-      padding: const EdgeInsets.only(left: 12,right: 12,bottom: 8),
+      padding: const EdgeInsets.only(left: 9,right: 9,bottom: 8),
       child: Align(
         alignment: AlignmentDirectional.topStart,
         child: Text(
           trimmedTest,
           style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500),
-          strutStyle: StrutStyle(height: 2),maxLines:3 ,softWrap: false,overflow: TextOverflow.ellipsis,
+          strutStyle: StrutStyle(height: 2),maxLines:maxLines ,softWrap: softwrap,overflow:overflow,
         ),
       ),
     );
@@ -361,13 +364,13 @@ class Button extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: onPressed,
-        child: child,
         onLongPress: onLongPress,style: ElevatedButton.styleFrom(
           backgroundColor: Colors.yellow,
           fixedSize: Size.fromWidth(200),foregroundColor: Colors.black,shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50)
           )
         ),
+        child: child,
       ),
     );
   }
@@ -377,7 +380,7 @@ class Comment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   int index =0;
+   
     return DraggableScrollableSheet(builder: ( (context, scrollController) {
       return
        Container(
