@@ -1,4 +1,5 @@
 import 'package:blog_app/screens/model/blogModel.dart';
+import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -13,10 +14,13 @@ class Favorites extends StatefulWidget {
 
 class _FavoritesState extends State<Favorites> {
   late Box favoriteBox;
+  late Box userId;
   @override
   void initState() {
     super.initState();
     favoriteBox = Hive.box('favorite');
+    userId = Hive.box('userid');
+
   }
 
   @override
@@ -31,13 +35,16 @@ class _FavoritesState extends State<Favorites> {
             child: ListView.builder(
               itemCount: favoriteBox.length,
               itemBuilder: (ctx, index) {
-                final blog = favoriteBox.getAt(index) as Blog;
-                final currentIndex = index;
-                if (widget.index == 1) {
+                final blog = favoriteBox.getAt(index) ;
+                // for (int i = 0; i < favoriteBox.length; i++) {
+                //  Blog.userIndex = i;
+      final id = favoriteBox.getAt(index);
+              //  final currentIndex = index;
+                if (widget.index == id.userIndex) {
                   f();
                   return ListTile(title: Text(blog.title));
-                  // }
-                }
+                   }
+               // }
               },
             ),
           ),

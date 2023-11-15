@@ -22,13 +22,14 @@ class BlogAdapter extends TypeAdapter<Blog> {
       title: fields[0] as String,
       imagePath: fields[1] as String,
       description: fields[2] as String,
+      userIndex: fields[5] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Blog obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class BlogAdapter extends TypeAdapter<Blog> {
       ..writeByte(3)
       ..write(obj.date)
       ..writeByte(4)
-      ..write(obj.isFavorite);
+      ..write(obj.isFavorite)
+      ..writeByte(5)
+      ..write(obj.userIndex);
   }
 
   @override

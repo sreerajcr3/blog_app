@@ -200,7 +200,6 @@ class _LoginScreenState extends State<LoginScreen> {
       if (id.username == username && id.password == password) {
         credentialsMatch = true;
        int index = i;
-       int index1=i;
         print(index);
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (ctx) => HomeScreen(

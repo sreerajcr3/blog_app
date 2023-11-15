@@ -6,16 +6,23 @@ import 'package:hive/hive.dart';
 class userid extends HiveObject{
 
 @HiveField(0)
-final String name;
+final String? name;
 
 @HiveField(1)
-final String username;
+final String? username;
 
 
 @HiveField(2)
-final String password;
+final String? password;
 
-  userid({required this.name, required this.username, required this.password});
+@HiveField(3)
+final String? likedBlogs;
+
+@HiveField(4)
+final int? userIndex;
+
+
+  userid( { this.userIndex,this.likedBlogs,this.name,  this.username,  this.password});
 
 
 }

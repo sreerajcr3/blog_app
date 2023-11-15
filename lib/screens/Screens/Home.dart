@@ -52,12 +52,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void performSearch() {
     if (_searchController.text.isNotEmpty) {
       _searchResults = blogBox.values
-          .where((blog) => blog.title.toLowerCase().contains(
-                _searchController.text.toLowerCase(), 
-              ) || blog.description.toLowerCase().contains(
-                _searchController.text.toLowerCase(), 
-              ) 
-              )
+          .where((blog) =>
+              blog.title.toLowerCase().contains(
+                    _searchController.text.toLowerCase(),
+                  ) ||
+              blog.description.toLowerCase().contains(
+                    _searchController.text.toLowerCase(),
+                  ))
           .toList();
     }
   }
@@ -210,28 +211,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         setState(
                                                           () {
                                                             final values = Blog(
-                                                              date: blog.date,
-                                                              title: blog.title,
-                                                              imagePath:
-                                                                  imagePath,
-                                                              description: blog
-                                                                  .description,
-                                                            );
-                                                            // final f = favorites(
-                                                            //     userIndex: 1);
-
+                                                                date: blog.date,
+                                                                title:
+                                                                    blog.title,
+                                                                imagePath:
+                                                                    imagePath,
+                                                                description: blog
+                                                                    .description,userIndex: widget.index);
+                                                           
                                                             blog.isFavorite =
                                                                 !blog
                                                                     .isFavorite;
                                                             blog.isFavorite
-                                                                ? favoriteBox.put(
-                                                                    index
-                                                                        .toString(),
-                                                                    values)
+                                                                ? favoriteBox
+                                                                    .add(values)
                                                                 : favoriteBox
                                                                     .deleteAt(
-                                                                        index
-                                                                            );
+                                                                        index);
                                                           },
                                                         );
                                                       },

@@ -137,9 +137,9 @@ class _SignUpState extends State<SignUp> {
         name: _nameController.text,
         username: _usernameController.text,
         password: _passwordController.text);
-    if (id.name.isNotEmpty &&
-        id.username.isNotEmpty &&
-        id.password.isNotEmpty) {
+    if (id.name!.isNotEmpty &&
+        id.username!.isNotEmpty &&
+        id.password!.isNotEmpty) {
       userId.add(id);
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
