@@ -1,34 +1,36 @@
+import 'package:blog_app/screens/model/blogModel.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-  part 'useridModel.g.dart';
+part 'useridModel.g.dart';
 
 @HiveType(typeId: 1)
-class userid extends HiveObject{
+class userid extends HiveObject {
+  @HiveField(0)
+  final String? name;
 
-@HiveField(0)
-final String? name;
+  @HiveField(1)
+  final String? username;
 
-@HiveField(1)
-final String? username;
+  @HiveField(2)
+  final String? password;
 
+  @HiveField(3)
+  final String? likedBlogs;
 
-@HiveField(2)
-final String? password;
+  @HiveField(4)
+  final int? userIndex;
 
-@HiveField(3)
-final String? likedBlogs;
-
-@HiveField(4)
-final int? userIndex;
-
-
-  userid( { this.userIndex,this.likedBlogs,this.name,  this.username,  this.password});
-
-
+  userid(
+      {this.userIndex,
+      this.likedBlogs,
+      this.name,
+      this.username,
+      this.password});
 }
-@HiveType(typeId: 4)
-class commentData extends HiveObject{
 
+@HiveType(typeId: 4)
+class commentData extends HiveObject {
   @HiveField(0)
   final String userName;
 
@@ -39,14 +41,16 @@ class commentData extends HiveObject{
 }
 
 @HiveType(typeId: 2)
-class  favorites extends HiveObject {
-
+class favorites extends HiveObject {
   @HiveField(0)
-   bool isfavorite;
+  final Blog? blogId;
 
   @HiveField(1)
-   int userIndex;
+  int userIndex;
+  String get title => blogId!.title;
+    Image get imagePath => Image.network(blogId!.imagePath);
 
-  favorites({this.isfavorite = false, required this.userIndex});
-  
+ 
+
+  favorites({this.blogId, required this.userIndex});
 }

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, unused_local_variable
 
 import 'package:blog_app/screens/Screens/Home.dart';
 // import 'package:blog_app/screens/Screens/addBlog.dart';
@@ -7,6 +7,9 @@ import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+const savedkey = 'userLoggedin';
+int? userindex ;
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
@@ -201,6 +204,13 @@ class _LoginScreenState extends State<LoginScreen> {
         credentialsMatch = true;
        int index = i;
         print(index);
+        
+
+
+        final sharedprfsUser=await SharedPreferences.getInstance();
+    sharedprfsUser.setInt('userindex', index);
+
+
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (ctx) => HomeScreen(
                   index: index,
@@ -208,12 +218,14 @@ class _LoginScreenState extends State<LoginScreen> {
         break;
       }
     }
+    return null;
+    
 
-    if (credentialsMatch) {
+    // if (credentialsMatch) {
      
-    } else {
-      return null;
-    }
+    // } else {
+    //   return null;
+    // }
   }
 
   Future<void> validate() async {

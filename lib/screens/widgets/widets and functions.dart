@@ -127,6 +127,7 @@ class AppText extends StatelessWidget {
 
 Future<void> signout() async {
   final sharedprefs = await SharedPreferences.getInstance();
+   
   sharedprefs.clear();
 }
 

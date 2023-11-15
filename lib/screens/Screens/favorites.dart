@@ -1,8 +1,7 @@
-import 'package:blog_app/screens/model/blogModel.dart';
-import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Favorites extends StatefulWidget {
   final int? index;
@@ -15,36 +14,58 @@ class Favorites extends StatefulWidget {
 class _FavoritesState extends State<Favorites> {
   late Box favoriteBox;
   late Box userId;
+  int? indx;
+  bool isbox = false;
   @override
   void initState() {
     super.initState();
     favoriteBox = Hive.box('favorite');
-    userId = Hive.box('userid');
-
+    // userId = Hive.box('userid');
+    f().then((value) {
+      setState(() {
+        indx = value;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: heading(),
       ),
       body: Column(
         children: [
+          // if(blog.userIndex == indx)
+
           Expanded(
             child: ListView.builder(
               itemCount: favoriteBox.length,
               itemBuilder: (ctx, index) {
-                final blog = favoriteBox.getAt(index) ;
-                // for (int i = 0; i < favoriteBox.length; i++) {
-                //  Blog.userIndex = i;
-      final id = favoriteBox.getAt(index);
-              //  final currentIndex = index;
-                if (widget.index == id.userIndex) {
-                  f();
-                  return ListTile(title: Text(blog.title));
-                   }
-               // }
+                final blog = favoriteBox.getAt(index);
+
+                // final id = favoriteBox.getAt(index);
+
+                debugPrint("A=$indx");
+                //  final i = blog.userIndex;
+
+                if (blog.userIndex == indx) {
+                  debugPrint('userindex:${blog.userIndex.toString()}');
+                  debugPrint(blog.title);
+                  return ListTile(
+                    title: Text(
+                      blog.title,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  //  leading: blog.imagePath,
+                  );
+                }
+                return Container(
+                  color: Colors.grey,
+
+                  // child: Center(child: Text('Unable to load')),
+                );
               },
             ),
           ),
@@ -53,8 +74,11 @@ class _FavoritesState extends State<Favorites> {
     );
   }
 
-  void f() {
-    var index = 0;
-    print('widget.index: ${widget.index}');
+  Future<int> f() async {
+    debugPrint('f:widget.index: ${widget.index}');
+    final sharedprefsUser = await SharedPreferences.getInstance();
+    final u = sharedprefsUser.getInt('userindex');
+    debugPrint('sharedprefsuserindex : $u');
+    return u!;
   }
 }

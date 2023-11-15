@@ -15,8 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const savedkey = 'userLoggedin';
-
 class HomeScreen extends StatefulWidget {
   final int? index;
 
@@ -210,24 +208,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       onPressed: () {
                                                         setState(
                                                           () {
-                                                            final values = Blog(
-                                                                date: blog.date,
-                                                                title:
-                                                                    blog.title,
-                                                                imagePath:
-                                                                    imagePath,
-                                                                description: blog
-                                                                    .description,userIndex: widget.index);
-                                                           
+                                                            final values = favorites(
+                                                                userIndex: widget
+                                                                        .index ??
+                                                                    0,
+                                                                blogId: Blog(
+                                                                    date: blog
+                                                                        .date,
+                                                                    title: blog
+                                                                        .title,
+                                                                    imagePath:
+                                                                        imagePath,
+                                                                    description:
+                                                                        blog.description));
                                                             blog.isFavorite =
                                                                 !blog
                                                                     .isFavorite;
-                                                            blog.isFavorite
-                                                                ? favoriteBox
-                                                                    .add(values)
-                                                                : favoriteBox
-                                                                    .deleteAt(
-                                                                        index);
+                                                            if (blog
+                                                                .isFavorite) {
+                                                              favoriteBox
+                                                                  .add(values);
+                                                            }
+                                                            // ? favoriteBox
+                                                            //     .add(values)
+                                                            // : favoriteBox
+                                                            //     .deleteAt(
+                                                            //         index);
                                                           },
                                                         );
                                                       },

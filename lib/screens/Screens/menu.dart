@@ -130,8 +130,9 @@ class _MenuState extends State<Menu> {
                     ),
                     AppText(
                         words: 'Profile',
-                        action: () {
-                         
+                        action: ()  {
+                         // ignore: avoid_print
+                       
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(builder: (ctx) =>UserProfile(index: widget.index,)));
                         })

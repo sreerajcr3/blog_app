@@ -100,7 +100,7 @@ class favoritesAdapter extends TypeAdapter<favorites> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return favorites(
-      isfavorite: fields[0] as bool,
+      blogId: fields[0] as Blog?,
       userIndex: fields[1] as int,
     );
   }
@@ -110,7 +110,7 @@ class favoritesAdapter extends TypeAdapter<favorites> {
     writer
       ..writeByte(2)
       ..writeByte(0)
-      ..write(obj.isfavorite)
+      ..write(obj.blogId)
       ..writeByte(1)
       ..write(obj.userIndex);
   }
