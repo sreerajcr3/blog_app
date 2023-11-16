@@ -16,32 +16,32 @@ class _FavoritesState extends State<Favorites> {
   late Box userId;
   int? indx;
   bool isbox = false;
+
   @override
   void initState() {
     super.initState();
     favoriteBox = Hive.box('favorite');
     userId = Hive.box('userid');
-    f().then((value) {
+    userIndexIdentification().then((value) {
       setState(() {
         indx = value;
       });
     });
   }
-
   @override
   Widget build(BuildContext context) {
     final user = userId.getAt(indx!);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: heading(),
+        title: HeadingWithIcon(),
         backgroundColor: Colors.transparent,
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(50),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TitleText(words: 'Favorite List of ${user.name}'),
+                Apptext(words: 'Favorite List of ${user.name}'),
               ],
             )),
       ),
@@ -58,18 +58,17 @@ class _FavoritesState extends State<Favorites> {
                 if (blog.userIndex == indx) {
                   debugPrint('userindex:${blog.userIndex.toString()}');
                   debugPrint(blog.title);
+                  // debugPrint(blog.imagePath.toString());
                   return ListTile(
                     title: Text(
                       blog.title,
                       style: TextStyle(color: Colors.white),
                     ),
-                    //  leading: blog.imagePath,
+                      leading: CircleAvatar(child: blog.imagePath,)
                   );
                 }
                 return Container(
                   color: Colors.grey,
-
-                  // child: Center(child: Text('Unable to load')),
                 );
               },
             ),
@@ -79,7 +78,7 @@ class _FavoritesState extends State<Favorites> {
     );
   }
 
-  Future<int> f() async {
+  Future<int> userIndexIdentification() async {
     debugPrint('f:widget.index: ${widget.index}');
     final sharedprefsUser = await SharedPreferences.getInstance();
     final u = sharedprefsUser.getInt('userindex');

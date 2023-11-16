@@ -21,8 +21,12 @@ class userid extends HiveObject {
   @HiveField(4)
   final int? userIndex;
 
+  @HiveField(5)
+  final String? profilePic;
+
   userid(
-      {this.userIndex,
+      {this.profilePic,
+      this.userIndex,
       this.likedBlogs,
       this.name,
       this.username,
@@ -48,9 +52,7 @@ class favorites extends HiveObject {
   @HiveField(1)
   int userIndex;
   String get title => blogId!.title;
-    Image get imagePath => Image.network(blogId!.imagePath);
-
- 
+  Image get imagePath => Image.network(blogId!.imagePath);
 
   favorites({this.blogId, required this.userIndex});
 }

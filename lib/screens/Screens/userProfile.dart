@@ -48,24 +48,22 @@ class _UserProfileState extends State<UserProfile> {
             child: CircleAvatar(
               radius: 50,
               child: InkWell(
-                onTap: () async{
-                  XFile? pickedImage= await  pickImageFromGallery();setState(() {
-                      _selectedImage = pickedImage;
-                    });
+                onTap: () async {
+                  XFile? pickedImage = await pickImageFromGallery();
+                  setState(() {
+                    _selectedImage = pickedImage;
+                  });
                 },
-
-                child: _selectedImage!=null?ClipRRect(
-                  borderRadius: BorderRadius.circular(50),
-                  child: Image.file(File(_selectedImage!.path),fit: BoxFit.cover,),
-                ):Icon(Icons.add_a_photo)
+                child: _selectedImage != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: Image.file(
+                          File(_selectedImage!.path),
+                          fit: BoxFit.fitHeight,
+                        ),
+                      )
+                    : Icon(Icons.add_a_photo),
               ),
-              // child: IconButton(
-              //     onPressed: ()async {
-              //     XFile? pickedImage= await  pickImageFromGallery();setState(() {
-              //         _selectedImage = pickedImage;
-              //       });
-              //     },
-              //     icon: Icon(Icons.add_a_photo)),
             ),
           ),
           SizedBox(height: 50),
@@ -86,7 +84,7 @@ class _UserProfileState extends State<UserProfile> {
                 Icon(Icons.arrow_right),
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -99,6 +97,7 @@ class _UserProfileState extends State<UserProfile> {
       setState(() {
         _selectedImage = pickedImage;
         imagePath = pickedImage.path;
+        userId.add(_selectedImage);
       });
     }
     return pickedImage;

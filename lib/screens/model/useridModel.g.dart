@@ -17,6 +17,7 @@ class useridAdapter extends TypeAdapter<userid> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return userid(
+      profilePic: fields[5] as String?,
       userIndex: fields[4] as int?,
       likedBlogs: fields[3] as String?,
       name: fields[0] as String?,
@@ -28,7 +29,7 @@ class useridAdapter extends TypeAdapter<userid> {
   @override
   void write(BinaryWriter writer, userid obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class useridAdapter extends TypeAdapter<userid> {
       ..writeByte(3)
       ..write(obj.likedBlogs)
       ..writeByte(4)
-      ..write(obj.userIndex);
+      ..write(obj.userIndex)
+      ..writeByte(5)
+      ..write(obj.profilePic);
   }
 
   @override
