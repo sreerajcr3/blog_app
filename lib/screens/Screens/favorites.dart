@@ -20,7 +20,7 @@ class _FavoritesState extends State<Favorites> {
   void initState() {
     super.initState();
     favoriteBox = Hive.box('favorite');
-    // userId = Hive.box('userid');
+    userId = Hive.box('userid');
     f().then((value) {
       setState(() {
         indx = value;
@@ -30,25 +30,30 @@ class _FavoritesState extends State<Favorites> {
 
   @override
   Widget build(BuildContext context) {
+    final user = userId.getAt(indx!);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         title: heading(),
+        backgroundColor: Colors.transparent,
+        bottom: PreferredSize(
+            preferredSize: Size.fromHeight(50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TitleText(words: 'Favorite List of ${user.name}'),
+              ],
+            )),
       ),
       body: Column(
         children: [
-          // if(blog.userIndex == indx)
-
           Expanded(
             child: ListView.builder(
               itemCount: favoriteBox.length,
               itemBuilder: (ctx, index) {
                 final blog = favoriteBox.getAt(index);
 
-                // final id = favoriteBox.getAt(index);
-
                 debugPrint("A=$indx");
-                //  final i = blog.userIndex;
 
                 if (blog.userIndex == indx) {
                   debugPrint('userindex:${blog.userIndex.toString()}');
@@ -58,7 +63,7 @@ class _FavoritesState extends State<Favorites> {
                       blog.title,
                       style: TextStyle(color: Colors.white),
                     ),
-                  //  leading: blog.imagePath,
+                    //  leading: blog.imagePath,
                   );
                 }
                 return Container(

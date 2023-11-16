@@ -118,7 +118,6 @@ class _AddBlogState extends State<AddBlog> {
                           alignment: Alignment.bottomCenter,
                           child: DropdownButton(
                             focusColor: Colors.cyan,
-
                             items: [
                               DropdownMenuItem(
                                 child: Text('Select the category'),

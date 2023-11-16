@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:blog_app/screens/Screens/favorites.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +34,9 @@ class _UserProfileState extends State<UserProfile> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: HeadingWithIcon(index: index,),
+        title: HeadingWithIcon(
+          index: index,
+        ),
         backgroundColor: Colors.transparent,
       ),
       body: Column(
@@ -43,15 +47,46 @@ class _UserProfileState extends State<UserProfile> {
           Center(
             child: CircleAvatar(
               radius: 50,
-              child:
-                  IconButton(onPressed: () {}, icon: Icon(Icons.add_a_photo)),
+              child: InkWell(
+                onTap: () async{
+                  XFile? pickedImage= await  pickImageFromGallery();setState(() {
+                      _selectedImage = pickedImage;
+                    });
+                },
+
+                child: _selectedImage!=null?ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.file(File(_selectedImage!.path),fit: BoxFit.cover,),
+                ):Icon(Icons.add_a_photo)
+              ),
+              // child: IconButton(
+              //     onPressed: ()async {
+              //     XFile? pickedImage= await  pickImageFromGallery();setState(() {
+              //         _selectedImage = pickedImage;
+              //       });
+              //     },
+              //     icon: Icon(Icons.add_a_photo)),
             ),
           ),
           SizedBox(height: 50),
           Apptext(words: 'Name:${user.name}'),
-          TextButton(onPressed: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>Favorites(index: widget.index,)));
-          }, child: Text('favorites'))
+          Apptext(words: 'Username:${user.username}'),
+          SizedBox(
+            height: 100,
+          ),
+          InkWell(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => Favorites(
+                      index: widget.index,
+                    ))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Apptext(words: 'favorites'),
+                Icon(Icons.arrow_right),
+              ],
+            ),
+          )
         ],
       ),
     );

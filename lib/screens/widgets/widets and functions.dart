@@ -102,9 +102,12 @@ class HeadingWithIcon extends StatelessWidget {
 Widget Apptext({
   required String? words,
 }) {
-  return Text(
-    words!,
-    style: GoogleFonts.poppins(fontSize: 20),
+  return Padding(
+    padding: const EdgeInsets.all(15.0),
+    child: Text(
+      words!,
+      style: GoogleFonts.poppins(fontSize: 20),
+    ),
   );
 }
 
