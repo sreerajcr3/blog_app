@@ -30,39 +30,9 @@ Future<void> deleteBlog(index) async {
 
 Future<void> updateBlog(index, value, context) async {
   late Box blogBox = Hive.box('blog');
-  // late Box natureBox = Hive.box('nature');
-  // late Box scienceBox = Hive.box('science');
-  // late Box entertainmentBox = Hive.box('entertainment');
-  // late Box politicsBox = Hive.box('politics');
+
   blogBox.putAt(index, value);
-  // natureBox.putAt(index, value);
 
-  // if (index >= 0 && index < scienceBox.length) {
-  //   scienceBox.putAt(index, value);
-  // }
-
-  // if (index >= 0 && index < natureBox.length) {
-  //   natureBox.putAt(index, value);
-  // }
-
-  // if (index >= 0 && index < politicsBox.length) {
-  //   politicsBox.putAt(index, value);
-  // }
-
-  // if (index >= 0 && index < entertainmentBox.length) {
-  //   entertainmentBox.putAt(index, value);
-  // } else {
-  //   ScaffoldMessenger.of(context).clearSnackBars();
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text('You must fill all required fields'),
-  //       behavior: SnackBarBehavior.floating,
-  //       backgroundColor: Colors.red,
-  //       margin: EdgeInsets.all(10),
-  //     ),
-  //   );
-  // }
- 
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text('updated successfully'),
     backgroundColor: Colors.blue,

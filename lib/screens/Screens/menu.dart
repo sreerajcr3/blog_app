@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Menu extends StatefulWidget {
   final int? index;
-  Menu({super.key,  this.index});
+  Menu({super.key, this.index});
   final bool userLoggedIn = false;
 
   final Widget space = SizedBox(
@@ -26,15 +26,15 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
- late Box userId;
+  late Box userId;
 
- @override
+  @override
   void initState() {
     super.initState();
     userId = Hive.box('userid');
   }
 
- // var index;
+  // var index;
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +59,11 @@ class _MenuState extends State<Menu> {
                     AppText(
                         words: 'Home',
                         action: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (ctx) => HomeScreen( index: index,)));
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                                  builder: (ctx) => HomeScreen(
+                                        index: index,
+                                      )));
                         }),
                     SizedBox(
                       height: 30,
@@ -77,8 +80,11 @@ class _MenuState extends State<Menu> {
                         words: 'Categories',
                         action: () {
                           var index;
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (ctx) => Categories(index: widget.index,)));
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                                  builder: (ctx) => Categories(
+                                        index: widget.index,
+                                      )));
                         }),
                     SizedBox(
                       height: 30,
@@ -86,7 +92,8 @@ class _MenuState extends State<Menu> {
                     AppText(
                         words: 'Sign in',
                         action: () {
-                           Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SignUp()));
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (ctx) => SignUp()));
                         }),
                     SizedBox(
                       height: 30,
@@ -106,35 +113,39 @@ class _MenuState extends State<Menu> {
                                       },
                                       child: Text('cancel'),
                                     ),
-                                    TextButton(onPressed: (){
-                                       signout();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Logged out succesfully'),
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(20),
-                              backgroundColor: Colors.blue,
-                            ),
-                          );
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (ctx) =>LoginScreen()),
-                              (route) => false);
-                                    }, child: Text('ok'))
+                                    TextButton(
+                                        onPressed: () {
+                                          signout();
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  'Logged out succesfully'),
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              margin: EdgeInsets.all(20),
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          );
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                                  MaterialPageRoute(
+                                                      builder: (ctx) =>
+                                                          LoginScreen()),
+                                                  (route) => false);
+                                        },
+                                        child: Text('ok'))
                                   ],
                                 );
                               }));
-                         
                         }),
                     SizedBox(
                       height: 30,
                     ),
                     AppText(
                         words: 'Profile',
-                        action: ()  {
-                         // ignore: avoid_print
-                       
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (ctx) =>UserProfile(index: widget.index,)));
+                        action: () {
+                          checkLoggedinProfile();
                         })
                   ],
                 ),
@@ -154,9 +165,23 @@ class _MenuState extends State<Menu> {
       Navigator.of(context)
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
     } else {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index: index,)));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (ctx) => AddBlog(
+                index: index,
+              )));
     }
   }
- 
+
+  Future<void> checkLoggedinProfile() async {
+    final index = widget.index;
+    final sharedprefs = await SharedPreferences.getInstance();
+    final userLoggedIn = sharedprefs.getBool(savedkey);
+    if (userLoggedIn == false || userLoggedIn == null) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
+    } else {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => UserProfile()));
+    }
+  }
 }
