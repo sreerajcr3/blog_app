@@ -2,9 +2,7 @@
 
 import 'dart:io';
 
-import 'package:blog_app/screens/Screens/Loginpage.dart';
 import 'package:blog_app/screens/Screens/favorites.dart';
-import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -25,8 +23,6 @@ class _UserProfileState extends State<UserProfile> {
   XFile? _selectedImage;
   int? indx;
   int? index1;
-    
-  
 
   @override
   void initState() {
@@ -43,7 +39,8 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     final index = widget.index;
-    final user = userId.getAt(indx!);
+    final user = userId.getAt(indx ?? 0);
+    final imagePathForCurrentUser = userId.get(indx.toString());
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -69,8 +66,7 @@ class _UserProfileState extends State<UserProfile> {
                     _selectedImage = pickedImage;
                   });
                 },
-                child: 
-                _selectedImage != null 
+                child: _selectedImage != null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: Image.file(
@@ -78,13 +74,11 @@ class _UserProfileState extends State<UserProfile> {
                           fit: BoxFit.fitHeight,
                         ),
                       )
-                    :
-                    //  indx == allIndexes
-                     imagePath != null?
-                         ClipRRect(
+                    : imagePath != null
+                        ? ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: Image.file(
-                              File(imagePath!),
+                              File(imagePathForCurrentUser.toString()),
                               fit: BoxFit.cover,
                             ),
                           )
@@ -129,9 +123,9 @@ class _UserProfileState extends State<UserProfile> {
           imagePath = pickedImage.path;
         },
       );
-      final profilePic = userid(profilePic: imagePath, userIndex: indx);
-      userId.put(indx.toString(), profilePic);
-      debugPrint('userindex.profilepic:  ${profilePic.userIndex?.toString()}');
+      //  final profilePic = userid(profilePic: imagePath, userIndex: indx);
+      userId.put(indx.toString(), imagePath!);
+      //  debugPrint('userindex.profilepic:  ${profilePic.userIndex?.toString()}');
     }
     return pickedImage;
   }
