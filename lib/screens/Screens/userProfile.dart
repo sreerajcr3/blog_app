@@ -56,9 +56,9 @@ class _UserProfileState extends State<UserProfile> {
           ),
           Center(
             child: Container(
-              width: 100,
+              width: 200,
               decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(100)),
+                  BoxDecoration(borderRadius: BorderRadius.circular(30)),
               child: InkWell(
                 onTap: () async {
                   XFile? pickedImage = await pickImageFromGallery();
@@ -68,7 +68,7 @@ class _UserProfileState extends State<UserProfile> {
                 },
                 child: _selectedImage != null
                     ? ClipRRect(
-                        borderRadius: BorderRadius.circular(100),
+                        borderRadius: BorderRadius.circular(30),
                         child: Image.file(
                           File(_selectedImage!.path),
                           fit: BoxFit.fitHeight,
@@ -76,7 +76,7 @@ class _UserProfileState extends State<UserProfile> {
                       )
                     : imagePath != null
                         ? ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
+                            borderRadius: BorderRadius.circular(30),
                             child: Image.file(
                               File(imagePathForCurrentUser.toString()),
                               fit: BoxFit.cover,
