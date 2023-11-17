@@ -1,10 +1,9 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:blog_app/screens/Screens/Home.dart';
 import 'package:blog_app/screens/Screens/Loginpage.dart';
 import 'package:blog_app/screens/Screens/addBlog.dart';
 import 'package:blog_app/screens/Screens/categories.dart';
-import 'package:blog_app/screens/Screens/favorites.dart';
 import 'package:blog_app/screens/Screens/signup.dart';
 import 'package:blog_app/screens/Screens/userProfile.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
@@ -79,7 +78,7 @@ class _MenuState extends State<Menu> {
                     AppText(
                         words: 'Categories',
                         action: () {
-                          var index;
+                         
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
                                   builder: (ctx) => Categories(
@@ -173,7 +172,7 @@ class _MenuState extends State<Menu> {
   }
 
   Future<void> checkLoggedinProfile() async {
-    final index = widget.index;
+    // final index = widget.index;
     final sharedprefs = await SharedPreferences.getInstance();
     final userLoggedIn = sharedprefs.getBool(savedkey);
     if (userLoggedIn == false || userLoggedIn == null) {
@@ -181,7 +180,7 @@ class _MenuState extends State<Menu> {
           .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
     } else {
       Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => UserProfile()));
+          .pushReplacement(MaterialPageRoute(builder: (ctx) => UserProfile(index: widget.index,)));
     }
   }
 }

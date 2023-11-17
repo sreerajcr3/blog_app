@@ -33,7 +33,7 @@ class _BlogPageState extends State<BlogPage> {
           children: [
             Stack(
               children: [
-                Container(
+                SizedBox(
                   height: 300,
                   child: Align(
                     alignment: Alignment.topCenter,

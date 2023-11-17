@@ -1,3 +1,5 @@
+import 'package:blog_app/screens/Screens/BlogDetailPage.dart';
+import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -28,16 +30,17 @@ class _FavoritesState extends State<Favorites> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final user = userId.getAt(indx!);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: HeadingWithIcon(),
+        title: const HeadingWithIcon(),
         backgroundColor: Colors.transparent,
         bottom: PreferredSize(
-            preferredSize: Size.fromHeight(50),
+            preferredSize: const Size.fromHeight(50),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -55,16 +58,24 @@ class _FavoritesState extends State<Favorites> {
 
                 debugPrint("A=$indx");
 
-                if (blog.userIndex == indx) {
+                if (blog.userIndex == indx) {   //checks the userlogged index is same as index with the user added the blog to the favoritebox
                   debugPrint('userindex:${blog.userIndex.toString()}');
                   debugPrint(blog.title);
                   // debugPrint(blog.imagePath.toString());
-                  return ListTile(
-                    title: Text(
-                      blog.title,
-                      style: TextStyle(color: Colors.white),
+                  return InkWell(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => BlogPage(blog: blog.blogId),
+                      ),
                     ),
-                      leading: CircleAvatar(child: blog.imagePath,)
+                    child: ListTile(
+                        title: Text(
+                          blog.title,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        leading: CircleAvatar(
+                          child: blog.imagePath ,
+                        )),
                   );
                 }
                 return Container(

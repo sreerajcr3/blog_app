@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'dart:io';
 import 'package:blog_app/screens/Screens/favorites.dart';
@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     imagePath:
                                                                         imagePath,
                                                                     description:
-                                                                        blog.description));
+                                                                        blog.description),);
                                                             blog.isFavorite =
                                                                 !blog
                                                                     .isFavorite;
@@ -229,11 +229,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                               favoriteBox
                                                                   .add(values);
                                                             }
-                                                            // ? favoriteBox
-                                                            //     .add(values)
-                                                            // : favoriteBox
-                                                            //     .deleteAt(
-                                                            //         index);
                                                           },
                                                         );
                                                       },

@@ -2,11 +2,14 @@
 
 import 'dart:io';
 
+import 'package:blog_app/screens/Screens/Loginpage.dart';
 import 'package:blog_app/screens/Screens/favorites.dart';
+import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfile extends StatefulWidget {
   final int? index;
@@ -20,17 +23,27 @@ class _UserProfileState extends State<UserProfile> {
   late Box userId;
   String? imagePath;
   XFile? _selectedImage;
+  int? indx;
+  int? index1;
+    
+  
 
   @override
   void initState() {
     super.initState();
     userId = Hive.box('userid');
+    userIndexIdentification().then((value) {
+      setState(() {
+        indx = value;
+      });
+    });
+    imagePath = userId.get('imagePath');
   }
 
   @override
   Widget build(BuildContext context) {
     final index = widget.index;
-    final user = userId.getAt(index ?? 0);
+    final user = userId.getAt(indx!);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -42,11 +55,13 @@ class _UserProfileState extends State<UserProfile> {
       body: Column(
         children: [
           SizedBox(
-            height: 100,
+            height: 50,
           ),
           Center(
-            child: CircleAvatar(
-              radius: 50,
+            child: Container(
+              width: 100,
+              decoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(100)),
               child: InkWell(
                 onTap: () async {
                   XFile? pickedImage = await pickImageFromGallery();
@@ -54,23 +69,34 @@ class _UserProfileState extends State<UserProfile> {
                     _selectedImage = pickedImage;
                   });
                 },
-                child: _selectedImage != null
+                child: 
+                _selectedImage != null 
                     ? ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
+                        borderRadius: BorderRadius.circular(100),
                         child: Image.file(
                           File(_selectedImage!.path),
                           fit: BoxFit.fitHeight,
                         ),
                       )
-                    : Icon(Icons.add_a_photo),
+                    :
+                    //  indx == allIndexes
+                     imagePath != null?
+                         ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: Image.file(
+                              File(imagePath!),
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : Icon(Icons.add_a_photo),
               ),
             ),
           ),
           SizedBox(height: 50),
-          Apptext(words: 'Name:${user.name}'),
-          Apptext(words: 'Username:${user.username}'),
+          Apptext(words: 'Name :  ${user.name}'),
+          Apptext(words: 'Username :  ${user.username}'),
           SizedBox(
-            height: 100,
+            height: 50,
           ),
           InkWell(
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
@@ -81,7 +107,10 @@ class _UserProfileState extends State<UserProfile> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Apptext(words: 'favorites'),
-                Icon(Icons.arrow_right),
+                Icon(
+                  Icons.arrow_right_sharp,
+                  size: 40,
+                ),
               ],
             ),
           ),
@@ -94,12 +123,24 @@ class _UserProfileState extends State<UserProfile> {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      setState(() {
-        _selectedImage = pickedImage;
-        imagePath = pickedImage.path;
-        userId.add(_selectedImage);
-      });
+      setState(
+        () {
+          _selectedImage = pickedImage;
+          imagePath = pickedImage.path;
+        },
+      );
+      final profilePic = userid(profilePic: imagePath, userIndex: indx);
+      userId.put(indx.toString(), profilePic);
+      debugPrint('userindex.profilepic:  ${profilePic.userIndex?.toString()}');
     }
     return pickedImage;
+  }
+
+  Future<int> userIndexIdentification() async {
+    debugPrint('f:widget.index: ${widget.index}');
+    final sharedprefsUser = await SharedPreferences.getInstance();
+    final u = sharedprefsUser.getInt('userindex');
+    debugPrint('sharedprefsuserindex : $u');
+    return u!;
   }
 }

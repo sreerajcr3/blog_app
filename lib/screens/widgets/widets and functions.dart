@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, must_be_immutable, camel_case_types
 
 import 'package:blog_app/screens/Screens/adminpanel.dart';
 import 'package:blog_app/screens/Screens/menu.dart';
@@ -288,7 +288,6 @@ class _DropdownListState extends State<DropdownList> {
   }
 }
 
-// ignore: must_be_immutable
 class testformfield extends StatelessWidget {
   final TextEditingController controller;
   final String hintTest;
@@ -387,13 +386,11 @@ class Comment extends StatelessWidget {
    
     return DraggableScrollableSheet(builder: ( (context, scrollController) {
       return
-       Container(
-        child: ListView.builder(controller: scrollController,itemCount: 5,itemBuilder: (ctx,index){
+       ListView.builder(controller: scrollController,itemCount: 5,itemBuilder: (ctx,index){
 return ListTile(
 title: Text('data'),
 );
-        }),
-      );
+       });
 
     }));
   }

@@ -51,6 +51,7 @@ class favorites extends HiveObject {
 
   @HiveField(1)
   int userIndex;
+  
   String get title => blogId!.title;
   Image get imagePath => Image.network(blogId!.imagePath);
 

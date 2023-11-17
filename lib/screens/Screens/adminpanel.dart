@@ -54,7 +54,7 @@ class _AdminPanelState extends State<AdminPanel> {
   void display() {
     for (int index = 0; index < userId.length; index++) {
       final id = userId.get(index) as userid;
-      print(id.name);
+      debugPrint(id.name);
     }
   }
 }
