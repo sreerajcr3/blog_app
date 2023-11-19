@@ -30,8 +30,15 @@ Future<void> deleteBlog(index) async {
 
 Future<void> updateBlog(index, value, context) async {
   late Box blogBox = Hive.box('blog');
+  late Box natureBox = Hive.box('nature');
+  late Box scienceBox = Hive.box('science');
+  late Box politics = Hive.box('blog');
 
   blogBox.putAt(index, value);
+  scienceBox.putAt(index, value);
+  natureBox.putAt(index, value);
+  politics.putAt(index, value);
+  
 
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text('updated successfully'),

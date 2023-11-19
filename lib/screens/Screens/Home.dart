@@ -153,10 +153,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ListView.builder(
                       itemCount: blogBox.length,
                       itemBuilder: (ctx, index) {
-                        var reversedIndex =
-                            blogBox.length - 1 - index; // Reverse the index
-                        var blog = blogBox.getAt(reversedIndex);
-                        // var blog = blogBox.getAt(index);
+                        // var reversedIndex =
+                        //     blogBox.length - 1 - index; // Reverse the index
+                        // var blog = blogBox.getAt(reversedIndex);
+                         var blog = blogBox.getAt(index);
                         String imagePath = blog.imagePath;
                         return GestureDetector(
                           onTap: () {

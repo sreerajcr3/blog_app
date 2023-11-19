@@ -1,5 +1,4 @@
 import 'package:blog_app/screens/Screens/BlogDetailPage.dart';
-import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -55,7 +54,9 @@ class _FavoritesState extends State<Favorites> {
               itemCount: favoriteBox.length,
               itemBuilder: (ctx, index) {
                 final blog = favoriteBox.getAt(index);
-
+                 if(blog==null){
+                 
+                 }
                 debugPrint("A=$indx");
 
                 if (blog.userIndex == indx) {   //checks the userlogged index is same as index with the user added the blog to the favoritebox
@@ -74,7 +75,7 @@ class _FavoritesState extends State<Favorites> {
                           style: const TextStyle(color: Colors.white),
                         ),
                         leading: CircleAvatar(
-                          child: blog.imagePath ,
+                          child: blog.imagePath,
                         )),
                   );
                 }

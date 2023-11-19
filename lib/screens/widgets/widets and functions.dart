@@ -213,55 +213,7 @@ class footerText extends StatelessWidget {
   }
 }
 
-// c//}
 
-// class _PageNavigationBarState extends State<PageNavigationBar> {
-//   int index = 0;
-//   final dynamic pages = [HomeScreen()];
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: pages[index],
-//       bottomNavigationBar: BottomNavigationBar(
-//           showSelectedLabels: true,
-//           showUnselectedLabels: true,
-//           type: BottomNavigationBarType.fixed,
-//           onTap: (value) {
-//             setState(() {
-//               index = value;
-//             });
-//           },
-//           currentIndex: index,
-//           items: [
-//             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-//             BottomNavigationBarItem(
-//                 icon: GestureDetector(
-//                   onTap: () => checkLoggedin(),
-//                   child: Icon(Icons.note_add),
-//                 ),
-//                 label: 'Add Blog')
-//           ]),
-//     );
-//   }
-
-//   Future<void> checkLoggedin() async {
-//     final sharedprefs = await SharedPreferences.getInstance();
-//     final userLoggedIn = sharedprefs.getBool(savedkey);
-//     if (userLoggedIn == false || userLoggedIn == null) {
-//       Navigator.of(context).push(
-//         MaterialPageRoute(
-//           builder: (ctx) => LoginScreen(),
-//         ),
-//       );
-//     } else {
-//       Navigator.of(context).pushReplacement(
-//         MaterialPageRoute(
-//           builder: (ctx) => AddBlog(),
-//         ),
-//       );
-//     }
-//   }
-// }
 
 class DropdownList extends StatefulWidget {
   const DropdownList({super.key});
@@ -393,6 +345,102 @@ title: Text('data'),
        });
 
     }));
+  }
+}
+
+// PreferredSizeWidget appbar(Index,_searchController){
+//   return AppBar(
+//       automaticallyImplyLeading: false,
+//         backgroundColor: Colors.transparent,
+//         title: HeadingWithIcon(
+//           index: Index,
+//         ),
+//         // const Subtitle(words: 'Recent Blog posts'),
+//         bottom: PreferredSize(
+//           preferredSize: const Size.fromHeight(60),
+//           child: Padding(
+//             padding:
+//                 const EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 10),
+//             child: SizedBox(
+//               height: 40,
+//               child: TextFormField(
+//                 textAlignVertical: TextAlignVertical.center,
+//                 controller: _searchController,
+//                 decoration: InputDecoration(
+//                   contentPadding: EdgeInsets.all(10),
+//                   prefixIcon: Icon(Icons.search),
+//                   fillColor: Colors.white,
+//                   hintText: 'Search here ',
+//                   hintStyle: TextStyle(),
+//                   filled: true,
+//                   border: OutlineInputBorder(
+//                     borderRadius: BorderRadius.circular(20),
+//                   ),
+//                 ),
+//                 onChanged: (value) {
+//                   setState(() {
+//                     performSearch();
+//                   });
+//                 },
+//               ),
+//             ),
+//           ),
+//         ),
+//   );
+// }
+class appBar extends StatefulWidget {
+  int? Index;
+  TextEditingController searchController;
+  void Function() performSearch;
+
+
+   appBar({super.key,required this.Index,required this.searchController,required this.performSearch});
+
+  @override
+  State<appBar> createState() => _appBarState();
+}
+
+class _appBarState extends State<appBar> {
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        title: HeadingWithIcon(
+          index: widget.Index,
+        ),
+        // const Subtitle(words: 'Recent Blog posts'),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: Padding(
+            padding:
+                const EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 10),
+            child: SizedBox(
+              height: 40,
+              child: TextFormField(
+                textAlignVertical: TextAlignVertical.center,
+                controller: widget. searchController,
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(10),
+                  prefixIcon: Icon(Icons.search),
+                  fillColor: Colors.white,
+                  hintText: 'Search here ',
+                  hintStyle: TextStyle(),
+                  filled: true,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    // performSearch();
+                  });
+                },
+              ),
+            ),
+          ),
+        ),
+    );
   }
 }
 
