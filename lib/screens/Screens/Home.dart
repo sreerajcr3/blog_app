@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'dart:io';
-import 'package:blog_app/screens/Screens/favorites.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -32,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool value = true;
   List<dynamic> _searchResults = [];
   int Index = 0;
+  int? indx;
 
   final _searchController = TextEditingController();
   final commentController = TextEditingController();
@@ -45,6 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
     commentBox = Hive.box('comment');
     userId = Hive.box('userid');
     _searchResults = [];
+     userIndexIdentification().then((value) {
+      setState(() {
+        indx = value;
+      });
+    });
   }
 
   void performSearch() {
@@ -63,7 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Index = widget.index;
+    // final Index = widget.index;
+    print("Home Screen Index -${indx}");
     //  performSearch();
     return Scaffold(
       key: _scaffoldKey,
@@ -71,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         title: HeadingWithIcon(
-          index: Index,
+          index: indx,
         ),
         // const Subtitle(words: 'Recent Blog posts'),
         bottom: PreferredSize(
@@ -110,7 +116,6 @@ class _HomeScreenState extends State<HomeScreen> {
       //    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SignUp()));
       //   },
       //   child: Icon(Icons.add),
-
       // ),
       backgroundColor: Colors.black,
 
@@ -156,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         // var reversedIndex =
                         //     blogBox.length - 1 - index; // Reverse the index
                         // var blog = blogBox.getAt(reversedIndex);
-                         var blog = blogBox.getAt(index);
+                        var blog = blogBox.getAt(index);
                         String imagePath = blog.imagePath;
                         return GestureDetector(
                           onTap: () {
@@ -208,27 +213,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       onPressed: () {
                                                         setState(
                                                           () {
-                                                            final values = favorites(
-                                                                userIndex: widget
-                                                                        .index ??
-                                                                    0,
-                                                                blogId: Blog(
-                                                                    date: blog
-                                                                        .date,
-                                                                    title: blog
-                                                                        .title,
-                                                                    imagePath:
-                                                                        imagePath,
-                                                                    description:
-                                                                        blog.description),);
+                                                            final values =
+                                                                favorites(
+                                                              userIndex:indx??0
+                                                                  ,
+                                                              blogId: Blog(
+                                                                  date:
+                                                                      blog.date,
+                                                                  title: blog
+                                                                      .title,
+                                                                  imagePath:
+                                                                      imagePath,
+                                                                  description: blog
+                                                                      .description),
+                                                            );
                                                             blog.isFavorite =
                                                                 !blog
                                                                     .isFavorite;
-                                                            if (blog
-                                                                .isFavorite) {
-                                                              favoriteBox
-                                                                  .add(values);
-                                                            }
+
+                                                                   blog.isFavorite?favoriteBox.add(values):favoriteBox.deleteAt(index);
+                                                            
                                                           },
                                                         );
                                                       },
@@ -318,6 +322,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             Flexible(
                                               child: DescriptionText(
+                                                trimmed: true,
                                                 words: blog.description,
                                                 softwrap: false,
                                                 maxLines: 3,
@@ -341,6 +346,13 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
       ), //
     );
+  }
+   Future<int> userIndexIdentification() async {
+    debugPrint('f:widget.index: ${widget.index}');
+    final sharedprefsUser = await SharedPreferences.getInstance();
+    final u = sharedprefsUser.getInt('userindex');
+    debugPrint('sharedprefsuserindex : $u');
+    return u!;
   }
 
   Future<void> checkLoggedin() async {

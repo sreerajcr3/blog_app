@@ -303,18 +303,18 @@ class _AddBlogState extends State<AddBlog> {
     }
   }
 
-  Future<void> checkLoggedin() async {
-   // final index = widget.index;
-    final sharedprefs = await SharedPreferences.getInstance();
-    final userLoggedIn = sharedprefs.getBool(savedkey);
-    if (userLoggedIn == false || userLoggedIn == null) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
-    } else {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index: widget.index,)));
-    }
-  }
+  // Future<void> checkLoggedin() async {
+  //  // final index = widget.index;
+  //   final sharedprefs = await SharedPreferences.getInstance();
+  //   final userLoggedIn = sharedprefs.getBool(savedkey);
+  //   if (userLoggedIn == false || userLoggedIn == null) {
+  //     Navigator.of(context)
+  //         .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
+  //   } else {
+  //     Navigator.of(context)
+  //         .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index: widget.index,)));
+  //   }
+  // }
 
   Blog getCopy() {
     return Blog(

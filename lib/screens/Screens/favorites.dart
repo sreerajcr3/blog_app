@@ -32,7 +32,7 @@ class _FavoritesState extends State<Favorites> {
 
   @override
   Widget build(BuildContext context) {
-    final user = userId.getAt(indx!);
+    final user = userId.getAt(indx??0);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -54,9 +54,7 @@ class _FavoritesState extends State<Favorites> {
               itemCount: favoriteBox.length,
               itemBuilder: (ctx, index) {
                 final blog = favoriteBox.getAt(index);
-                 if(blog==null){
-                 
-                 }
+               
                 debugPrint("A=$indx");
 
                 if (blog.userIndex == indx) {   //checks the userlogged index is same as index with the user added the blog to the favoritebox
@@ -74,9 +72,10 @@ class _FavoritesState extends State<Favorites> {
                           blog.title,
                           style: const TextStyle(color: Colors.white),
                         ),
-                        leading: CircleAvatar(
-                          child: blog.imagePath,
-                        )),
+                        // leading: CircleAvatar(
+                        //   child: blog.imagePath,
+                        // )
+                        ),
                   );
                 }
                 return Container(

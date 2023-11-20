@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
 import 'package:blog_app/screens/Screens/Home.dart';
+import 'package:blog_app/screens/Screens/Loginpage.dart';
 
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
@@ -74,6 +75,6 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> gotoLogin() async {
     await Future.delayed(Duration(seconds: 3));
     Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => LoginScreen()));
   }
 }
