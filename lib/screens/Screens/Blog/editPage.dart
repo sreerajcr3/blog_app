@@ -3,7 +3,7 @@
 import 'dart:io';
 import 'package:blog_app/Databse/functions.dart';
 import 'package:intl/intl.dart';
-import 'package:blog_app/screens/Screens/Home.dart';
+import 'package:blog_app/screens/Screens/Blog/Home.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';

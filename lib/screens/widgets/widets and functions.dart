@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, must_be_immutable, camel_case_types
 
-import 'package:blog_app/screens/Screens/adminpanel.dart';
-import 'package:blog_app/screens/Screens/menu.dart';
+import 'package:blog_app/screens/Screens/Admin/adminlogin.dart';
+import 'package:blog_app/screens/Screens/Blog/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,30 +9,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 Widget heading() {
   return Center(
     child: Padding(
-      padding: EdgeInsets.only(top: 20),
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'THE ',
-              style: GoogleFonts.breeSerif(
-                  textStyle: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 40,
-              )),
-            ),
-            Text(
-              'BLOG',
-              style: GoogleFonts.breeSerif(
-                  textStyle: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 40,
-                      color: Colors.yellow)),
-            ),
-          ],
-        ),
+      padding: EdgeInsets.only(top: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'THE ',
+            style: GoogleFonts.breeSerif(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 40,
+                    color: Colors.black)),
+          ),
+          Text(
+            'BLOG',
+            style: GoogleFonts.breeSerif(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 40,
+                    color: Colors.black)),
+          ),
+        ],
       ),
     ),
   );
@@ -40,11 +37,10 @@ Widget heading() {
 
 class HeadingWithIcon extends StatelessWidget {
   final int? index;
-  const HeadingWithIcon({super.key,this.index});
+  const HeadingWithIcon({super.key, this.index});
 
   @override
   Widget build(BuildContext context) {
-       
     return Padding(
       padding: const EdgeInsets.only(top: 0, left: 10, right: 10, bottom: 0),
       child: Row(
@@ -76,13 +72,13 @@ class HeadingWithIcon extends StatelessWidget {
             child: InkWell(
               onLongPress: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (ctx) => AdminPanel()));
+                    .push(MaterialPageRoute(builder: (ctx) => AdminLogin()));
               },
               child: IconButton(
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (ctx) => Menu(index:index),
+                        builder: (ctx) => Menu(index: index),
                       ),
                     );
                   },
@@ -130,7 +126,7 @@ class AppText extends StatelessWidget {
 
 Future<void> signout() async {
   final sharedprefs = await SharedPreferences.getInstance();
-   
+
   sharedprefs.clear();
 }
 
@@ -160,13 +156,11 @@ class TitleText extends StatelessWidget {
     final trimmedtext = trimmed ? words.trim() : words;
     return Padding(
       padding: const EdgeInsets.all(6.0),
-      child: Align(
-          alignment: AlignmentDirectional.topStart,
-          child: Text(
-            trimmedtext,
-            style: GoogleFonts.cabin(fontSize: 25, fontWeight: FontWeight.w700),
-            strutStyle: StrutStyle(height: 2.5),
-          )),
+      child: Text(
+        trimmedtext,
+        style: GoogleFonts.cabin(fontSize: 25, fontWeight: FontWeight.w700),
+        strutStyle: StrutStyle(height: 2.5),
+      ),
     );
   }
 }
@@ -174,22 +168,31 @@ class TitleText extends StatelessWidget {
 class DescriptionText extends StatelessWidget {
   final bool trimmed;
   final String words;
-  final int?maxLines;
+  final int? maxLines;
   final bool? softwrap;
   final TextOverflow? overflow;
-  const DescriptionText({super.key, required this.words, this.trimmed = false, this.maxLines,  this.softwrap,  this.overflow});
+  const DescriptionText(
+      {super.key,
+      required this.words,
+      this.trimmed = false,
+      this.maxLines,
+      this.softwrap,
+      this.overflow});
 
   @override
   Widget build(BuildContext context) {
     final trimmedTest = trimmed ? words.trim() : words;
     return Padding(
-      padding: const EdgeInsets.only(left: 9,right: 9,bottom: 8),
+      padding: const EdgeInsets.only(left: 9, right: 9, bottom: 8),
       child: Align(
         alignment: AlignmentDirectional.topStart,
         child: Text(
           trimmedTest,
           style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500),
-          strutStyle: StrutStyle(height: 2),maxLines:maxLines ,softWrap: softwrap,overflow:overflow,
+          strutStyle: StrutStyle(height: 2),
+          maxLines: maxLines,
+          softWrap: softwrap,
+          overflow: overflow,
         ),
       ),
     );
@@ -212,8 +215,6 @@ class footerText extends StatelessWidget {
     );
   }
 }
-
-
 
 class DropdownList extends StatefulWidget {
   const DropdownList({super.key});
@@ -255,6 +256,7 @@ class testformfield extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       decoration: InputDecoration(
         hintText: hintTest,
@@ -262,7 +264,7 @@ class testformfield extends StatelessWidget {
         contentPadding: EdgeInsets.only(top: 10, left: 20),
         fillColor: Colors.white,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide(color: Colors.white),
         ),
       ),
@@ -287,6 +289,7 @@ class PasswordTestformfield extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,
       decoration: InputDecoration(
         hintText: hintTest,
@@ -294,7 +297,7 @@ class PasswordTestformfield extends StatelessWidget {
         contentPadding: EdgeInsets.only(top: 10, left: 20),
         fillColor: Colors.white,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide(color: Colors.white),
         ),
       ),
@@ -319,82 +322,31 @@ class Button extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: onPressed,
-        onLongPress: onLongPress,style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.yellow,
-          fixedSize: Size.fromWidth(200),foregroundColor: Colors.black,shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50)
-          )
-        ),
+        onLongPress: onLongPress,
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.yellow,
+            fixedSize: Size.fromWidth(200),
+            foregroundColor: Colors.black,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50))),
         child: child,
       ),
     );
   }
 }
-class Comment extends StatelessWidget {
-  const Comment({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-   
-    return DraggableScrollableSheet(builder: ( (context, scrollController) {
-      return
-       ListView.builder(controller: scrollController,itemCount: 5,itemBuilder: (ctx,index){
-return ListTile(
-title: Text('data'),
-);
-       });
 
-    }));
-  }
-}
 
-// PreferredSizeWidget appbar(Index,_searchController){
-//   return AppBar(
-//       automaticallyImplyLeading: false,
-//         backgroundColor: Colors.transparent,
-//         title: HeadingWithIcon(
-//           index: Index,
-//         ),
-//         // const Subtitle(words: 'Recent Blog posts'),
-//         bottom: PreferredSize(
-//           preferredSize: const Size.fromHeight(60),
-//           child: Padding(
-//             padding:
-//                 const EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 10),
-//             child: SizedBox(
-//               height: 40,
-//               child: TextFormField(
-//                 textAlignVertical: TextAlignVertical.center,
-//                 controller: _searchController,
-//                 decoration: InputDecoration(
-//                   contentPadding: EdgeInsets.all(10),
-//                   prefixIcon: Icon(Icons.search),
-//                   fillColor: Colors.white,
-//                   hintText: 'Search here ',
-//                   hintStyle: TextStyle(),
-//                   filled: true,
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(20),
-//                   ),
-//                 ),
-//                 onChanged: (value) {
-//                   setState(() {
-//                     performSearch();
-//                   });
-//                 },
-//               ),
-//             ),
-//           ),
-//         ),
-//   );
-// }
 class appBar extends StatefulWidget {
   int? Index;
   TextEditingController searchController;
   void Function() performSearch;
 
-
-   appBar({super.key,required this.Index,required this.searchController,required this.performSearch});
+  appBar(
+      {super.key,
+      required this.Index,
+      required this.searchController,
+      required this.performSearch});
 
   @override
   State<appBar> createState() => _appBarState();
@@ -405,44 +357,98 @@ class _appBarState extends State<appBar> {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        title: HeadingWithIcon(
-          index: widget.Index,
-        ),
-        // const Subtitle(words: 'Recent Blog posts'),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 10),
-            child: SizedBox(
-              height: 40,
-              child: TextFormField(
-                textAlignVertical: TextAlignVertical.center,
-                controller: widget. searchController,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(10),
-                  prefixIcon: Icon(Icons.search),
-                  fillColor: Colors.white,
-                  hintText: 'Search here ',
-                  hintStyle: TextStyle(),
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+      backgroundColor: Colors.transparent,
+      title: HeadingWithIcon(
+        index: widget.Index,
+      ),
+      // const Subtitle(words: 'Recent Blog posts'),
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 10),
+          child: SizedBox(
+            height: 40,
+            child: TextFormField(
+              textAlignVertical: TextAlignVertical.center,
+              controller: widget.searchController,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.all(10),
+                prefixIcon: Icon(Icons.search),
+                fillColor: Colors.white,
+                hintText: 'Search here ',
+                hintStyle: TextStyle(),
+                filled: true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                onChanged: (value) {
-                  setState(() {
-                    // performSearch();
-                  });
-                },
               ),
+              onChanged: (value) {
+                setState(() {
+                  // performSearch();
+                });
+              },
             ),
           ),
         ),
+      ),
     );
   }
 }
 
+class AppbarContainer extends StatelessWidget {
+  const AppbarContainer({
+    super.key,
+  });
 
-
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height / 7,
+          decoration: const BoxDecoration(
+              color:
+              // Color(0xFFC7D9E7),
+              Colors.yellow,
+              borderRadius:
+                  BorderRadius.only(bottomRight: Radius.circular(80))),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              heading(),
+            ],
+          ),
+        ),
+        Positioned(
+            left: 10,
+            top: 30,
+            child: IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+                weight: 5.0,
+              ),
+            )),
+        Positioned(
+          top: 30,
+          right: 20,
+          child: InkWell(
+            onLongPress: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (ctx) => AdminLogin())),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (ctx) => Menu()));
+                },
+                color: Colors.black,
+                icon: Icon(Icons.menu)),
+          ),
+        )
+      ],
+    );
+  }
+}

@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:blog_app/screens/Screens/Home.dart';
+import 'package:blog_app/screens/Screens/Blog/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 

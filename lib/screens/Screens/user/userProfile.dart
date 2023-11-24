@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: unused_field
 
 import 'dart:io';
 
-import 'package:blog_app/screens/Screens/favorites.dart';
+import 'package:blog_app/screens/Screens/Blog/favorites.dart';
+import 'package:blog_app/screens/Screens/user/editUserprofile.dart';
+import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -23,24 +25,26 @@ class _UserProfileState extends State<UserProfile> {
   XFile? _selectedImage;
   int? indx;
   int? index1;
+  userid? userlogged;
 
   @override
   void initState() {
     super.initState();
     userId = Hive.box('userid');
+    
     userIndexIdentification().then((value) {
       setState(() {
         indx = value;
       });
     });
-    imagePath = userId.get('imagePath');
+    // imagePath = userId.get('imagePath');
   }
 
   @override
   Widget build(BuildContext context) {
     final index = widget.index;
     final user = userId.getAt(indx ?? 0);
-    final imagePathForCurrentUser = userId.get(indx.toString());
+    userlogged = user;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -51,7 +55,7 @@ class _UserProfileState extends State<UserProfile> {
       ),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           Center(
@@ -59,37 +63,28 @@ class _UserProfileState extends State<UserProfile> {
               width: 200,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(30)),
-              child: InkWell(
-                onTap: () async {
-                  XFile? pickedImage = await pickImageFromGallery();
-                  setState(() {
-                    _selectedImage = pickedImage;
-                  });
-                },
-                child: _selectedImage != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: Image.file(
-                          File(_selectedImage!.path),
-                          fit: BoxFit.fitHeight,
-                        ),
+              child: user.profilePic != null
+                  ? CircleAvatar(
+                      radius: 60,
+                      backgroundImage: FileImage(File(userlogged!.profilePic!))
+                      // ),
                       )
-                    : imagePath != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.file(
-                              File(imagePathForCurrentUser.toString()),
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : Icon(Icons.add_a_photo),
-              ),
+                  : const Icon(Icons.add_a_photo),
             ),
           ),
-          SizedBox(height: 50),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (ctx) => EditProfile(
+                          index: indx!,
+                          user: user,
+                        )));
+              },
+              child: const Text('edit profile')),
+          const SizedBox(height: 50),
           Apptext(words: 'Name :  ${user.name}'),
           Apptext(words: 'Username :  ${user.username}'),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           InkWell(
@@ -101,7 +96,7 @@ class _UserProfileState extends State<UserProfile> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Apptext(words: 'favorites'),
-                Icon(
+                const Icon(
                   Icons.arrow_right_sharp,
                   size: 40,
                 ),
@@ -123,9 +118,6 @@ class _UserProfileState extends State<UserProfile> {
           imagePath = pickedImage.path;
         },
       );
-      //  final profilePic = userid(profilePic: imagePath, userIndex: indx);
-      userId.put(indx.toString(), imagePath!);
-      //  debugPrint('userindex.profilepic:  ${profilePic.userIndex?.toString()}');
     }
     return pickedImage;
   }

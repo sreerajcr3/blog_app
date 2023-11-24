@@ -1,18 +1,17 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'dart:io';
+import 'package:blog_app/Appfunctions/appfunctions.dart';
+import 'package:blog_app/screens/Screens/Blog/comment_page.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:blog_app/screens/Screens/BlogDetailPage.dart';
-import 'package:blog_app/screens/Screens/Loginpage.dart';
-import 'package:blog_app/screens/Screens/addBlog.dart';
-import 'package:blog_app/screens/Screens/editPage.dart';
+import 'package:blog_app/screens/Screens/Blog/BlogDetailPage.dart';
+import 'package:blog_app/screens/Screens/Blog/editPage.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   final int? index;
@@ -28,7 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
   late Box favoriteBox;
   late Box commentBox;
   late Box userId;
-  bool value = true;
+  bool iconValue = false;
+
   List<dynamic> _searchResults = [];
   int Index = 0;
   int? indx;
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
     commentBox = Hive.box('comment');
     userId = Hive.box('userid');
     _searchResults = [];
-     userIndexIdentification().then((value) {
+    userIndexIdentification().then((value) {
       setState(() {
         indx = value;
       });
@@ -68,9 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final Index = widget.index;
-    print("Home Screen Index -${indx}");
-    //  performSearch();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -79,7 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
         title: HeadingWithIcon(
           index: indx,
         ),
-        // const Subtitle(words: 'Recent Blog posts'),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: Padding(
@@ -111,12 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //    Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>SignUp()));
-      //   },
-      //   child: Icon(Icons.add),
-      // ),
+
       backgroundColor: Colors.black,
 
       body: Container(
@@ -163,7 +154,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         // var blog = blogBox.getAt(reversedIndex);
                         var blog = blogBox.getAt(index);
                         String imagePath = blog.imagePath;
-                        return GestureDetector(
+
+                        return InkWell(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (ctx) => BlogPage(blog: blog)));
@@ -207,39 +199,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     )),
                                               ),
                                               Positioned(
-                                                  right: 20,
-                                                  top: 20,
-                                                  child: IconButton(
-                                                      onPressed: () {
-                                                        setState(
-                                                          () {
-                                                            final values =
-                                                                favorites(
-                                                              userIndex:indx??0
-                                                                  ,
-                                                              blogId: Blog(
-                                                                  date:
-                                                                      blog.date,
-                                                                  title: blog
-                                                                      .title,
-                                                                  imagePath:
-                                                                      imagePath,
-                                                                  description: blog
-                                                                      .description),
-                                                            );
-                                                            blog.isFavorite =
-                                                                !blog
-                                                                    .isFavorite;
-
-                                                                   blog.isFavorite?favoriteBox.add(values):favoriteBox.deleteAt(index);
-                                                            
-                                                          },
+                                                right: 20,
+                                                top: 20,
+                                                child: IconButton(
+                                                  onPressed: () {
+                                                    setState(
+                                                      () {
+                                                        final values =
+                                                            favorites(
+                                                          userIndex: indx ?? 0,
+                                                          blogId: Blog(
+                                                              date: blog.date,
+                                                              title: blog.title,
+                                                              imagePath:
+                                                                  imagePath,
+                                                              description: blog
+                                                                  .description),
                                                         );
+                                                        blog.isFavorite =
+                                                            !blog.isFavorite;
+
+                                                        blog.isFavorite
+                                                            ? favoriteBox
+                                                                .add(values)
+                                                            : favoriteBox
+                                                                .deleteAt(
+                                                                    index);
                                                       },
-                                                      icon: Icon(Icons.favorite,
-                                                          color: blog.isFavorite
-                                                              ? Colors.red
-                                                              : Colors.white))),
+                                                    );
+                                                  },
+                                                  icon: Icon(Icons.favorite,
+                                                      color: blog.isFavorite
+                                                          ? Colors.red
+                                                          : Colors.white),
+                                                ),
+                                              ),
                                             ],
                                           ),
                                         ),
@@ -273,36 +267,33 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   trimmed: true,
                                                 ),
                                               ),
-                                              IconButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).push(
-                                                        MaterialPageRoute(
+                                              indx == blog.userIndex
+                                                  ? IconButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .push(
+                                                          MaterialPageRoute(
                                                             builder: (ctx) =>
                                                                 EditPage(
-                                                                  selectedDate:
-                                                                      blog.date,
-                                                                  title: blog
-                                                                      .title,
-                                                                  description: blog
-                                                                      .description,
-                                                                  image: blog
-                                                                      .imagePath,
-                                                                  blog: blog,
-                                                                  index: index,
-                                                                )));
-                                                  },
-                                                  icon: Icon(Icons.edit)),
+                                                              selectedDate:
+                                                                  blog.date,
+                                                              title: blog.title,
+                                                              description: blog
+                                                                  .description,
+                                                              image: blog
+                                                                  .imagePath,
+                                                              blog: blog,
+                                                              index: index,
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      icon: Icon(Icons.edit))
+                                                  : SizedBox(),
                                               IconButton(
                                                   onPressed: () {
-                                                    // Navigator.of(context).push(
-                                                    //     MaterialPageRoute(
-                                                    //         builder: (ctx) =>
-                                                    //             Favorites(
-                                                    //               index: widget
-                                                    //                   .index,
-                                                    //             )));
-                                                    // Comment();
-                                                    _showCommentsSheet();
+                                                   // _showCommentsSheet();
+                                                   Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>CommentPage(blogIndex: index,)));
                                                   },
                                                   icon: Icon(Icons.list))
                                             ],
@@ -347,83 +338,65 @@ class _HomeScreenState extends State<HomeScreen> {
       ), //
     );
   }
-   Future<int> userIndexIdentification() async {
-    debugPrint('f:widget.index: ${widget.index}');
-    final sharedprefsUser = await SharedPreferences.getInstance();
-    final u = sharedprefsUser.getInt('userindex');
-    debugPrint('sharedprefsuserindex : $u');
-    return u!;
-  }
 
-  Future<void> checkLoggedin() async {
-    final index = widget.index;
-    final sharedprefs = await SharedPreferences.getInstance();
-    final userLoggedIn = sharedprefs.getBool(savedkey);
-    if (userLoggedIn == false || userLoggedIn == null) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
-    } else {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (ctx) => AddBlog(
-                index: index,
-              )));
-    }
-  }
+ 
 
-  void _showCommentsSheet() {
-    int? index = widget.index;
 
-    _scaffoldKey.currentState?.showBottomSheet(
-      (context) {
-        return DraggableScrollableSheet(
-          shouldCloseOnMinExtent: true,
-          builder: (BuildContext context, ScrollController scrollController) {
-            return Container(
-              color: Colors.black,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      controller: scrollController,
-                      itemCount: commentBox.length,
-                      itemBuilder: (BuildContext context, int commentIndex) {
-                        final comment = commentBox.getAt(commentIndex);
-                        final user = userId.getAt(commentIndex);
 
-                        return ListTile(
-                          title: Text(
-                            user?.name ?? 'Unknown User',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                          subtitle: Text(
-                            comment?.text ?? '',
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  TextFormField(
-                    controller: commentController,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          final comments = commentController.text;
-                          final user = userId.getAt(index!);
-                          final userName = user?.name ?? 'Unknown User';
-                          final commentDatas = commentData(userName, comments);
-                          commentBox.add(commentDatas);
-                        },
-                        icon: Icon(Icons.send),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
+  // void _showCommentsSheet() {
+  //   int? index = widget.index;
+
+  //   _scaffoldKey.currentState?.showBottomSheet(
+  //     (context) {
+  //       return DraggableScrollableSheet(
+  //         shouldCloseOnMinExtent: true,
+  //         builder: (BuildContext context, ScrollController scrollController) {
+  //           return Container(
+  //             color: Colors.black,
+  //             child: Column(
+  //               children: [
+  //                 Expanded(
+  //                   child: ListView.builder(
+  //                     controller: scrollController,
+  //                     itemCount: commentBox.length,
+  //                     itemBuilder: (BuildContext context, int commentIndex) {
+  //                       final comment = commentBox.getAt(commentIndex);
+  //                       final user = userId.getAt(commentIndex);
+
+  //                       return ListTile(
+  //                         title: Text(
+  //                           user?.name ?? 'Unknown User',
+  //                           style: TextStyle(color: Colors.green),
+  //                         ),
+  //                         subtitle: Text(
+  //                           comment?.text ?? '',
+  //                           style: TextStyle(color: Colors.green),
+  //                         ),
+  //                       );
+  //                     },
+  //                   ),
+  //                 ),
+  //                 TextFormField(
+  //                   controller: commentController,
+  //                   decoration: InputDecoration(
+  //                     suffixIcon: IconButton(
+  //                       onPressed: () {
+  //                         final comments = commentController.text;
+  //                         final user = userId.getAt(index!);
+  //                         final userName = user?.name ?? 'Unknown User';
+  //                         final commentDatas = commentData(userName, comments);
+  //                         commentBox.add(commentDatas);
+  //                       },
+  //                       icon: Icon(Icons.send),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 }

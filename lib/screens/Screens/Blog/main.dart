@@ -1,8 +1,9 @@
 
 // ignore_for_file: prefer_const_constructors
 
-import 'package:blog_app/screens/Screens/splashscreen.dart';
+import 'package:blog_app/screens/Screens/Blog/splashscreen.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
+import 'package:blog_app/screens/model/comment_model.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -16,8 +17,8 @@ void main() async{
   Hive.initFlutter('Hive_db');
   Hive.registerAdapter<Blog>(BlogAdapter());
   Hive.registerAdapter(useridAdapter());
-  Hive.registerAdapter(commentDataAdapter());
   Hive.registerAdapter(favoritesAdapter());
+  Hive.registerAdapter(CommentAdapter());
   
   await Hive.openBox('blog');
   await Hive.openBox('nature');

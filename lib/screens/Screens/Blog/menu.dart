@@ -1,15 +1,13 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
-import 'package:blog_app/screens/Screens/Home.dart';
-import 'package:blog_app/screens/Screens/Loginpage.dart';
-import 'package:blog_app/screens/Screens/addBlog.dart';
-import 'package:blog_app/screens/Screens/categories.dart';
-import 'package:blog_app/screens/Screens/signup.dart';
-import 'package:blog_app/screens/Screens/userProfile.dart';
+import 'package:blog_app/Appfunctions/appfunctions.dart';
+import 'package:blog_app/screens/Screens/Blog/Home.dart';
+import 'package:blog_app/screens/Screens/user/Loginpage.dart';
+import 'package:blog_app/screens/Screens/Blog/categories.dart';
+import 'package:blog_app/screens/Screens/user/signup.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Menu extends StatefulWidget {
   final int? index;
@@ -70,7 +68,7 @@ class _MenuState extends State<Menu> {
                     AppText(
                         words: 'Create your own Blog',
                         action: () {
-                          checkLoggedin();
+                          checkLoggedin(context);
                         }),
                     SizedBox(
                       height: 30,
@@ -144,7 +142,7 @@ class _MenuState extends State<Menu> {
                     AppText(
                         words: 'Profile',
                         action: () {
-                          checkLoggedinProfile();
+                        checkLoggedinProfile(context);
                         })
                   ],
                 ),
@@ -156,31 +154,7 @@ class _MenuState extends State<Menu> {
     );
   }
 
-  Future<void> checkLoggedin() async {
-    final index = widget.index;
-    final sharedprefs = await SharedPreferences.getInstance();
-    final userLoggedIn = sharedprefs.getBool(savedkey);
-    if (userLoggedIn == false || userLoggedIn == null) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
-    } else {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (ctx) => AddBlog(
-                index: index,
-              )));
-    }
-  }
+ 
 
-  Future<void> checkLoggedinProfile() async {
-    // final index = widget.index;
-    final sharedprefs = await SharedPreferences.getInstance();
-    final userLoggedIn = sharedprefs.getBool(savedkey);
-    if (userLoggedIn == false || userLoggedIn == null) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
-    } else {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (ctx) => UserProfile(index: widget.index,)));
-    }
-  }
+ 
 }

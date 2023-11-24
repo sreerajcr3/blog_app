@@ -92,8 +92,13 @@ class _BlogPageState extends State<BlogPage> {
                               words: widget.blog.description,
                               trimmed: true,
                             ),
-                            Divider(color: Colors.white54,),
-                            footerText(words: 'Copyright © owned by Sreeraj CR')
+                        //    Spacer(),
+                             Column(
+                               children: const [
+                                 Divider(color: Colors.white54,),
+                               ],
+                             ),
+                             footerText(words: 'Copyright © owned by Sreeraj CR'),
                           ],
                         ),
                       ),

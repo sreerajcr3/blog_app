@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -33,16 +35,7 @@ class userid extends HiveObject {
       this.password});
 }
 
-@HiveType(typeId: 4)
-class commentData extends HiveObject {
-  @HiveField(0)
-  final String userName;
 
-  @HiveField(1)
-  final String comment;
-
-  commentData(this.userName, this.comment);
-}
 
 @HiveType(typeId: 2)
 class favorites extends HiveObject {

@@ -2,7 +2,6 @@
 import 'dart:io';
 
 import 'package:blog_app/Databse/functions.dart';
-import 'package:blog_app/screens/Screens/Loginpage.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddBlog extends StatefulWidget {
-   final int? index;
-  const AddBlog({super.key,this.index});
+  final int? index;
+  const AddBlog({super.key, this.index});
 
   @override
   State<AddBlog> createState() => _AddBlogState();
@@ -35,11 +34,7 @@ class _AddBlogState extends State<AddBlog> {
   String? imagePath;
   int id = 0;
   var _selectedDate = DateTime.now();
-
-  // String? A = 'A';
-  final String B = 'B';
-  // String? C = 'C';
-  // String? D = 'D';
+  int? indx;
 
   String? _selectedValue = 'A';
   String? selectedCategory;
@@ -52,15 +47,22 @@ class _AddBlogState extends State<AddBlog> {
     entertainmentBox = Hive.box('entertainment');
     scienceBox = Hive.box('science');
     politicsBox = Hive.box('politics');
+    userIndexIdentification().then((value) {
+      setState(() {
+        indx = value;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-      final index = widget.index;
+    final index = widget.index;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title:  HeadingWithIcon(index: index,),
+        title: HeadingWithIcon(
+          index: index,
+        ),
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
@@ -290,8 +292,9 @@ class _AddBlogState extends State<AddBlog> {
           date: _selectedDate.toString(),
           title: titleContoller.text,
           imagePath: imagePath!,
-          description: descriptionController.text);
-       // print("widget.index-${widget.index}");
+          description: descriptionController.text,
+          userIndex: indx);
+
       saveBlog(blogData, selectedCategory, getCopy, context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -303,24 +306,19 @@ class _AddBlogState extends State<AddBlog> {
     }
   }
 
-  // Future<void> checkLoggedin() async {
-  //  // final index = widget.index;
-  //   final sharedprefs = await SharedPreferences.getInstance();
-  //   final userLoggedIn = sharedprefs.getBool(savedkey);
-  //   if (userLoggedIn == false || userLoggedIn == null) {
-  //     Navigator.of(context)
-  //         .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
-  //   } else {
-  //     Navigator.of(context)
-  //         .pushReplacement(MaterialPageRoute(builder: (ctx) => AddBlog( index: widget.index,)));
-  //   }
-  // }
-
   Blog getCopy() {
     return Blog(
         date: _selectedDate.toString(),
         title: titleContoller.text,
         imagePath: imagePath!,
         description: descriptionController.text);
+  }
+
+  Future<int> userIndexIdentification() async {
+    debugPrint('f:widget.index: ${widget.index}');
+    final sharedprefsUser = await SharedPreferences.getInstance();
+    final u = sharedprefsUser.getInt('userindex');
+    debugPrint('sharedprefsuserindex : $u');
+    return u!;
   }
 }

@@ -2,10 +2,10 @@
 
 import 'dart:io';
 
-import 'package:blog_app/screens/Screens/BlogDetailPage.dart';
-import 'package:blog_app/screens/Screens/Loginpage.dart';
-import 'package:blog_app/screens/Screens/addBlog.dart';
-import 'package:blog_app/screens/Screens/editPage.dart';
+import 'package:blog_app/screens/Screens/Blog/BlogDetailPage.dart';
+import 'package:blog_app/screens/Screens/user/Loginpage.dart';
+import 'package:blog_app/screens/Screens/Blog/addBlog.dart';
+import 'package:blog_app/screens/Screens/Blog/editPage.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
@@ -167,7 +167,12 @@ class _CategoriesState extends State<Categories> {
                                     children: [
                                       Flexible(
                                           child: DescriptionText(
-                                              words: blog.description)),
+                                            trimmed: true,
+                                                words: blog.description,
+                                                softwrap: false,
+                                                maxLines: 3,
+                                                overflow: TextOverflow.ellipsis,
+                                             )),
                                     ],
                                   ),
                                 ],
