@@ -368,64 +368,7 @@ class Button extends StatelessWidget {
   }
 }
 
-class appBar extends StatefulWidget {
-  int? Index;
-  TextEditingController searchController;
-  void Function() performSearch;
 
-  appBar(
-      {super.key,
-      required this.Index,
-      required this.searchController,
-      required this.performSearch});
-
-  @override
-  State<appBar> createState() => _appBarState();
-}
-
-class _appBarState extends State<appBar> {
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      backgroundColor: Colors.transparent,
-      title: HeadingWithIcon(
-        index: widget.Index,
-      ),
-      // const Subtitle(words: 'Recent Blog posts'),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: Padding(
-          padding:
-              const EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 10),
-          child: SizedBox(
-            height: 40,
-            child: TextFormField(
-              textAlignVertical: TextAlignVertical.center,
-              controller: widget.searchController,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(10),
-                prefixIcon: Icon(Icons.search),
-                fillColor: Colors.white,
-                hintText: 'Search here ',
-                hintStyle: TextStyle(),
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              onChanged: (value) {
-                setState(() {
-                  // performSearch();
-                });
-              },
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class AppbarContainer extends StatelessWidget {
   const AppbarContainer({
