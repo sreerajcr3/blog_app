@@ -1,7 +1,6 @@
 // ignore_for_file: camel_case_types
 
 import 'package:blog_app/screens/model/blogModel.dart';
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'useridModel.g.dart';
@@ -46,7 +45,7 @@ class favorites extends HiveObject {
   int userIndex;
   
   String get title => blogId!.title;
-  Image get imagePath => Image.network(blogId!.imagePath);
+  String get imagePath => blogId!.imagePath;
 
   favorites({this.blogId, required this.userIndex});
 }

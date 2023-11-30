@@ -3,10 +3,9 @@
 import 'dart:io';
 import 'package:blog_app/Appfunctions/appfunctions.dart';
 import 'package:blog_app/screens/Screens/Blog/comment_page.dart';
+import 'package:blog_app/screens/Screens/Blog/widgets/widget.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:blog_app/screens/Screens/Blog/BlogDetailPage.dart';
 import 'package:blog_app/screens/Screens/Blog/editPage.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
@@ -14,9 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class HomeScreen extends StatefulWidget {
-  final int? index;
-
-  const HomeScreen({super.key, this.index});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -55,13 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void performSearch() {
     if (_searchController.text.isNotEmpty) {
       _searchResults = blogBox.values
-          .where((blog) =>
-              blog.title.toLowerCase().contains(
-                    _searchController.text.toLowerCase(),
-                  ) ||
-              blog.description.toLowerCase().contains(
-                    _searchController.text.toLowerCase(),
-                  ))
+          .where((blog) => blog.title.toLowerCase().contains(
+                _searchController.text.toLowerCase(),
+              ))
           .toList();
     }
   }
@@ -109,294 +104,206 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
 
       backgroundColor: Colors.black,
-
       body: Container(
-        child: _searchController.text.isNotEmpty
-            ? _searchResults.isEmpty
-                ? Center(
-                    child: Text('Sorry, No results found'),
-                  )
-                : ListView.builder(
-                    itemCount: _searchResults.length,
-                    itemBuilder: (context, index) {
-                      final blog = _searchResults[index];
+          child: blogBox.isNotEmpty
+              ? _searchController.text.isNotEmpty
+                  ? _searchResults.isEmpty
+                      ? Center(
+                          child: Text('Sorry, No results found'),
+                        )
+                      : ListView.builder(
+                          itemCount: _searchResults.length,
+                          itemBuilder: (context, index) {
+                            final blog = _searchResults[index];
 
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (ctx) => BlogPage(
-                                      blog: blog,
-                                    )));
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (ctx) => BlogPage(
+                                            blog: blog,
+                                          )));
+                                },
+                                child: ListTile(
+                                  title: Text(
+                                    blog.title,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  leading: SizedBox(
+                                      width: 80,
+                                      child: Image.file(File(blog.imagePath))),
+                                ),
+                              ),
+                            );
                           },
-                          child: ListTile(
-                            title: Text(
-                              blog.title,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            leading: SizedBox(
-                                width: 80,
-                                child: Image.file(File(blog.imagePath))),
-                          ),
-                        ),
-                      );
-                    },
-                  )
-            : Column(
-                children: [
-                  Flexible(
-                    child: ListView.builder(
-                      itemCount: blogBox.length,
-                      itemBuilder: (ctx, index) {
-                        // var reversedIndex =
-                        //     blogBox.length - 1 - index; // Reverse the index
-                        // var blog = blogBox.getAt(reversedIndex);
-                        var blog = blogBox.getAt(index);
-                        String imagePath = blog.imagePath;
+                        )
+                  : Column(
+                      children: [
+                        Flexible(
+                          child: ListView.builder(
+                            itemCount: blogBox.length,
+                            itemBuilder: (ctx, index) {
+                              // var reversedIndex =
+                              //     blogBox.length - 1 - index; // Reverse the index
+                              // var blog = blogBox.getAt(reversedIndex);
+                              var blog = blogBox.getAt(index);
+                              String imagePath = blog.imagePath;
 
-                        return InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (ctx) => BlogPage(blog: blog)));
-                          },
-                          child: Card(
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration:
-                                      BoxDecoration(color: Colors.black),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        const Align(
-                                            alignment: Alignment.topLeft,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                            )),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Stack(
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (ctx) => BlogPage(blog: blog)));
+                                },
+                                child: Card(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        decoration:
+                                            BoxDecoration(color: Colors.black),
+                                        child: SingleChildScrollView(
+                                          child: Column(
                                             children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: Colors
-                                                          .transparent, // Removes the border
-                                                      width: 0.0,
+                                              Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Stack(
+                                                  children: [
+                                                    ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30),
+                                                        child: Image.file(
+                                                          File(imagePath),
+                                                          fit: BoxFit.fill,
+                                                        )),
+                                                    Positioned(
+                                                      right: 20,
+                                                      top: 20,
+                                                      child: IconButton(
+                                                        onPressed: () {
+                                                          setState(
+                                                            () {
+                                                              final values =
+                                                                  favorites(
+                                                                userIndex:
+                                                                    indx ?? 0,
+                                                                blogId: Blog(
+                                                                    date: blog
+                                                                        .date,
+                                                                    title: blog
+                                                                        .title,
+                                                                    imagePath:
+                                                                        imagePath,
+                                                                    description:
+                                                                        blog.description),
+                                                              );
+                                                              blog.isFavorite =
+                                                                  !blog
+                                                                      .isFavorite;
+
+                                                              blog.isFavorite
+                                                                  ? favoriteBox
+                                                                      .add(
+                                                                          values)
+                                                                  : favoriteBox
+                                                                      .deleteAt(
+                                                                          index);
+                                                            },
+                                                          );
+                                                        },
+                                                        icon: Icon(
+                                                            Icons.favorite,
+                                                            color: blog
+                                                                    .isFavorite
+                                                                ? Colors.red
+                                                                : Colors.white,size: 33,),
+                                                      ),
                                                     ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                height: 250,
-                                                child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            30),
-                                                    child: Image.file(
-                                                      File(imagePath),
-                                                      fit: BoxFit.fill,
-                                                    )),
-                                              ),
-                                              Positioned(
-                                                right: 20,
-                                                top: 20,
-                                                child: IconButton(
-                                                  onPressed: () {
-                                                    setState(
-                                                      () {
-                                                        final values =
-                                                            favorites(
-                                                          userIndex: indx ?? 0,
-                                                          blogId: Blog(
-                                                              date: blog.date,
-                                                              title: blog.title,
-                                                              imagePath:
-                                                                  imagePath,
-                                                              description: blog
-                                                                  .description),
-                                                        );
-                                                        blog.isFavorite =
-                                                            !blog.isFavorite;
-
-                                                        blog.isFavorite
-                                                            ? favoriteBox
-                                                                .add(values)
-                                                            : favoriteBox
-                                                                .deleteAt(
-                                                                    index);
-                                                      },
-                                                    );
-                                                  },
-                                                  icon: Icon(Icons.favorite,
-                                                      color: blog.isFavorite
-                                                          ? Colors.red
-                                                          : Colors.white),
+                                                  ],
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 13, top: 15),
-                                              child: Text(
-                                                DateFormat('d MMM y').format(
-                                                  DateTime.parse(blog.date),
-                                                ),
-                                                style: GoogleFonts.poppins(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.yellow),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: TitleText(
-                                                  words: blog.title,
-                                                  trimmed: true,
-                                                ),
-                                              ),
-                                              indx == blog.userIndex
-                                                  ? IconButton(
+                                              date(blog),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Expanded(
+                                                    child: TitleText(
+                                                      words: blog.title,
+                                                      trimmed: true,
+                                                    ),
+                                                  ),
+                                                  indx == blog.userIndex
+                                                      ? IconButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .push(
+                                                              MaterialPageRoute(
+                                                                builder: (ctx) =>
+                                                                    EditPage(
+                                                                  selectedDate:
+                                                                      blog.date,
+                                                                  title: blog
+                                                                      .title,
+                                                                  description: blog
+                                                                      .description,
+                                                                  image: blog
+                                                                      .imagePath,
+                                                                  blog: blog,
+                                                                  index: index,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                          icon:
+                                                              Icon(Icons.edit))
+                                                      : SizedBox(),
+                                                  IconButton(
                                                       onPressed: () {
-                                                        Navigator.of(context)
-                                                            .push(
-                                                          MaterialPageRoute(
-                                                            builder: (ctx) =>
-                                                                EditPage(
-                                                              selectedDate:
-                                                                  blog.date,
-                                                              title: blog.title,
-                                                              description: blog
-                                                                  .description,
-                                                              image: blog
-                                                                  .imagePath,
-                                                              blog: blog,
-                                                              index: index,
-                                                            ),
-                                                          ),
-                                                        );
+                                                        Navigator.of(context).push(
+                                                            MaterialPageRoute(
+                                                                builder: (ctx) =>
+                                                                    CommentPage(
+                                                                      blogIndex:
+                                                                          index,
+                                                                    )));
                                                       },
-                                                      icon: Icon(Icons.edit))
-                                                  : SizedBox(),
-                                              IconButton(
-                                                  onPressed: () {
-                                                   // _showCommentsSheet();
-                                                   Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>CommentPage(blogIndex: index,)));
-                                                  },
-                                                  icon: Icon(Icons.list))
-                                            ],
-                                          ),
-                                        ),
-                                        Align(
-                                          alignment: Alignment.bottomLeft,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10),
-                                            ),
-                                          ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Flexible(
-                                              child: DescriptionText(
+                                                      icon: Icon(
+                                                          Icons.comment_sharp))
+                                                ],
+                                              ),
+                                              DescriptionText(
                                                 trimmed: true,
                                                 words: blog.description,
                                                 softwrap: false,
                                                 maxLines: 3,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-      ), //
+                        ),
+                      ],
+                    )
+              : Center(
+                  child: AppText(
+                      words: 'Add new Blog? Click here..!',
+                      action: () {
+                        checkLoggedin(context);
+                      }))), //
     );
   }
-
- 
-
-
-
-  // void _showCommentsSheet() {
-  //   int? index = widget.index;
-
-  //   _scaffoldKey.currentState?.showBottomSheet(
-  //     (context) {
-  //       return DraggableScrollableSheet(
-  //         shouldCloseOnMinExtent: true,
-  //         builder: (BuildContext context, ScrollController scrollController) {
-  //           return Container(
-  //             color: Colors.black,
-  //             child: Column(
-  //               children: [
-  //                 Expanded(
-  //                   child: ListView.builder(
-  //                     controller: scrollController,
-  //                     itemCount: commentBox.length,
-  //                     itemBuilder: (BuildContext context, int commentIndex) {
-  //                       final comment = commentBox.getAt(commentIndex);
-  //                       final user = userId.getAt(commentIndex);
-
-  //                       return ListTile(
-  //                         title: Text(
-  //                           user?.name ?? 'Unknown User',
-  //                           style: TextStyle(color: Colors.green),
-  //                         ),
-  //                         subtitle: Text(
-  //                           comment?.text ?? '',
-  //                           style: TextStyle(color: Colors.green),
-  //                         ),
-  //                       );
-  //                     },
-  //                   ),
-  //                 ),
-  //                 TextFormField(
-  //                   controller: commentController,
-  //                   decoration: InputDecoration(
-  //                     suffixIcon: IconButton(
-  //                       onPressed: () {
-  //                         final comments = commentController.text;
-  //                         final user = userId.getAt(index!);
-  //                         final userName = user?.name ?? 'Unknown User';
-  //                         final commentDatas = commentData(userName, comments);
-  //                         commentBox.add(commentDatas);
-  //                       },
-  //                       icon: Icon(Icons.send),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
 }

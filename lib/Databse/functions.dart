@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:blog_app/screens/Screens/Blog/Home.dart';
+import 'package:blog_app/screens/Screens/user/Loginpage.dart';
+import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -38,7 +40,6 @@ Future<void> updateBlog(index, value, context) async {
   scienceBox.putAt(index, value);
   natureBox.putAt(index, value);
   politics.putAt(index, value);
-  
 
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text('updated successfully'),
@@ -92,4 +93,24 @@ void saveBlog(blogData, selectedCategory, getCopy, context) {
     backgroundColor: Colors.blue,
     margin: EdgeInsets.all(20),
   ));
+}
+
+saveUserId(_key, _nameController, _usernameController, _passwordController,
+    context, userId) {
+  _key.currentState!.validate();
+  final id = userid(
+      name: _nameController.text,
+      username: _usernameController.text,
+      password: _passwordController.text);
+  if (id.name!.isNotEmpty &&
+      id.username!.isNotEmpty &&
+      id.password!.isNotEmpty) {
+    userId.add(id);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
+  }
+
+  _nameController.clear();
+  _usernameController.clear();
+  _passwordController.clear();
 }

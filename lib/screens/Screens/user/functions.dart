@@ -62,7 +62,7 @@ Future<int?> identifyUserIndex(
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (ctx) => HomeScreen(
-            index: index,
+           // index: index,
           ),
         ),
       );

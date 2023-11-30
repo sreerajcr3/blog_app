@@ -55,8 +55,6 @@ class useridAdapter extends TypeAdapter<userid> {
           typeId == other.typeId;
 }
 
-
-
 class favoritesAdapter extends TypeAdapter<favorites> {
   @override
   final int typeId = 2;

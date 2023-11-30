@@ -1,0 +1,260 @@
+// ignore_for_file: must_be_immutable, no_leading_underscores_for_local_identifiers
+
+import 'package:blog_app/Databse/functions.dart';
+import 'package:blog_app/screens/Screens/Blog/Home.dart';
+import 'package:blog_app/screens/model/blogModel.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+
+class SearchTextFormField extends StatelessWidget {
+  // ignore: non_constant_identifier_names
+  final TextEditingController Controller;
+  void Function(String) onChanged;
+
+  SearchTextFormField(
+      {super.key, required this.Controller, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 30, right: 30, top: 15, bottom: 10),
+      child: SizedBox(
+        height: 40,
+        child: TextFormField(
+          controller: Controller,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.all(10),
+            prefixIcon: const Icon(Icons.search),
+            fillColor: Colors.white,
+            hintText: 'Search here',
+            hintStyle: const TextStyle(),
+            filled: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          onChanged: onChanged,
+        ),
+      ),
+    );
+  }
+}
+
+Row date(blog) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(left: 17, top: 15),
+        child: Text(
+          DateFormat('d MMM y').format(
+            DateTime.parse(blog.date),
+          ),
+          style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500, color: Colors.yellow),
+        ),
+      ),
+    ],
+  );
+}
+
+Future deleteDialog(context, widget, index) {
+  return showDialog(
+    context: context,
+    builder: ((context) {
+      return AlertDialog(
+        title: const Text('Do you want to delete?'),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('cancel')),
+          TextButton(
+              onPressed: () {
+                deleteBlog(widget.index);
+
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (ctx) => const HomeScreen(
+                        // index: index,
+                        )));
+                ScaffoldMessenger.of(context).clearSnackBars();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('deleted succesfully'),
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              },
+              child: const Text('ok'))
+        ],
+      );
+    }),
+  );
+}
+
+class DeleteBlog extends StatelessWidget {
+  const DeleteBlog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+deleteButton(context, index) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 150, right: 150),
+    child: ElevatedButton(
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: ((context) {
+                return AlertDialog(
+                  title: const Text('Do you want to delete?'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('cancel')),
+                    TextButton(
+                        onPressed: () {
+                          deleteBlog(index);
+
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                                  builder: (ctx) => const HomeScreen(
+                                      //  index: index
+                                      )));
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('deleted succesfully'),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        },
+                        child: const Text('ok'))
+                  ],
+                );
+              }));
+        },
+        style: ElevatedButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            fixedSize: const Size(20, 10),
+            backgroundColor: Colors.yellow,
+            foregroundColor: Colors.black),
+        child: const Text('delete')),
+  );
+}
+
+Widget updateButton(_updatedImage, selectedDate, _titleController,
+    _descriptionController, index, context, imagePath, _key) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 150, right: 150),
+    child: ElevatedButton(
+        onPressed: () {
+          if (_key.currentState!.validate()) {
+            final updatedImagePath = _updatedImage?.path ?? imagePath;
+            final value = Blog(
+                date: selectedDate.toString(),
+                title: _titleController.text,
+                imagePath: updatedImagePath,
+                description: _descriptionController.text);
+
+            updateBlog(index, value, context);
+            // updateBlog(index,value,context);
+
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => const HomeScreen(
+                    // index: index,
+                    )));
+          }
+        },
+        style: ElevatedButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            fixedSize: const Size(20, 10),
+            backgroundColor: Colors.yellow,
+            foregroundColor: Colors.black),
+        child: const Text('update')),
+  );
+}
+
+editPageDescriptionfield(_descriptionController) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: TextFormField(
+      maxLines: null,
+      minLines: 3,
+      controller: _descriptionController,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Description required";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.white),
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget editPageTitleField(_titleController) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: TextFormField(
+      controller: _titleController,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Title required";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.white),
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+    ),
+  );
+}
+
+DateButton(context, selectedDate,setStateCallback) {
+  return ElevatedButton(
+      onPressed: () async {
+        final DateTime? dateTime = await showDatePicker(
+            context: context,
+            initialDate: selectedDate,
+            firstDate: DateTime(2000),
+            lastDate: DateTime(3000));
+
+        setStateCallback(() {
+          selectedDate = dateTime!;
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusDirectional.circular(30),
+        ),
+        side: const BorderSide(width: 2, color: Colors.white),
+        backgroundColor: Colors.transparent,
+      ),
+      child: const Text('Select date'));
+}
+
+

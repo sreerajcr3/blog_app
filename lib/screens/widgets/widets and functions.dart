@@ -2,6 +2,7 @@
 
 import 'package:blog_app/screens/Screens/Admin/adminlogin.dart';
 import 'package:blog_app/screens/Screens/Blog/menu.dart';
+import 'package:blog_app/screens/Screens/user/Loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +15,7 @@ Widget heading() {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'THE ',
+            " BLOGGER'S ",
             style: GoogleFonts.breeSerif(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -22,7 +23,7 @@ Widget heading() {
                     color: Colors.black)),
           ),
           Text(
-            'BLOG',
+            'CORNER',
             style: GoogleFonts.breeSerif(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -49,7 +50,7 @@ class HeadingWithIcon extends StatelessWidget {
           Row(
             children: [
               Text(
-                'THE ',
+                " BLOGGER'S ",
                 style: GoogleFonts.breeSerif(
                     textStyle: const TextStyle(
                   fontWeight: FontWeight.w600,
@@ -57,7 +58,7 @@ class HeadingWithIcon extends StatelessWidget {
                 )),
               ),
               Text(
-                'BLOG',
+                'CORNER',
                 style: GoogleFonts.breeSerif(
                   textStyle: const TextStyle(
                       fontWeight: FontWeight.w600,
@@ -69,25 +70,19 @@ class HeadingWithIcon extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10),
-            child: InkWell(
-              onLongPress: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (ctx) => AdminLogin()));
-              },
-              child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (ctx) => Menu(index: index),
-                      ),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                    size: 30,
-                  )),
-            ),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) => Menu(index: index),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                  size: 30,
+                )),
           ),
         ],
       ),
@@ -95,17 +90,46 @@ class HeadingWithIcon extends StatelessWidget {
   }
 }
 
-Widget Apptext({
-  required String? words,
-}) {
-  return Padding(
-    padding: const EdgeInsets.all(15.0),
-    child: Text(
-      words!,
-      style: GoogleFonts.poppins(fontSize: 20),
-    ),
-  );
+// Widget Apptext({
+//   required String words,
+// }) {
+//     final trimmedtext = words.trim();
+//    final word =trimmedtext.isNotEmpty? trimmedtext[0].toUpperCase()+trimmedtext.substring(1):trimmedtext;
+//   return Padding(
+//     padding: const EdgeInsets.all(15.0),
+  
+//     child: Text(
+//       word,
+//       style: GoogleFonts.poppins(fontSize: 20),
+//     ),
+//   );
+// }
+
+
+class Apptext extends StatelessWidget {
+  final String words;
+  final bool trimmed;
+  const Apptext({super.key, required this.words, this.trimmed = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final trimmedtext = trimmed ? words.trim() : words;
+    final word = trimmedtext.isNotEmpty
+        ? trimmedtext[0].toUpperCase() + trimmedtext.substring(1)
+        : trimmedtext;
+    return Padding(
+      padding: const EdgeInsets.only(left: 19, top: 10, bottom: 15),
+      child: Text(
+        word,
+       style: GoogleFonts.poppins(fontSize: 20),
+     
+      ),
+    );
+  }
 }
+
+
+
 
 class AppText extends StatelessWidget {
   final String words;
@@ -124,11 +148,7 @@ class AppText extends StatelessWidget {
   }
 }
 
-Future<void> signout() async {
-  final sharedprefs = await SharedPreferences.getInstance();
 
-  sharedprefs.clear();
-}
 
 class Subtitle extends StatelessWidget {
   final String words;
@@ -154,10 +174,13 @@ class TitleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final trimmedtext = trimmed ? words.trim() : words;
+    final word = trimmedtext.isNotEmpty
+        ? trimmedtext[0].toUpperCase() + trimmedtext.substring(1)
+        : trimmedtext;
     return Padding(
-      padding: const EdgeInsets.all(6.0),
+      padding: const EdgeInsets.only(left: 19, top: 10, bottom: 15),
       child: Text(
-        trimmedtext,
+        word,
         style: GoogleFonts.cabin(fontSize: 25, fontWeight: FontWeight.w700),
         strutStyle: StrutStyle(height: 2.5),
       ),
@@ -182,19 +205,29 @@ class DescriptionText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final trimmedTest = trimmed ? words.trim() : words;
-    return Padding(
-      padding: const EdgeInsets.only(left: 9, right: 9, bottom: 8),
-      child: Align(
-        alignment: AlignmentDirectional.topStart,
-        child: Text(
-          trimmedTest,
-          style: GoogleFonts.poppins(fontSize: 17, fontWeight: FontWeight.w500),
-          strutStyle: StrutStyle(height: 2),
-          maxLines: maxLines,
-          softWrap: softwrap,
-          overflow: overflow,
+    final word = trimmedTest.isNotEmpty
+        ? trimmedTest[0].toUpperCase() + trimmedTest.substring(1)
+        : trimmedTest;
+    return Row(
+      children: [
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 19, right: 9, bottom: 8),
+            child: Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Text(
+                word,
+                style: GoogleFonts.poppins(
+                    fontSize: 17, fontWeight: FontWeight.w500),
+                strutStyle: StrutStyle(height: 2),
+                maxLines: maxLines,
+                softWrap: softwrap,
+                overflow: overflow,
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -335,8 +368,6 @@ class Button extends StatelessWidget {
   }
 }
 
-
-
 class appBar extends StatefulWidget {
   int? Index;
   TextEditingController searchController;
@@ -409,8 +440,8 @@ class AppbarContainer extends StatelessWidget {
           height: MediaQuery.of(context).size.height / 7,
           decoration: const BoxDecoration(
               color:
-              // Color(0xFFC7D9E7),
-              Colors.yellow,
+                  // Color(0xFFC7D9E7),
+                  Colors.yellow,
               borderRadius:
                   BorderRadius.only(bottomRight: Radius.circular(80))),
           child: Column(
@@ -451,4 +482,30 @@ class AppbarContainer extends StatelessWidget {
       ],
     );
   }
+}
+
+descriptionfield(descriptionController, Description) {
+  return TextFormField(
+    minLines: 3,
+    maxLines: 5,
+    controller: descriptionController,
+    validator: (value) {
+      if (value!.isEmpty) {
+        return "Description required";
+      }
+      return null;
+    },
+    onSaved: (newValue) {
+      Description = newValue;
+    },
+    decoration: InputDecoration(
+      hintText: 'Enter the description......',
+      filled: true,
+      fillColor: Colors.white,
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.white),
+        borderRadius: BorderRadius.circular(20),
+      ),
+    ),
+  );
 }

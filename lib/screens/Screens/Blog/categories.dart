@@ -3,15 +3,14 @@
 import 'dart:io';
 
 import 'package:blog_app/screens/Screens/Blog/BlogDetailPage.dart';
+import 'package:blog_app/screens/Screens/Blog/widgets/widget.dart';
 import 'package:blog_app/screens/Screens/user/Loginpage.dart';
 import 'package:blog_app/screens/Screens/Blog/addBlog.dart';
 import 'package:blog_app/screens/Screens/Blog/editPage.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Categories extends StatefulWidget {
@@ -102,8 +101,8 @@ class _CategoriesState extends State<Categories> {
                   child: ListView.builder(
                     itemCount: box?.length,
                     itemBuilder: (ctx, index) {
-                      var reversedIndex = box!.length - 1 - index;
-                      final blog = box?.getAt(reversedIndex) as Blog;
+                   //   var reversedIndex = box!.length - 1 - index;
+                      final blog = box?.getAt(index) as Blog;
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -125,18 +124,7 @@ class _CategoriesState extends State<Categories> {
                                   ),
                                   Row(
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 8, top: 15),
-                                        child: Text(
-                                          DateFormat('d MMM y').format(
-                                            DateTime.parse(blog.date),
-                                          ),
-                                          style: GoogleFonts.poppins(
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.yellow),
-                                        ),
-                                      ),
+                                      date(blog),
                                     ],
                                   ),
                                   Row(

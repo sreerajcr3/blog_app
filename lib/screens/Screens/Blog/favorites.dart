@@ -1,9 +1,10 @@
+import 'dart:io';
+
 import 'package:blog_app/Appfunctions/appfunctions.dart';
 import 'package:blog_app/screens/Screens/Blog/BlogDetailPage.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Favorites extends StatefulWidget {
   final int? index;
@@ -55,15 +56,15 @@ class _FavoritesState extends State<Favorites> {
               itemCount: favoriteBox.length,
               itemBuilder: (ctx, index) {
                 var blog = favoriteBox.getAt(index);
-                //  String ImagePath = blog.imagePath;
-                //  print('ImagePatrh =${ blog.imagePath}');
+
                 debugPrint("A=$indx");
 
                 if (blog.userIndex == indx) {
                   //checks the userlogged index is same as index with the user added the blog to the favoritebox
+
                   debugPrint('userindex:${blog.userIndex.toString()}');
                   debugPrint(blog.title);
-                  // debugPrint(blog.imagePath.toString());
+
                   return InkWell(
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
@@ -71,15 +72,22 @@ class _FavoritesState extends State<Favorites> {
                       ),
                     ),
                     child: ListTile(
-                      title: Text(
-                        blog.title,
-                        style: const TextStyle(color: Colors.white),
+                      title: Row(
+                        children: [
+                          Text(
+                            blog.title,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        ],
                       ),
-                      // leading: CircleAvatar(
-                      //   radius: 20,
-                      //   child:Image(image: FileImage(File(blog.imagePath.toString())))
-                      //   // Image.file(File(blog.imagePath.toString()),fit: BoxFit.cover,),
-                      // )
+                        leading: CircleAvatar(
+                        radius: 20,
+                        backgroundImage: FileImage(
+                          File(
+                            blog.imagePath.toString(),
+                          ),
+                        ),
+                      ),
                     ),
                   );
                 }
@@ -91,6 +99,4 @@ class _FavoritesState extends State<Favorites> {
       ),
     );
   }
-
- 
 }

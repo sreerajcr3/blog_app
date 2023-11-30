@@ -78,12 +78,13 @@ class _UserProfileState extends State<UserProfile> {
                     builder: (ctx) => EditProfile(
                           index: indx!,
                           user: user,
+                          ProfilePicPath: user.profilePic?? ' no image',
                         )));
               },
               child: const Text('edit profile')),
           const SizedBox(height: 50),
-          Apptext(words: 'Name :  ${user.name}'),
-          Apptext(words: 'Username :  ${user.username}'),
+          Apptext(words: 'Name :  ${user.name}',trimmed: true,),
+          Apptext(words: 'Username :  ${user.username}',trimmed: true,),
           const SizedBox(
             height: 50,
           ),
@@ -92,11 +93,11 @@ class _UserProfileState extends State<UserProfile> {
                 builder: (ctx) => Favorites(
                       index: widget.index,
                     ))),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Apptext(words: 'favorites'),
-                const Icon(
+                Icon(
                   Icons.arrow_right_sharp,
                   size: 40,
                 ),

@@ -7,6 +7,7 @@ import 'package:blog_app/screens/Screens/Blog/categories.dart';
 import 'package:blog_app/screens/Screens/user/signup.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 
 class Menu extends StatefulWidget {
@@ -24,30 +25,52 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   late Box userId;
+  bool checkuser = false;
+  int? indx;
+  dynamic user;
 
   @override
   void initState() {
     super.initState();
     userId = Hive.box('userid');
+
+    loadData();
   }
 
+  void loadData() async {
+    checkuser = await checkLoggedinMenu(context);
+   // print(checkuser);
+    userIndexIdentification().then((value) {
+      setState(() {
+        indx = value;
+      });
+    });
+  }
   // var index;
 
   @override
   Widget build(BuildContext context) {
-    final index = widget.index;
+    checkuser == true ? user = indx != null ? userId.getAt(indx!) : null : null;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: [
             Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 30,
-                ),
                 heading(),
+                SizedBox(
+                  height: 20,
+                ),
+                checkuser
+                    ? Text(
+                        'Hi   ${user.name}...!',
+                        style: GoogleFonts.dancingScript(
+                            fontSize: 35, fontWeight: FontWeight.w600),
+                      )
+                    : SizedBox(),
                 SizedBox(
                   height: 130,
                 ),
@@ -59,7 +82,7 @@ class _MenuState extends State<Menu> {
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
                                   builder: (ctx) => HomeScreen(
-                                        index: index,
+                                      // index: index,
                                       )));
                         }),
                     SizedBox(
@@ -76,7 +99,6 @@ class _MenuState extends State<Menu> {
                     AppText(
                         words: 'Categories',
                         action: () {
-                         
                           Navigator.of(context)
                               .pushReplacement(MaterialPageRoute(
                                   builder: (ctx) => Categories(
@@ -92,58 +114,63 @@ class _MenuState extends State<Menu> {
                           Navigator.of(context).push(
                               MaterialPageRoute(builder: (ctx) => SignUp()));
                         }),
+                    checkuser
+                        ? SizedBox(
+                            height: 30,
+                          )
+                        : SizedBox(),
+                    checkuser
+                        ? AppText(
+                            words: 'Profile',
+                            action: () {
+                              checkLoggedinProfile(context);
+                            })
+                        : SizedBox(),
                     SizedBox(
                       height: 30,
                     ),
-                    AppText(
-                        words: 'Log out',
-                        action: () {
-                          showDialog(
-                              context: context,
-                              builder: ((context) {
-                                return AlertDialog(
-                                  title: Text('Do you want to log out?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('cancel'),
-                                    ),
-                                    TextButton(
-                                        onPressed: () {
-                                          signout();
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                  'Logged out succesfully'),
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                              margin: EdgeInsets.all(20),
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          );
-                                          Navigator.of(context)
-                                              .pushAndRemoveUntil(
-                                                  MaterialPageRoute(
-                                                      builder: (ctx) =>
-                                                          LoginScreen()),
-                                                  (route) => false);
-                                        },
-                                        child: Text('ok'))
-                                  ],
-                                );
-                              }));
-                        }),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    AppText(
-                        words: 'Profile',
-                        action: () {
-                        checkLoggedinProfile(context);
-                        })
+                    checkuser
+                        ? AppText(
+                            words: 'Log out',
+                            action: () {
+                              showDialog(
+                                  context: context,
+                                  builder: ((context) {
+                                    return AlertDialog(
+                                      title: Text('Do you want to log out?'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('cancel'),
+                                        ),
+                                        TextButton(
+                                            onPressed: () {
+                                              signout(context);
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                      'Logged out succesfully'),
+                                                  behavior:
+                                                      SnackBarBehavior.floating,
+                                                  margin: EdgeInsets.all(20),
+                                                  backgroundColor: Colors.blue,
+                                                ),
+                                              );
+                                            },
+                                            child: Text('ok'))
+                                      ],
+                                    );
+                                  }));
+                            })
+                        : AppText(
+                            words: 'Log in',
+                            action: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (ctx) => LoginScreen()));
+                            })
                   ],
                 ),
               ],
@@ -153,8 +180,4 @@ class _MenuState extends State<Menu> {
       ),
     );
   }
-
- 
-
- 
 }

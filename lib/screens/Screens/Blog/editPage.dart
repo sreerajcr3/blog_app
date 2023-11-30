@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
-import 'package:blog_app/Databse/functions.dart';
+import 'package:blog_app/screens/Screens/Blog/widgets/widget.dart';
 import 'package:intl/intl.dart';
-import 'package:blog_app/screens/Screens/Blog/Home.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +65,7 @@ class _EditPageState extends State<EditPage> {
       backgroundColor: Colors.black12,
       body: ListView(
         children: [
+           
           Stack(
             children: [
               Padding(
@@ -121,26 +121,7 @@ class _EditPageState extends State<EditPage> {
                   ),
                 ),
               ),
-              ElevatedButton(
-                  onPressed: () async {
-                    final DateTime? dateTime = await showDatePicker(
-                        context: context,
-                        initialDate: selectedDate,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(3000));
-
-                    setState(() {
-                      this.selectedDate = dateTime!;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadiusDirectional.circular(30),
-                    ),
-                    side: BorderSide(width: 2, color: Colors.white),
-                    backgroundColor: Colors.transparent,
-                  ),
-                  child: Text('Select date'))
+            DateButton(context, selectedDate, setState)
             ],
           ),
           Padding(
@@ -154,26 +135,7 @@ class _EditPageState extends State<EditPage> {
                     child: Align(
                         alignment: Alignment.topLeft, child: Text('Title')),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      controller: _titleController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Title required";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                    ),
-                  ),
+                  editPageTitleField(_titleController),
                   SizedBox(
                     height: 20,
                   ),
@@ -183,116 +145,17 @@ class _EditPageState extends State<EditPage> {
                         alignment: Alignment.topLeft,
                         child: Text('Description')),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      maxLines: null,
-                      minLines: 3,
-                      controller: _descriptionController,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "Description required";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                    ),
-                  ),
+                  editPageDescriptionfield(_descriptionController)
                 ],
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 150, right: 150),
-            child: ElevatedButton(
-                onPressed: () {
-                  final updatedImagePath =
-                      _updatedImage?.path ?? widget.blog.imagePath;
-                  final value = Blog(
-                      date: selectedDate.toString(),
-                      title: _titleController.text,
-                      imagePath: updatedImagePath,
-                      description: _descriptionController.text);
-
-                  final boxesToUpdate = [
-                    blogBox,
-                    natureBox,
-                    scienceBox,
-                    entertainmentBox,
-                    politicsBox
-                  ];
-                  updateObjectInMultipleBoxes(
-                      value, boxesToUpdate, widget.index, context);
-
-                   updateBlog(widget.index, value, context);
-                  // updateBlog(index,value,context);
-
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (ctx) => HomeScreen( index: index,)));
-                },
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    fixedSize: Size(20, 10),
-                    backgroundColor: Colors.yellow,
-                    foregroundColor: Colors.black),
-                child: Text('update')),
-          ),
+          updateButton(_updatedImage, selectedDate, _titleController,
+              _descriptionController, index, context, widget.blog.imagePath,_key),
           SizedBox(
             height: 30,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 150, right: 150),
-            child: ElevatedButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: ((context) {
-                        return AlertDialog(
-                          title: Text('Do you want to delete?'),
-                          actions: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('cancel')),
-                            TextButton(
-                                onPressed: () {
-                                  deleteBlog(widget.index);
-
-                                  Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                          builder: (ctx) => HomeScreen( index: index,)));
-                                  ScaffoldMessenger.of(context)
-                                      .clearSnackBars();
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('deleted succesfully'),
-                                      behavior: SnackBarBehavior.floating,
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                },
-                                child: Text('ok'))
-                          ],
-                        );
-                      }));
-                },
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    fixedSize: Size(20, 10),
-                    backgroundColor: Colors.yellow,
-                    foregroundColor: Colors.black),
-                child: Text('delete')),
-          ),
+          deleteButton(context, index),
           Padding(
             padding: const EdgeInsets.only(left: 25, right: 25, top: 15),
             child: Divider(
@@ -323,57 +186,4 @@ class _EditPageState extends State<EditPage> {
     }
     return pickedImage;
   }
-
-  // void update() {
-  //   if (_key.currentState!.validate() || _updatedImage != null) {
-  //     final updatedImagePath = _updatedImage?.path ?? widget.blog.imagePath;
-
-  //     final value = Blog(
-  //         date: selectedDate.toString(),
-  //         title: _titleController.text,
-  //         imagePath: updatedImagePath,
-  //         description: _descriptionController.text);
-  //     updateBlog(widget.index, value, context);
-
-  //       blogBox.putAt(widget.index, value);
-  //        natureBox.putAt(widget.index, value);
-
-  //       if (widget.index >= 0 && widget.index < scienceBox.length) {
-  //         scienceBox.putAt(widget.index, value);
-  //       }
-
-  //       if (widget.index >= 0 && widget.index < natureBox.length) {
-  //         natureBox.putAt(widget.index, value);
-  //       }
-
-  //       if (widget.index >= 0 && widget.index < politicsBox.length) {
-  //         politicsBox.putAt(widget.index, value);
-  //       }
-
-  //       if (widget.index >= 0 && widget.index < entertainmentBox.length) {
-  //         entertainmentBox.putAt(widget.index, value);
-  //       }
-
-  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //         content: Text('updated successfully'),
-  //         backgroundColor: Colors.blue,
-  //         behavior: SnackBarBehavior.floating,
-  //       ));
-  //     } else {
-  //       ScaffoldMessenger.of(context).clearSnackBars();
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: Text('You must fill all required fields'),
-  //           behavior: SnackBarBehavior.floating,
-  //           backgroundColor: Colors.red,
-  //           margin: EdgeInsets.all(10),
-  //         ),
-  //       );
-  //     }
-    
-
-  //    showDialog(context: context, builder: (BuildContext (context) {
-  //     return AlertDialog();
-  //   }));
-  // }
 }

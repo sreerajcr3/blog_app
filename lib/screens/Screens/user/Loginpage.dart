@@ -1,6 +1,9 @@
+// ignore: file_names
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously, unused_local_variable
 
+import 'package:blog_app/screens/Screens/Admin/adminlogin.dart';
 import 'package:blog_app/screens/Screens/Blog/Home.dart';
+import 'package:blog_app/screens/Screens/Blog/addBlog.dart';
 import 'package:blog_app/screens/Screens/user/functions.dart';
 import 'package:blog_app/screens/Screens/user/signup.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
@@ -33,31 +36,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //double screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // HeadingWithIcon(index: index1),
-            // Align(
-            //   alignment: Alignment.center,
-            //   child: Padding(
-            //     padding: EdgeInsets.only(top: 30, bottom: 30),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       // ignore: prefer_const_literals_to_create_immutables
-            //       children: [
-            //         TitleText(words: 'Log in'),
-            //       ],
-            //     ),
-            //   ),
-            // ),
             AppbarContainer(),
-
             Container(
-              color:Colors.yellow,
+              color: Colors.yellow,
               //Color(0xFFC7D9E7),
               child: Container(
                 decoration: BoxDecoration(
@@ -118,7 +104,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         Button(
                             child: Text('Log in'),
-                            onLongPress: () {},
+                            onLongPress: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (ctx) => AdminLogin()));
+                            },
                             onPressed: () {
                               gotoHome(_usernameController, _passwordController,
                                   context, _key);
@@ -144,9 +133,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (ctx) => HomeScreen(
-                                    index: index1,
-                                  ),
+                                  builder: (ctx) =>AddBlog(
+                                      //  index: index1,
+                                      ),
                                 ),
                               );
                             },

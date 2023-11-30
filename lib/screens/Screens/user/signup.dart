@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:blog_app/Databse/functions.dart';
 import 'package:blog_app/screens/Screens/user/Loginpage.dart';
-import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -31,12 +31,6 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   // title: HeadingWithIcon(),
-      //   title: heading(),
-      //   automaticallyImplyLeading: false,
-      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -45,7 +39,10 @@ class _SignUpState extends State<SignUp> {
               height: MediaQuery.of(context).size.height,
               color: Colors.yellow,
               child: Container(
-                decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.only(topLeft: Radius.circular(80))),
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius:
+                        BorderRadius.only(topLeft: Radius.circular(80))),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 30, right: 30),
                   child: Form(
@@ -67,7 +64,8 @@ class _SignUpState extends State<SignUp> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, bottom: 5),
-                          child: Title(color: Colors.white, child: Text('Name')),
+                          child:
+                              Title(color: Colors.white, child: Text('Name')),
                         ),
                         testformfield(
                           controller: _nameController,
@@ -85,7 +83,8 @@ class _SignUpState extends State<SignUp> {
                         Padding(
                           padding: const EdgeInsets.only(left: 15, bottom: 5),
                           child: Title(
-                              color: Colors.white, child: Text('Username or email id')),
+                              color: Colors.white,
+                              child: Text('Username or email id')),
                         ),
                         testformfield(
                           controller: _usernameController,
@@ -102,7 +101,8 @@ class _SignUpState extends State<SignUp> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, bottom: 5),
-                          child: Title(color: Colors.white, child: Text('Password')),
+                          child: Title(
+                              color: Colors.white, child: Text('Password')),
                         ),
                         PasswordTestformfield(
                           controller: _passwordController,
@@ -122,7 +122,13 @@ class _SignUpState extends State<SignUp> {
                             child: Text('Sign up'),
                             onLongPress: () {},
                             onPressed: () {
-                              saveUserId();
+                              saveUserId(
+                                  _key,
+                                  _nameController,
+                                  _usernameController,
+                                  _passwordController,
+                                  context,
+                                  userId);
                             }),
                         Center(
                             child: TextButton(
@@ -142,25 +148,4 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-
-  saveUserId() {
-    _key.currentState!.validate();
-    final id = userid(
-        name: _nameController.text,
-        username: _usernameController.text,
-        password: _passwordController.text);
-    if (id.name!.isNotEmpty &&
-        id.username!.isNotEmpty &&
-        id.password!.isNotEmpty) {
-      userId.add(id);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
-    }
-
-    _nameController.clear();
-    _usernameController.clear();
-    _passwordController.clear();
-  }
-  
-
 }
