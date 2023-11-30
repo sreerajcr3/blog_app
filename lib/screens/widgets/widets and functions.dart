@@ -2,10 +2,8 @@
 
 import 'package:blog_app/screens/Screens/Admin/adminlogin.dart';
 import 'package:blog_app/screens/Screens/Blog/menu.dart';
-import 'package:blog_app/screens/Screens/user/Loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Widget heading() {
   return Center(
@@ -15,7 +13,7 @@ Widget heading() {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            " BLOGGER'S ",
+            "BLOGS ",
             style: GoogleFonts.breeSerif(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -50,7 +48,7 @@ class HeadingWithIcon extends StatelessWidget {
           Row(
             children: [
               Text(
-                " BLOGGER'S ",
+                "BLOGS ",
                 style: GoogleFonts.breeSerif(
                     textStyle: const TextStyle(
                   fontWeight: FontWeight.w600,
@@ -74,7 +72,7 @@ class HeadingWithIcon extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (ctx) => Menu(index: index),
+                      builder: (ctx) => Menu(),
                     ),
                   );
                 },
@@ -288,6 +286,7 @@ class testformfield extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textCapitalization: TextCapitalization.sentences,
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: controller,

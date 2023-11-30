@@ -83,7 +83,8 @@ class _UserProfileState extends State<UserProfile> {
               },
               child: const Text('edit profile')),
           const SizedBox(height: 50),
-          Apptext(words: 'Name :  ${user.name}',trimmed: true,),
+          // Apptext(words: 'Name :  ${user.name}',trimmed: true,),
+          TitleText(words: 'Name : ${user.name}',trimmed: true,),
           Apptext(words: 'Username :  ${user.username}',trimmed: true,),
           const SizedBox(
             height: 50,

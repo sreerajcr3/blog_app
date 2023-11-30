@@ -14,8 +14,8 @@ import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Categories extends StatefulWidget {
-  final int? index;
-  const Categories({super.key, required this.index});
+  
+  const Categories({super.key,});
 
   @override
   State<Categories> createState() => _CategoriesState();
@@ -48,12 +48,12 @@ class _CategoriesState extends State<Categories> {
 
   @override
   Widget build(BuildContext context) {
-    final index = widget.index;
+    // final index = widget.index;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 50,
         title: HeadingWithIcon(
-          index: index,
+       //   index: index,
         ),
         backgroundColor: Colors.transparent,
       ),
@@ -188,7 +188,7 @@ class _CategoriesState extends State<Categories> {
   }
 
   Future<void> checkLoggedin() async {
-    final index = widget.index;
+   // final index = widget.index;
     final sharedprefs = await SharedPreferences.getInstance();
     final userLoggedIn = sharedprefs.getBool(savedkey);
     if (userLoggedIn == false || userLoggedIn == null) {
@@ -199,7 +199,7 @@ class _CategoriesState extends State<Categories> {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (ctx) => AddBlog(
-                index: index,
+              //  index: index,
               )));
     }
   }

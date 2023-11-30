@@ -11,8 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 
 class Menu extends StatefulWidget {
-  final int? index;
-  Menu({super.key, this.index});
+  Menu({super.key});
   final bool userLoggedIn = false;
 
   final Widget space = SizedBox(
@@ -33,24 +32,24 @@ class _MenuState extends State<Menu> {
   void initState() {
     super.initState();
     userId = Hive.box('userid');
-
-    loadData();
-  }
-
-  void loadData() async {
-    checkuser = await checkLoggedinMenu(context);
-   // print(checkuser);
     userIndexIdentification().then((value) {
       setState(() {
         indx = value;
       });
     });
+    loadData();
+  }
+
+  void loadData() async {
+    checkuser = await checkLoggedinMenu(context);
+    // print(checkuser);
   }
   // var index;
 
   @override
   Widget build(BuildContext context) {
     checkuser == true ? user = indx != null ? userId.getAt(indx!) : null : null;
+    print('indx:$indx');
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -99,11 +98,9 @@ class _MenuState extends State<Menu> {
                     AppText(
                         words: 'Categories',
                         action: () {
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                                  builder: (ctx) => Categories(
-                                        index: widget.index,
-                                      )));
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (ctx) => Categories()));
                         }),
                     SizedBox(
                       height: 30,

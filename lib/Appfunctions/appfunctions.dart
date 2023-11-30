@@ -47,7 +47,6 @@ Future<void> checkLoggedinProfile(context) async {
 }
 
 Future<int> userIndexIdentification() async {
-  // debugPrint('f:widget.index: ${widget.index}');
   final sharedprefsUser = await SharedPreferences.getInstance();
   final u = sharedprefsUser.getInt('userindex');
   debugPrint('sharedprefsuserindex : $u');
