@@ -2,6 +2,7 @@
 
 import 'package:blog_app/Appfunctions/appfunctions.dart';
 import 'package:blog_app/screens/Screens/Blog/Home.dart';
+import 'package:blog_app/screens/Screens/Blog/category2.dart';
 import 'package:blog_app/screens/Screens/user/Loginpage.dart';
 import 'package:blog_app/screens/Screens/Blog/categories.dart';
 import 'package:blog_app/screens/Screens/user/signup.dart';
@@ -100,7 +101,7 @@ class _MenuState extends State<Menu> {
                         action: () {
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (ctx) => Categories()));
+                                  builder: (ctx) => Category2()));
                         }),
                     SizedBox(
                       height: 30,

@@ -1,12 +1,14 @@
 import 'dart:ffi';
 
 import 'package:blog_app/Databse/functions.dart';
+import 'package:blog_app/screens/Screens/Blog/Home.dart';
 import 'package:blog_app/screens/Screens/Blog/addBlog.dart';
-import 'package:blog_app/screens/Screens/Blog/comment_page.dart';
 import 'package:blog_app/screens/Screens/user/Loginpage.dart';
 import 'package:blog_app/screens/Screens/user/userProfile.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -64,7 +66,8 @@ Future<bool> checkLoggedinComment(context) async {
 
 // ignore: no_leading_underscores_for_local_identifiers
 void saveData(_key, _selectedValue, _selectedDate, titleContoller, imagePath,
-    descriptionController, indx, selectedCategory, getCopy, context) {
+    descriptionController, indx, selectedCategory, context) {
+  Box blogBox = Hive.box('blog');
   if (_key.currentState!.validate() &&
       _selectedValue != null &&
       _selectedValue != 'A') {
@@ -73,9 +76,62 @@ void saveData(_key, _selectedValue, _selectedDate, titleContoller, imagePath,
         title: titleContoller.text,
         imagePath: imagePath!,
         description: descriptionController.text,
-        userIndex: indx);
+        userIndex: indx,
+        category: selectedCategory);
+    blogBox.add(blogData);
 
-    saveBlog(blogData, selectedCategory, getCopy, context);
+    //     switch (selectedCategory) {
+    // case 'nature':
+    //   // natureBox.add(getCopy());
+    //     final blogData = Blog(
+    //     date: _selectedDate.toString(),
+    //     title: titleContoller.text,
+    //     imagePath: imagePath!,
+    //     description: descriptionController.text,
+    //     userIndex: indx, category: 'nature');
+    //    blogBox.add(blogData);
+
+    //    print('nsaved');
+
+    //   break;
+    // case 'science':
+    //  // entertainmentBox.add(getCopy());
+    //  final blogData = Blog(
+    //     date: _selectedDate.toString(),
+    //     title: titleContoller.text,
+    //     imagePath: imagePath!,
+    //     description: descriptionController.text,
+    //     userIndex: indx, category: 'science');
+    //    blogBox.add(blogData);
+    //      print('science saved');
+    //   break;
+    // case 'entertainment':
+    //  // scienceBox.add(getCopy());
+    //    final blogData = Blog(
+    //     date: _selectedDate.toString(),
+    //     title: titleContoller.text,
+    //     imagePath: imagePath!,
+    //     description: descriptionController.text,
+    //     userIndex: indx, category: 'entertainment');
+    //    blogBox.add(blogData);
+    //             print('entertainment saved');
+
+    //   break;
+    // case 'politics':
+    //   // politicsBox.add(getCopy());
+    //   final blogData = Blog(
+    //     date: _selectedDate.toString(),
+    //     title: titleContoller.text,
+    //     imagePath: imagePath!,
+    //     description: descriptionController.text,
+    //     userIndex: indx, category: 'politics');
+    //    blogBox.add(blogData);
+    //             print('politics saved');
+
+    //   break;
+    // }
+
+    // saveBlog(blogData,  getCopy, context);
   } else {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Select Category'),
@@ -84,6 +140,15 @@ void saveData(_key, _selectedValue, _selectedDate, titleContoller, imagePath,
       margin: EdgeInsets.all(20),
     ));
   }
+  Navigator.of(context)
+      .push(MaterialPageRoute(builder: (ctx) => const HomeScreen()));
+  ScaffoldMessenger.of(context).clearSnackBars();
+  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+    content: Text('Blog uploaded successfully'),
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Colors.blue,
+    margin: EdgeInsets.all(20),
+  ));
 }
 
 Future<bool> checkLoggedinMenu(context) async {
@@ -95,7 +160,7 @@ Future<bool> checkLoggedinMenu(context) async {
   return true;
 }
 
-showdialogDelete(context,index) {
+showdialogDelete(context, index) {
   return showDialog(
       context: context,
       builder: (builder) {
@@ -104,14 +169,13 @@ showdialogDelete(context,index) {
           actions: [
             TextButton(
               onPressed: () {
-                
                 Navigator.pop(context);
               },
               child: const Text('cancel'),
             ),
             TextButton(
                 onPressed: () {
-                   deleteBlog(index);
+                  deleteBlog(index);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Logged out succesfully'),
@@ -126,9 +190,18 @@ showdialogDelete(context,index) {
         );
       });
 }
+
 Future<void> signout(context) async {
   final sharedprefs = await SharedPreferences.getInstance();
   sharedprefs.clear();
   Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (ctx) => LoginScreen()), (route) => false);
+      MaterialPageRoute(builder: (ctx) => const LoginScreen()),
+      (route) => false);
 }
+ //   var reversedIndex = box!.length - 1 - index;
+                      // final blog = box?.getAt(index) as Blog;
+
+
+  Text dropdownText(text){
+    return Text(text,style: GoogleFonts.aBeeZee(fontWeight: FontWeight.w700,fontSize: 15,color: Colors.white),);
+  }

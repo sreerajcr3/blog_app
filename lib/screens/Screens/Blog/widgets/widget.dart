@@ -5,6 +5,7 @@ import 'package:blog_app/screens/Screens/Blog/Home.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 class SearchTextFormField extends StatelessWidget {
@@ -153,38 +154,41 @@ deleteButton(context, index) {
   );
 }
 
-Widget updateButton(_updatedImage, selectedDate, _titleController,
-    _descriptionController, index, context, imagePath, _key) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 150, right: 150),
-    child: ElevatedButton(
-        onPressed: () {
-          if (_key.currentState!.validate()) {
-            final updatedImagePath = _updatedImage?.path ?? imagePath;
-            final value = Blog(
-                date: selectedDate.toString(),
-                title: _titleController.text,
-                imagePath: updatedImagePath,
-                description: _descriptionController.text);
+// Widget updateButton(_updatedImage, selectedDate, _titleController,
+//     _descriptionController, index, context, imagePath, _key,natureBox) {
+    
+//   return Padding(
+//     padding: const EdgeInsets.only(left: 150, right: 150),
+//     child: ElevatedButton(
+//         onPressed: () {
+//           if (_key.currentState!.validate()) {
+//             final updatedImagePath = _updatedImage?.path ?? imagePath;
+//             final value = Blog(
+//                 date: selectedDate.toString(),
+//                 title: _titleController.text,
+//                 imagePath: updatedImagePath,
+//                 description: _descriptionController.text);
 
-            updateBlog(index, value, context);
-            // updateBlog(index,value,context);
+//             updateBlog(index, value, context);
+             
+//          //   updateObjectInMultipleBoxes(value, boxes, index, context);
+//             // updateBlog(index,value,context);
 
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (ctx) => const HomeScreen(
-                    // index: index,
-                    )));
-          }
-        },
-        style: ElevatedButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            fixedSize: const Size(20, 10),
-            backgroundColor: Colors.yellow,
-            foregroundColor: Colors.black),
-        child: const Text('update')),
-  );
-}
+//             Navigator.of(context).push(MaterialPageRoute(
+//                 builder: (ctx) => const HomeScreen(
+//                     // index: index,
+//                     )));
+//           }
+//         },
+//         style: ElevatedButton.styleFrom(
+//             shape:
+//                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+//             fixedSize: const Size(20, 10),
+//             backgroundColor: Colors.yellow,
+//             foregroundColor: Colors.black),
+//         child: const Text('update')),
+//   );
+// }
 
 editPageDescriptionfield(_descriptionController) {
   return Padding(

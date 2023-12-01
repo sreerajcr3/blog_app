@@ -117,26 +117,26 @@ class _AddBlogState extends State<AddBlog> {
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: DropdownButton(
-                            focusColor: Colors.cyan,
+                          
                             items: [
                               DropdownMenuItem(
                                 child: Text('Select the category'),
                                 value: 'A',
                               ),
                               DropdownMenuItem(
-                                value: 'B',
+                                value: 'nature',
                                 child: Text('Nature'),
                               ),
                               DropdownMenuItem(
-                                value: 'C',
-                                child: Text('Entertainment'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'D',
+                                value: 'science',
                                 child: Text('science'),
                               ),
                               DropdownMenuItem(
-                                value: 'E',
+                                value: 'entertainment',
+                                child: Text('entertainment'),
+                              ),
+                              DropdownMenuItem(
+                                value: 'Politics',
                                 child: Text('Politics'),
                               ),
                             ],
@@ -238,7 +238,7 @@ class _AddBlogState extends State<AddBlog> {
                                 descriptionController,
                                 indx,
                                 selectedCategory,
-                                getCopy,
+                              
                                 context);
                           }),
                       Padding(
@@ -257,13 +257,13 @@ class _AddBlogState extends State<AddBlog> {
     );
   }
 
-  Blog getCopy() {
-    return Blog(
-        date: _selectedDate.toString(),
-        title: titleContoller.text,
-        imagePath: imagePath!,
-        description: descriptionController.text);
-  }
+  // Blog getCopy() {
+  //   return Blog(
+  //       date: _selectedDate.toString(),
+  //       title: titleContoller.text,
+  //       imagePath: imagePath!,
+  //       description: descriptionController.text, category: '');
+  // }
 
   Future<XFile?> pickImageFromGallery() async {
     final pickedImage =

@@ -1,50 +1,44 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'blogModel.dart';
+part of 'categories.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class BlogAdapter extends TypeAdapter<Blog> {
+class categoryAdapter extends TypeAdapter<category> {
   @override
-  final int typeId = 0;
+  final int typeId = 4;
 
   @override
-  Blog read(BinaryReader reader) {
+  category read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Blog(
-      isFavorite: fields[4] as bool,
-      date: fields[3] as String,
-      title: fields[0] as String,
-      imagePath: fields[1] as String,
-      description: fields[2] as String,
-      userIndex: fields[5] as int?,
-      category: fields[6] as String,
+    return category(
+      all: fields[0] as Blog,
+      nature: fields[1] as Blog?,
+      science: fields[2] as Blog?,
+      entertainement: fields[3] as Blog?,
+      politics: fields[4] as Blog?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Blog obj) {
+  void write(BinaryWriter writer, category obj) {
     writer
-      ..writeByte(7)
-      ..writeByte(0)
-      ..write(obj.title)
-      ..writeByte(1)
-      ..write(obj.imagePath)
-      ..writeByte(2)
-      ..write(obj.description)
-      ..writeByte(3)
-      ..write(obj.date)
-      ..writeByte(4)
-      ..write(obj.isFavorite)
       ..writeByte(5)
-      ..write(obj.userIndex)
-      ..writeByte(6)
-      ..write(obj.category);
+      ..writeByte(0)
+      ..write(obj.all)
+      ..writeByte(1)
+      ..write(obj.nature)
+      ..writeByte(2)
+      ..write(obj.science)
+      ..writeByte(3)
+      ..write(obj.entertainement)
+      ..writeByte(4)
+      ..write(obj.politics);
   }
 
   @override
@@ -53,7 +47,7 @@ class BlogAdapter extends TypeAdapter<Blog> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BlogAdapter &&
+      other is categoryAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

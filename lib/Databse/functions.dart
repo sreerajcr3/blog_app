@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:blog_app/screens/Screens/Blog/Home.dart';
 import 'package:blog_app/screens/Screens/user/Loginpage.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:flutter/material.dart';
@@ -30,16 +29,28 @@ Future<void> deleteBlog(index) async {
   blogBox.deleteAt(index);
 }
 
-Future<void> updateBlog(index, value, context) async {
-  late Box blogBox = Hive.box('blog');
-  late Box natureBox = Hive.box('nature');
-  late Box scienceBox = Hive.box('science');
-  late Box politics = Hive.box('blog');
+Future<void> updateBlog(
+    {index,
+    context,
+    selectedDate,
+    title,
+    updatedImagePath,
+    description,value}) async {
+   late Box blogBox = Hive.box('blog');
 
-  blogBox.putAt(index, value);
-  scienceBox.putAt(index, value);
-  natureBox.putAt(index, value);
-  politics.putAt(index, value);
+
+// final blog  =  Blog(
+//         date: selectedDate.toString(),
+//         title: title,
+//         imagePath: updatedImagePath,
+//         description: description,
+   //   );
+
+  blogBox.putAt(
+      index,value
+    );
+
+
 
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text('updated successfully'),
@@ -48,14 +59,7 @@ Future<void> updateBlog(index, value, context) async {
   ));
 }
 
-Future<void> updateObjectInMultipleBoxes(
-    Object object, List<Box> boxes, int index, BuildContext context) async {
-  for (var box in boxes) {
-    if (index >= 0 && index < box.length) {
-      box.putAt(index, object);
-    }
-  }
-
+Future<void> updateObjectInMultipleBoxes(context) async {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text('Updated successfully in multiple boxes'),
     backgroundColor: Colors.blue,
@@ -63,36 +67,18 @@ Future<void> updateObjectInMultipleBoxes(
   ));
 }
 
-void saveBlog(blogData, selectedCategory, getCopy, context) {
-  late Box blogBox = Hive.box('blog');
-  late Box natureBox = Hive.box('nature');
-  late Box scienceBox = Hive.box('science');
-  late Box entertainmentBox = Hive.box('entertainment');
-  late Box politicsBox = Hive.box('politics');
-  blogBox.add(blogData);
-  switch (selectedCategory) {
-    case 'B':
-      natureBox.add(getCopy());
-      break;
-    case 'C':
-      entertainmentBox.add(getCopy());
-      break;
-    case 'D':
-      scienceBox.add(getCopy());
-      break;
-    case 'E':
-      politicsBox.add(getCopy());
-      break;
-  }
+void saveBlog(blogData, getCopy, context) {
+ // late Box blogBox = Hive.box('blog');
+  // late Box natureBox = Hive.box('nature');
+  // late Box scienceBox = Hive.box('science');
+  // late Box entertainmentBox = Hive.box('entertainment');
+  // late Box politicsBox = Hive.box('politics');
 
-  Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => HomeScreen()));
-  ScaffoldMessenger.of(context).clearSnackBars();
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Text('Blog uploaded successfully'),
-    behavior: SnackBarBehavior.floating,
-    backgroundColor: Colors.blue,
-    margin: EdgeInsets.all(20),
-  ));
+  
+ // blogBox.add(blogData);
+ 
+print('saved');
+ 
 }
 
 saveUserId(_key, _nameController, _usernameController, _passwordController,

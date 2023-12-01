@@ -21,12 +21,16 @@ class Blog extends HiveObject {
   @HiveField(5)
   final int? userIndex;
 
-  Blog({
+  @HiveField(6)
+  final String? category;
+
+  Blog( {
     this.isFavorite = false,
     required this.date,
     required this.title,
     required this.imagePath,
     required this.description,
     this.userIndex,
+    this.category,
   });
 }

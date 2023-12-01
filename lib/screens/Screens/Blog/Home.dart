@@ -147,9 +147,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               // var reversedIndex =
                               //     blogBox.length - 1 - index; // Reverse the index
                               // var blog = blogBox.getAt(reversedIndex);
-                              var blog = blogBox.getAt(index);
+                              var blog = blogBox.getAt(index) as Blog;
                               String imagePath = blog.imagePath;
-
+                  
                               return InkWell(
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
@@ -180,49 +180,49 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           File(imagePath),
                                                           fit: BoxFit.fill,
                                                         )),
-                                                    Positioned(
-                                                      right: 20,
-                                                      top: 20,
-                                                      child: IconButton(
-                                                        onPressed: () {
-                                                          setState(
-                                                            () {
-                                                              final values =
-                                                                  favorites(
-                                                                userIndex:
-                                                                    indx ?? 0,
-                                                                blogId: Blog(
-                                                                    date: blog
-                                                                        .date,
-                                                                    title: blog
-                                                                        .title,
-                                                                    imagePath:
-                                                                        imagePath,
-                                                                    description:
-                                                                        blog.description),
-                                                              );
-                                                              blog.isFavorite =
-                                                                  !blog
-                                                                      .isFavorite;
-
-                                                              blog.isFavorite
-                                                                  ? favoriteBox
-                                                                      .add(
-                                                                          values)
-                                                                  : favoriteBox
-                                                                      .deleteAt(
-                                                                          index);
-                                                            },
-                                                          );
-                                                        },
-                                                        icon: Icon(
-                                                            Icons.favorite,
-                                                            color: blog
-                                                                    .isFavorite
-                                                                ? Colors.red
-                                                                : Colors.white,size: 33,),
-                                                      ),
-                                                    ),
+                                                    // Positioned(
+                                                    //   right: 20,
+                                                    //   top: 20,
+                                                    //   child: IconButton(
+                                                    //     onPressed: () {
+                                                    //       setState(
+                                                    //         () {
+                                                    //           // final values =
+                                                    //           //     favorites(
+                                                    //           //   userIndex:
+                                                    //           //       indx ?? 0,
+                                                    //           //   blogId: Blog(
+                                                    //           //       date: blog
+                                                    //           //           .date,
+                                                    //           //       title: blog
+                                                    //           //           .title,
+                                                    //           //       imagePath:
+                                                    //           //           imagePath,
+                                                    //           //       description:
+                                                    //           //           blog.description),
+                                                    //           // );
+                                                    //           // blog.isFavorite =
+                                                    //           //     !blog
+                                                    //           //         .isFavorite;
+                  
+                                                    //           // blog.isFavorite
+                                                    //           //     ? favoriteBox
+                                                    //           //         .add(
+                                                    //           //             values)
+                                                    //           //     : favoriteBox
+                                                    //           //         .deleteAt(
+                                                    //           //             index);
+                                                    //         },
+                                                    //       );
+                                                    //     },
+                                                    //     // icon: Icon(
+                                                    //     //     Icons.favorite,
+                                                    //     //     color: blog
+                                                    //     //             .isFavorite
+                                                    //     //         ? Colors.red
+                                                    //     //         : Colors.white,size: 33,),
+                                                    //   ),
+                                                    // ),
                                                   ],
                                                 ),
                                               ),
@@ -238,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       trimmed: true,
                                                     ),
                                                   ),
-                                                  indx == blog.userIndex
+                                                 indx == blog.userIndex
                                                       ? IconButton(
                                                           onPressed: () {
                                                             Navigator.of(
@@ -257,6 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                       .imagePath,
                                                                   blog: blog,
                                                                   index: index,
+                                                                  userIndex: indx!, category: blog.category!,
                                                                 ),
                                                               ),
                                                             );

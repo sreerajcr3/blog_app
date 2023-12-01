@@ -2,20 +2,18 @@
 
 import 'dart:io';
 
+import 'package:blog_app/Appfunctions/appfunctions.dart';
 import 'package:blog_app/screens/Screens/Blog/BlogDetailPage.dart';
-import 'package:blog_app/screens/Screens/Blog/widgets/widget.dart';
-import 'package:blog_app/screens/Screens/user/Loginpage.dart';
-import 'package:blog_app/screens/Screens/Blog/addBlog.dart';
 import 'package:blog_app/screens/Screens/Blog/editPage.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Categories extends StatefulWidget {
-  
-  const Categories({super.key,});
+  const Categories({
+    super.key,
+  });
 
   @override
   State<Categories> createState() => _CategoriesState();
@@ -26,8 +24,9 @@ class _CategoriesState extends State<Categories> {
   late Box scienceBox;
   late Box entertainmentBox;
   late Box politicsBox;
-  String? selectedCategory = 'nature';
-  Box<dynamic>? box;
+  String? selectedCategory = 'science';
+  late String category;
+  late Box blogBox;
 
   final List<DropdownMenuItem<String>> _categories = [
     DropdownMenuItem(value: 'nature', child: Text('Nature')),
@@ -43,7 +42,10 @@ class _CategoriesState extends State<Categories> {
     entertainmentBox = Hive.box<dynamic>('entertainment');
     scienceBox = Hive.box('science');
     politicsBox = Hive.box<dynamic>('politics');
-    box = natureBox;
+    // box = natureBox;
+    category = 'nature';
+    print(category);
+    blogBox = Hive.box('blog');
   }
 
   @override
@@ -53,8 +55,8 @@ class _CategoriesState extends State<Categories> {
       appBar: AppBar(
         toolbarHeight: 50,
         title: HeadingWithIcon(
-       //   index: index,
-        ),
+            //   index: index,
+            ),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: Colors.black,
@@ -70,105 +72,105 @@ class _CategoriesState extends State<Categories> {
               child: Align(
                 child: DropdownButton(
                     items: _categories,
-                    value: selectedCategory,
+                    value: category,
                     onChanged: (value) {
-                      setState(() {
-                        selectedCategory = value;
-                        switch (selectedCategory) {
-                          case 'nature':
-                            box = natureBox;
-                            break;
+                      setState(
+                        () {
+                          category = value! ;
+                          // switch (selectedCategory) {
+                          //   case 'nature':
+                          //     category = 'nature';
+                          //     break;
 
-                          case 'science':
-                            box = scienceBox;
-                            break;
+                          //   case 'science':
+                          //     category = 'science';
+                          //     break;
 
-                          case 'entertainment':
-                            box = entertainmentBox;
-                            break;
+                          //   case 'entertainment':
+                          //     category = 'entertainment';
+                          //     break;
 
-                          case 'politics':
-                            box = politicsBox;
-                            break;
-                        }
-                      });
+                          //   case 'politics':
+                          //     category = 'politics';
+                          //     break;
+                          // }
+                        },
+                      );
+                      printcategory();
                     }),
               ),
             ),
           ),
-          box != null && box!.isNotEmpty
+          // blogBox == null &&
+          blogBox.isNotEmpty
               ? Expanded(
                   child: ListView.builder(
-                    itemCount: box?.length,
+                    itemCount: blogBox.length,
                     itemBuilder: (ctx, index) {
-                   //   var reversedIndex = box!.length - 1 - index;
-                      final blog = box?.getAt(index) as Blog;
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (ctx) => BlogPage(
-                                          blog: blog,
-                                        )));
-                              },
-                              child: Column(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(30),
-                                    child: Image.file(
-                                      File(blog.imagePath),
+                      final blog = blogBox.getAt(index) ;
+                      if (blog.category == category) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (ctx) => BlogPage(
+                                            blog: blog,
+                                          )));
+                                },
+                                child: Column(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(30),
+                                      child: Image.file(
+                                        File(blog.imagePath),
+                                      ),
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      date(blog),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                          child: TitleText(words: blog.title)),
-                                      IconButton(
-                                          onPressed: () {
-                                            Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                builder: (ctx) => EditPage(
-                                                    title: blog.title,
-                                                    description:
-                                                        blog.description,
-                                                    image: blog.imagePath,
-                                                    blog: blog,
-                                                    index: index,
-                                                    selectedDate: blog.date),
-                                              ),
-                                            );
-                                          },
-                                          icon: Icon(Icons.edit))
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Flexible(
-                                          child: DescriptionText(
-                                            trimmed: true,
-                                                words: blog.description,
-                                                softwrap: false,
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
-                                             )),
-                                    ],
-                                  ),
-                                ],
+                                    Row(
+                                      children: const [
+                                        //   date(blog),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                            child:
+                                                TitleText(words: blog.title)),
+                                       
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                            child: DescriptionText(
+                                          trimmed: true,
+                                          words: blog.description,
+                                          softwrap: false,
+                                          maxLines: 3,
+                                          overflow: TextOverflow.ellipsis,
+                                        )),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
+                        );
+                      }
+                      Container(
+                        child: Text(
+                          'data',
+                          style: TextStyle(color: Colors.white),
                         ),
+                        color: Colors.cyan,
+                        height: 300,
                       );
+                      return null;
                     },
                   ),
                 )
@@ -178,7 +180,7 @@ class _CategoriesState extends State<Categories> {
                     child: AppText(
                         words: 'Sorry no blogs. Add new Blog? Click here',
                         action: () {
-                          checkLoggedin();
+                          checkLoggedin(context);
                         }),
                   ),
                 )
@@ -187,20 +189,7 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
-  Future<void> checkLoggedin() async {
-   // final index = widget.index;
-    final sharedprefs = await SharedPreferences.getInstance();
-    final userLoggedIn = sharedprefs.getBool(savedkey);
-    if (userLoggedIn == false || userLoggedIn == null) {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (ctx) => LoginScreen()));
-    } else {
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (ctx) => AddBlog(
-              //  index: index,
-              )));
-    }
+  printcategory() {
+    print(category);
   }
 }

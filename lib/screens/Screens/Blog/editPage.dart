@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
+import 'package:blog_app/Databse/functions.dart';
+import 'package:blog_app/screens/Screens/Blog/Home.dart';
 import 'package:blog_app/screens/Screens/Blog/widgets/widget.dart';
+import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:intl/intl.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
@@ -16,6 +19,8 @@ class EditPage extends StatefulWidget {
   final String selectedDate;
   final Blog blog;
   final int index;
+  final int userIndex;
+  final String category;
 
   const EditPage({
     super.key,
@@ -25,6 +30,8 @@ class EditPage extends StatefulWidget {
     required this.blog,
     required this.index,
     required this.selectedDate,
+   required this.userIndex, required this.category
+   
   });
 
   @override
@@ -65,7 +72,6 @@ class _EditPageState extends State<EditPage> {
       backgroundColor: Colors.black12,
       body: ListView(
         children: [
-           
           Stack(
             children: [
               Padding(
@@ -121,7 +127,7 @@ class _EditPageState extends State<EditPage> {
                   ),
                 ),
               ),
-            DateButton(context, selectedDate, setState)
+              DateButton(context, selectedDate, setState)
             ],
           ),
           Padding(
@@ -145,13 +151,59 @@ class _EditPageState extends State<EditPage> {
                         alignment: Alignment.topLeft,
                         child: Text('Description')),
                   ),
-                  editPageDescriptionfield(_descriptionController)
+                  editPageDescriptionfield(_descriptionController),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        if (_key.currentState!.validate()) {
+                          final dflknd = DateTime.now().millisecondsSinceEpoch;
+
+                          debugPrint('fkkd $dflknd');
+
+                          final updatedImagePath =
+                              _updatedImage?.path ?? widget.blog.imagePath;
+                          final value = Blog(
+                              date: selectedDate.toString(),
+                              title: _titleController.text,
+                              imagePath: updatedImagePath,
+                              description: _descriptionController.text,userIndex: widget.userIndex,category:widget.category );
+
+                          updateBlog(
+                            index: index,
+                            context: context,
+                            title: _titleController.text,
+                            description: _descriptionController.text,
+                            selectedDate: selectedDate,updatedImagePath: widget.blog.imagePath,
+                            value: value
+                          
+                          );
+
+                          //   updateObjectInMultipleBoxes(value, boxes, index, context);
+                          // updateBlog(index,value,context);
+
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (ctx) => const HomeScreen(
+                                  // index: index,
+                                  )));
+                        }
+                      },
+                      child: Text('Update'))
                 ],
               ),
             ),
           ),
-          updateButton(_updatedImage, selectedDate, _titleController,
-              _descriptionController, index, context, widget.blog.imagePath,_key),
+          // updateButton(
+          //     _updatedImage,
+          //     selectedDate,
+          //     _titleController,
+          //     _descriptionController,
+          //     index,
+          //     context,
+          //     widget.blog.imagePath,
+          //     _key,
+          //     natureBox),
           SizedBox(
             height: 30,
           ),
@@ -162,13 +214,11 @@ class _EditPageState extends State<EditPage> {
               color: Colors.white60,
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: footerText(words: 'Copyright © owned by Sreeraj CR')),
-            ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+                alignment: Alignment.bottomCenter,
+                child: footerText(words: 'Copyright © owned by Sreeraj CR')),
           )
         ],
       ),

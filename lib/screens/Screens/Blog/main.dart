@@ -3,6 +3,7 @@
 
 import 'package:blog_app/screens/Screens/Blog/splashscreen.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
+import 'package:blog_app/screens/model/categories.dart';
 import 'package:blog_app/screens/model/comment_model.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ void main() async{
   Hive.registerAdapter(useridAdapter());
   Hive.registerAdapter(favoritesAdapter());
   Hive.registerAdapter(CommentAdapter());
+  Hive.registerAdapter(categoryAdapter());
   
   await Hive.openBox('blog');
   await Hive.openBox('nature');

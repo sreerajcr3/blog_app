@@ -130,7 +130,7 @@ class _CommentPageState extends State<CommentPage> {
                                 profilePic: userrr.profilePic),
                             blogid: widget.blogIndex);
                         CommentBox.add(value);
-                        clear();
+                         clear();
                       },
                       icon: const Icon(Icons.send))),
             ),
