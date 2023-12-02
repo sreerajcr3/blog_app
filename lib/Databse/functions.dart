@@ -67,19 +67,7 @@ Future<void> updateObjectInMultipleBoxes(context) async {
   ));
 }
 
-void saveBlog(blogData, getCopy, context) {
- // late Box blogBox = Hive.box('blog');
-  // late Box natureBox = Hive.box('nature');
-  // late Box scienceBox = Hive.box('science');
-  // late Box entertainmentBox = Hive.box('entertainment');
-  // late Box politicsBox = Hive.box('politics');
 
-  
- // blogBox.add(blogData);
- 
-print('saved');
- 
-}
 
 saveUserId(_key, _nameController, _usernameController, _passwordController,
     context, userId) {

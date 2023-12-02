@@ -2,7 +2,6 @@
 import 'dart:io';
 
 import 'package:blog_app/Appfunctions/appfunctions.dart';
-import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -109,46 +108,40 @@ class _AddBlogState extends State<AddBlog> {
                         ),
                       ),
                       SizedBox(height: 40),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20)),
-                        width: 190,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: DropdownButton(
-                          
-                            items: [
-                              DropdownMenuItem(
-                                child: Text('Select the category'),
-                                value: 'A',
-                              ),
-                              DropdownMenuItem(
-                                value: 'nature',
-                                child: Text('Nature'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'science',
-                                child: Text('science'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'entertainment',
-                                child: Text('entertainment'),
-                              ),
-                              DropdownMenuItem(
-                                value: 'Politics',
-                                child: Text('Politics'),
-                              ),
-                            ],
-                            value:
-                                _selectedValue, // Set the value to one of the values in the items list
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedValue = value;
-                                selectedCategory = _selectedValue;
-                              });
-                            },
-                          ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: DropdownButton(
+                          dropdownColor: Colors.black,
+                          items: [
+                            DropdownMenuItem(
+                              child: dropdownText('select the category'),
+                              value: 'A',
+                            ),
+                            DropdownMenuItem(
+                              value: 'nature',
+                              child: dropdownText('Nature'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'science',
+                              child: dropdownText('Science'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'entertainment',
+                              child: dropdownText('Entertainment'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Politics',
+                              child: dropdownText('Politics'),
+                            ),
+                          ],
+                          value:
+                              _selectedValue, // Set the value to one of the values in the items list
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedValue = value;
+                              selectedCategory = _selectedValue;
+                            });
+                          },
                         ),
                       ),
                       Align(
@@ -221,7 +214,7 @@ class _AddBlogState extends State<AddBlog> {
                         alignment: Alignment.bottomLeft,
                         child: Apptext(words: 'Add description'),
                       ),
-                    descriptionfield(descriptionController,Description),
+                      descriptionfield(descriptionController, Description),
                       SizedBox(
                         height: 20,
                       ),
@@ -238,7 +231,6 @@ class _AddBlogState extends State<AddBlog> {
                                 descriptionController,
                                 indx,
                                 selectedCategory,
-                              
                                 context);
                           }),
                       Padding(

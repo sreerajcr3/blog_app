@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:blog_app/Appfunctions/appfunctions.dart';
 import 'package:blog_app/screens/Screens/Blog/favorites.dart';
 import 'package:blog_app/screens/Screens/user/editUserprofile.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
@@ -9,7 +10,6 @@ import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProfile extends StatefulWidget {
   final int? index;
@@ -31,7 +31,7 @@ class _UserProfileState extends State<UserProfile> {
   void initState() {
     super.initState();
     userId = Hive.box('userid');
-    
+
     userIndexIdentification().then((value) {
       setState(() {
         indx = value;
@@ -78,14 +78,19 @@ class _UserProfileState extends State<UserProfile> {
                     builder: (ctx) => EditProfile(
                           index: indx!,
                           user: user,
-                          ProfilePicPath: user.profilePic?? ' no image',
+                          ProfilePicPath: user.profilePic ?? ' no image',
                         )));
               },
               child: const Text('edit profile')),
           const SizedBox(height: 50),
-          // Apptext(words: 'Name :  ${user.name}',trimmed: true,),
-          TitleText(words: 'Name : ${user.name}',trimmed: true,),
-          Apptext(words: 'Username :  ${user.username}',trimmed: true,),
+          TitleText(
+            words: 'Name : ${user.name}',
+            trimmed: true,
+          ),
+          Apptext(
+            words: 'Username :  ${user.username}',
+            trimmed: true,
+          ),
           const SizedBox(
             height: 50,
           ),
@@ -124,11 +129,5 @@ class _UserProfileState extends State<UserProfile> {
     return pickedImage;
   }
 
-  Future<int> userIndexIdentification() async {
-    debugPrint('f:widget.index: ${widget.index}');
-    final sharedprefsUser = await SharedPreferences.getInstance();
-    final u = sharedprefsUser.getInt('userindex');
-    debugPrint('sharedprefsuserindex : $u');
-    return u!;
-  }
+ 
 }

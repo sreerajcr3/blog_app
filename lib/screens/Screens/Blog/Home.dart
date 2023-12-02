@@ -5,9 +5,9 @@ import 'package:blog_app/Appfunctions/appfunctions.dart';
 import 'package:blog_app/screens/Screens/Blog/comment_page.dart';
 import 'package:blog_app/screens/Screens/Blog/widgets/widget.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
-import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/Screens/Blog/BlogDetailPage.dart';
 import 'package:blog_app/screens/Screens/Blog/editPage.dart';
+import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -64,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       key: _scaffoldKey,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -144,153 +145,179 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ListView.builder(
                             itemCount: blogBox.length,
                             itemBuilder: (ctx, index) {
-                              // var reversedIndex =
-                              //     blogBox.length - 1 - index; // Reverse the index
-                              // var blog = blogBox.getAt(reversedIndex);
-                              var blog = blogBox.getAt(index) as Blog;
+                              var reversedIndex = blogBox.length -
+                                  1 -
+                                  index; // Reverse the index
+                              var blog = blogBox.getAt(reversedIndex);
+                              //  var blog = blogBox.getAt(index) as Blog;
                               String imagePath = blog.imagePath;
-                  
+
                               return InkWell(
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (ctx) => BlogPage(blog: blog)));
                                 },
-                                child: Card(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        decoration:
-                                            BoxDecoration(color: Colors.black),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(
+                                            color: Colors.yellow,
+                                            width: 0.2,
+                                            style: BorderStyle.solid)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Card(
+                                        color: Colors.yellow,
+                                        shape: Border(
+                                            top: BorderSide(width: 0),
+                                            left: BorderSide(width: 0),
+                                            right: BorderSide(width: 0),
+                                            bottom: BorderSide(width: 0)),
                                         child: SingleChildScrollView(
                                           child: Column(
                                             children: [
-                                              Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Stack(
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    color: Colors.black),
+                                                child: Column(
                                                   children: [
-                                                    ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(30),
-                                                        child: Image.file(
-                                                          File(imagePath),
-                                                          fit: BoxFit.fill,
-                                                        )),
-                                                    // Positioned(
-                                                    //   right: 20,
-                                                    //   top: 20,
-                                                    //   child: IconButton(
-                                                    //     onPressed: () {
-                                                    //       setState(
-                                                    //         () {
-                                                    //           // final values =
-                                                    //           //     favorites(
-                                                    //           //   userIndex:
-                                                    //           //       indx ?? 0,
-                                                    //           //   blogId: Blog(
-                                                    //           //       date: blog
-                                                    //           //           .date,
-                                                    //           //       title: blog
-                                                    //           //           .title,
-                                                    //           //       imagePath:
-                                                    //           //           imagePath,
-                                                    //           //       description:
-                                                    //           //           blog.description),
-                                                    //           // );
-                                                    //           // blog.isFavorite =
-                                                    //           //     !blog
-                                                    //           //         .isFavorite;
-                  
-                                                    //           // blog.isFavorite
-                                                    //           //     ? favoriteBox
-                                                    //           //         .add(
-                                                    //           //             values)
-                                                    //           //     : favoriteBox
-                                                    //           //         .deleteAt(
-                                                    //           //             index);
-                                                    //         },
-                                                    //       );
-                                                    //     },
-                                                    //     // icon: Icon(
-                                                    //     //     Icons.favorite,
-                                                    //     //     color: blog
-                                                    //     //             .isFavorite
-                                                    //     //         ? Colors.red
-                                                    //     //         : Colors.white,size: 33,),
-                                                    //   ),
-                                                    // ),
+                                                  
+                                                    Stack(
+                                                      children: [
+                                                        ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        30),
+                                                            child: Image.file(
+                                                              File(imagePath),
+                                                              fit:
+                                                                  BoxFit.fill,
+                                                            )),
+                                                        Positioned(
+                                                          right: 20,
+                                                          top: 20,
+                                                          child: IconButton(
+                                                            onPressed: () {
+                                                              setState(
+                                                                () {
+                                                                  final values =
+                                                                      favorites(
+                                                                    userIndex:
+                                                                        indx ??
+                                                                            0,
+                                                                    blogId: Blog(
+                                                                        date: blog
+                                                                            .date,
+                                                                        title: blog
+                                                                            .title,
+                                                                        imagePath:
+                                                                            imagePath,
+                                                                        description:
+                                                                            blog.description),
+                                                                  );
+                                                                  blog.isFavorite =
+                                                                      !blog
+                                                                          .isFavorite;
+                                        
+                                                                  blog.isFavorite
+                                                                      ? favoriteBox.add(
+                                                                          values)
+                                                                      : favoriteBox
+                                                                          .deleteAt(index);
+                                                                },
+                                                              );
+                                                            },
+                                                            icon: Icon(
+                                                              Icons.favorite,
+                                                              color: blog
+                                                                      .isFavorite
+                                                                  ? Colors.red
+                                                                  : Colors
+                                                                      .white,
+                                                              size: 33,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    date(blog),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Expanded(
+                                                          child: TitleText(
+                                                            words: blog.title,
+                                                            trimmed: true,
+                                                          ),
+                                                        ),
+                                                        indx == blog.userIndex
+                                                            ? IconButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (ctx) =>
+                                                                              EditPage(
+                                                                        selectedDate:
+                                                                            blog.date,
+                                                                        title: blog
+                                                                            .title,
+                                                                        description:
+                                                                            blog.description,
+                                                                        image: blog
+                                                                            .imagePath,
+                                                                        blog:
+                                                                            blog,
+                                                                        index:
+                                                                            index,
+                                                                        userIndex:
+                                                                            indx!,
+                                                                        category:
+                                                                            blog.category!,
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                                icon: Icon(
+                                                                    Icons.edit))
+                                                            : SizedBox(),
+                                                        IconButton(
+                                                            onPressed: () {
+                                                              Navigator.of(context).push(
+                                                                  MaterialPageRoute(
+                                                                      builder: (ctx) =>
+                                                                          CommentPage(
+                                                                            blogIndex:
+                                                                                index,
+                                                                          )));
+                                                            },
+                                                            icon: Icon(Icons
+                                                                .comment_sharp))
+                                                      ],
+                                                    ),
+                                                    DescriptionText(
+                                                      trimmed: true,
+                                                      words: blog.description,
+                                                      softwrap: false,
+                                                      maxLines: 3,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
                                                   ],
                                                 ),
-                                              ),
-                                              date(blog),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Expanded(
-                                                    child: TitleText(
-                                                      words: blog.title,
-                                                      trimmed: true,
-                                                    ),
-                                                  ),
-                                                 indx == blog.userIndex
-                                                      ? IconButton(
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .push(
-                                                              MaterialPageRoute(
-                                                                builder: (ctx) =>
-                                                                    EditPage(
-                                                                  selectedDate:
-                                                                      blog.date,
-                                                                  title: blog
-                                                                      .title,
-                                                                  description: blog
-                                                                      .description,
-                                                                  image: blog
-                                                                      .imagePath,
-                                                                  blog: blog,
-                                                                  index: index,
-                                                                  userIndex: indx!, category: blog.category!,
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                          icon:
-                                                              Icon(Icons.edit))
-                                                      : SizedBox(),
-                                                  IconButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context).push(
-                                                            MaterialPageRoute(
-                                                                builder: (ctx) =>
-                                                                    CommentPage(
-                                                                      blogIndex:
-                                                                          index,
-                                                                    )));
-                                                      },
-                                                      icon: Icon(
-                                                          Icons.comment_sharp))
-                                                ],
-                                              ),
-                                              DescriptionText(
-                                                trimmed: true,
-                                                words: blog.description,
-                                                softwrap: false,
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
                                               ),
                                             ],
                                           ),
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               );

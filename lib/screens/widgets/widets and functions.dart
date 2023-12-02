@@ -179,7 +179,7 @@ class TitleText extends StatelessWidget {
       padding: const EdgeInsets.only(left: 19, top: 10, bottom: 15),
       child: Text(
         word,
-        style: GoogleFonts.cabin(fontSize: 25, fontWeight: FontWeight.w700),
+        style: GoogleFonts.cabin(fontSize: 25, fontWeight: FontWeight.w700,),
         strutStyle: StrutStyle(height: 2.5),
       ),
     );

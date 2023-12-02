@@ -55,7 +55,7 @@ class _AdminPanelState extends State<AdminPanel> {
                         BorderRadius.only(topLeft: Radius.circular(70))),
                 child: Column(
                   children: [
-                    SizedBox(height: 40,),
+                    const SizedBox(height: 40,),
                      const TitleText(words: 'Welcome to Admin panel'),
                     GridView.count(
                       shrinkWrap: true,

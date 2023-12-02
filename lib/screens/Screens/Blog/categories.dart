@@ -4,8 +4,6 @@ import 'dart:io';
 
 import 'package:blog_app/Appfunctions/appfunctions.dart';
 import 'package:blog_app/screens/Screens/Blog/BlogDetailPage.dart';
-import 'package:blog_app/screens/Screens/Blog/editPage.dart';
-import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';

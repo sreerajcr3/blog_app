@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:blog_app/Databse/functions.dart';
 import 'package:blog_app/screens/Screens/Blog/Home.dart';
@@ -80,58 +79,6 @@ void saveData(_key, _selectedValue, _selectedDate, titleContoller, imagePath,
         category: selectedCategory);
     blogBox.add(blogData);
 
-    //     switch (selectedCategory) {
-    // case 'nature':
-    //   // natureBox.add(getCopy());
-    //     final blogData = Blog(
-    //     date: _selectedDate.toString(),
-    //     title: titleContoller.text,
-    //     imagePath: imagePath!,
-    //     description: descriptionController.text,
-    //     userIndex: indx, category: 'nature');
-    //    blogBox.add(blogData);
-
-    //    print('nsaved');
-
-    //   break;
-    // case 'science':
-    //  // entertainmentBox.add(getCopy());
-    //  final blogData = Blog(
-    //     date: _selectedDate.toString(),
-    //     title: titleContoller.text,
-    //     imagePath: imagePath!,
-    //     description: descriptionController.text,
-    //     userIndex: indx, category: 'science');
-    //    blogBox.add(blogData);
-    //      print('science saved');
-    //   break;
-    // case 'entertainment':
-    //  // scienceBox.add(getCopy());
-    //    final blogData = Blog(
-    //     date: _selectedDate.toString(),
-    //     title: titleContoller.text,
-    //     imagePath: imagePath!,
-    //     description: descriptionController.text,
-    //     userIndex: indx, category: 'entertainment');
-    //    blogBox.add(blogData);
-    //             print('entertainment saved');
-
-    //   break;
-    // case 'politics':
-    //   // politicsBox.add(getCopy());
-    //   final blogData = Blog(
-    //     date: _selectedDate.toString(),
-    //     title: titleContoller.text,
-    //     imagePath: imagePath!,
-    //     description: descriptionController.text,
-    //     userIndex: indx, category: 'politics');
-    //    blogBox.add(blogData);
-    //             print('politics saved');
-
-    //   break;
-    // }
-
-    // saveBlog(blogData,  getCopy, context);
   } else {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Select Category'),

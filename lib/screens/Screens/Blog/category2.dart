@@ -6,7 +6,6 @@ import 'package:blog_app/screens/Screens/Blog/widgets/widget.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 
 class Category2 extends StatefulWidget {
@@ -96,11 +95,18 @@ class _Category2State extends State<Category2> {
                   }),
             ],
           ),
+         categoryList.isEmpty?Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+           children: [
+            Center(child: Text('data'))
+           ],
+         ):
           Expanded(
             child: ListView.builder(
               itemCount: categoryList.length,
               itemBuilder: (ctx, index) {
                 final data = categoryList[index];
+                
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(

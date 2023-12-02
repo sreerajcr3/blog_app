@@ -2,10 +2,8 @@
 
 import 'package:blog_app/Databse/functions.dart';
 import 'package:blog_app/screens/Screens/Blog/Home.dart';
-import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 class SearchTextFormField extends StatelessWidget {

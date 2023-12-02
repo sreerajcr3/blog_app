@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "BLOGGER'S ",
+                        "BLOGS ",
                         style: GoogleFonts.breeSerif(
                             textStyle: TextStyle(
                           fontWeight: FontWeight.w600,

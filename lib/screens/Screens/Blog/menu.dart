@@ -4,7 +4,6 @@ import 'package:blog_app/Appfunctions/appfunctions.dart';
 import 'package:blog_app/screens/Screens/Blog/Home.dart';
 import 'package:blog_app/screens/Screens/Blog/category2.dart';
 import 'package:blog_app/screens/Screens/user/Loginpage.dart';
-import 'package:blog_app/screens/Screens/Blog/categories.dart';
 import 'package:blog_app/screens/Screens/user/signup.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';

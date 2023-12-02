@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:blog_app/Appfunctions/appfunctions.dart';
-import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 

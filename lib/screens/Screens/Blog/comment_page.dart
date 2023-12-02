@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:blog_app/Appfunctions/appfunctions.dart';
-import 'package:blog_app/screens/Screens/user/Loginpage.dart';
 import 'package:blog_app/screens/model/comment_model.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:flutter/material.dart';
