@@ -80,12 +80,14 @@ void saveData(_key, _selectedValue, _selectedDate, titleContoller, imagePath,
   String key = DateTime.now().millisecondsSinceEpoch.toString();
   print('key  = $key');
 
-  if (_selectedValue != null &&
-      _selectedValue != 'A' &&
-      titleContoller.text.isNotEmpty &&
-      descriptionController.text.isNotEmpty &&
-      imagePath != null) {
-    final blogData = Blog(
+ 
+   if (_key.currentState!.validate() &&
+                              _selectedValue != null &&
+                              _selectedValue != 'A'&&
+                              titleContoller.text.isNotEmpty &&
+                              descriptionController.text.isNotEmpty &&
+                              imagePath != null) {
+                                 final blogData = Blog(
         date: _selectedDate.toString(),
         title: titleContoller.text,
         imagePath: imagePath!,
@@ -93,10 +95,8 @@ void saveData(_key, _selectedValue, _selectedDate, titleContoller, imagePath,
         userIndex: indx,
         category: selectedCategory,
         key: key);
-    // blogBox.put(key, blogData);
-    blogBox.add(blogData);
-  }
-  Navigator.of(context)
+                           blogBox.put(key, blogData);
+                            Navigator.of(context)
       .push(MaterialPageRoute(builder: (ctx) => const BottomBavigationBar()));
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -105,6 +105,25 @@ void saveData(_key, _selectedValue, _selectedDate, titleContoller, imagePath,
     backgroundColor: Colors.blue,
     margin: EdgeInsets.all(20),
   ));
+  //   blogBox.add(blogData);
+                          } else if( _selectedValue == null ||
+                              _selectedValue == 'A' ){
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Select Category'),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.red,
+                              margin: EdgeInsets.all(20),
+                            ));
+                          }else if(imagePath==null){
+                              ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Select Image'),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.red,
+                              margin: EdgeInsets.all(20),
+                            ));
+                          }
 }
 
 Future<bool> checkLoggedinMenu(context) async {

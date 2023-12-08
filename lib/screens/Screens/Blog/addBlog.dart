@@ -221,12 +221,7 @@ class _AddBlogState extends State<AddBlog> {
                         child: Text('Save'),
                         onLongPress: () {},
                         onPressed: () {
-                          if (_key.currentState!.validate() &&
-                              _selectedValue != null &&
-                              _selectedValue != 'A'&&
-                              titleContoller.text.isNotEmpty &&
-                              descriptionController.text.isNotEmpty &&
-                              imagePath != null) {
+                        
                             saveData(
                                 _key,
                                 _selectedValue,
@@ -237,25 +232,8 @@ class _AddBlogState extends State<AddBlog> {
                                 indx,
                                 selectedCategory,
                                 context);
-                          } else if( _selectedValue == null ||
-                              _selectedValue == 'A' ){
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text('Select Category'),
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Colors.red,
-                              margin: EdgeInsets.all(20),
-                            ));
-                          }else if(imagePath==null){
-                              ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text('Select Image'),
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Colors.red,
-                              margin: EdgeInsets.all(20),
-                            ));
-                          }
-                        },
+                         
+                        }
                       ),
                       Padding(
                         padding: const EdgeInsets.all(15.0),
