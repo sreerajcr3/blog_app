@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:io';
 
 import 'package:blog_app/Appfunctions/appfunctions.dart';
@@ -6,7 +8,6 @@ import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
 class Favorites extends StatefulWidget {
@@ -38,12 +39,12 @@ class _FavoritesState extends State<Favorites> {
     checkLoggedinFavorite(context);
   }
 
-  int favoriteCount(blogindex){
+  int favoriteCount(blogindex) {
     int count = 0;
-    for(int i = 0;i < favoriteBox.length ; i++){
-   final favorite  =   favoriteBox.getAt(i) as favorites;
-      if(favorite != null && indx ==favorite.userIndex){
-          count++;
+    for (int i = 0; i < favoriteBox.length; i++) {
+      final favorite = favoriteBox.getAt(i) as favorites;
+      if (favorite != null && indx == favorite.userIndex) {
+        count++;
       }
     }
     return count;
@@ -51,7 +52,6 @@ class _FavoritesState extends State<Favorites> {
 
   @override
   Widget build(BuildContext context) {
-    final user = userId.getAt(indx ?? 0);
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -59,40 +59,38 @@ class _FavoritesState extends State<Favorites> {
         backgroundColor: Colors.transparent,
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(50),
-            child:
-             Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ValueListenableBuilder(
-                  valueListenable:favoriteBox.listenable() ,
+                  valueListenable: favoriteBox.listenable(),
                   builder: (context, value, child) {
                     final favoriteCounts = favoriteCount(indx);
-                    return Apptext(words: 'Favorites  (${favoriteCounts})');
+                    return Apptext(words: 'Favorites  ($favoriteCounts)');
                   },
-                  ),
+                ),
               ],
-            )
-            ),
+            )),
       ),
       body: Column(
         children: [
           Expanded(
             child: ValueListenableBuilder(
-              
               valueListenable: favoriteBox.listenable(),
-              builder: (BuildContext context, Box<dynamic> value, Widget? child) =>
-               ListView.builder(
+              builder:
+                  (BuildContext context, Box<dynamic> value, Widget? child) =>
+                      ListView.builder(
                 itemCount: favoriteBox.length,
                 itemBuilder: (ctx, index) {
                   var blog = favoriteBox.getAt(index) as favorites;
                   final details = blogBox.getAt(blog.blogIndex) as Blog;
                   debugPrint("A=$indx");
-            
+
                   if (blog.userIndex == indx) {
                     //checks the userlogged index is same as index with the user added the blog to the favoritebox
-            
+
                     debugPrint('userindex:${blog.userIndex.toString()}');
-                  
+
                     return InkWell(
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
@@ -108,16 +106,21 @@ class _FavoritesState extends State<Favorites> {
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ),
-                            IconButton(onPressed: (){
-                              favoriteBox.deleteAt(index);
-                            }, icon: Icon(Icons.delete,color: Colors.white,))
+                            IconButton(
+                                onPressed: () {
+                                  favoriteBox.deleteAt(index);
+                                },
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color: Colors.white,
+                                ))
                           ],
                         ),
-                          leading: CircleAvatar(
+                        leading: CircleAvatar(
                           radius: 20,
                           backgroundImage: FileImage(
                             File(
-                             details.imagePath.toString(),
+                              details.imagePath.toString(),
                             ),
                           ),
                         ),

@@ -5,7 +5,6 @@ import 'package:blog_app/screens/Screens/Blog/bottomnavigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 class SearchTextFormField extends StatelessWidget {
@@ -106,7 +105,7 @@ class DeleteBlog extends StatelessWidget {
 }
 
 deleteButton(context, index) {
- Box commentBox = Hive.box('comment');
+
   return Padding(
     padding: const EdgeInsets.only(left: 0, right: 0),
     child: IconButton(

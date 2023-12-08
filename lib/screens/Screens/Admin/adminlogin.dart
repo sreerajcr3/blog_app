@@ -10,27 +10,22 @@ class AdminLogin extends StatefulWidget {
 }
 
 class _AdminLoginState extends State<AdminLogin> {
-  
-
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _key = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
-   
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      // appBar: AppbarContainer(),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //  AppbarContainer(child: Text('data',style: TextStyle(color: Colors.blue),),),
-            AppbarContainer(),
+            const AppbarContainer(),
             Container(
               color: Colors.yellow,
               // const Color(0xFFC7D9E7),

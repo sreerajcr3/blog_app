@@ -40,9 +40,7 @@ class _CategoriesState extends State<Categories> {
     entertainmentBox = Hive.box<dynamic>('entertainment');
     scienceBox = Hive.box('science');
     politicsBox = Hive.box<dynamic>('politics');
-    // box = natureBox;
     category = 'nature';
-    print(category);
     blogBox = Hive.box('blog');
   }
 
@@ -74,7 +72,7 @@ class _CategoriesState extends State<Categories> {
                     onChanged: (value) {
                       setState(
                         () {
-                          category = value! ;
+                          category = value!;
                           // switch (selectedCategory) {
                           //   case 'nature':
                           //     category = 'nature';
@@ -94,7 +92,6 @@ class _CategoriesState extends State<Categories> {
                           // }
                         },
                       );
-                      printcategory();
                     }),
               ),
             ),
@@ -105,7 +102,7 @@ class _CategoriesState extends State<Categories> {
                   child: ListView.builder(
                     itemCount: blogBox.length,
                     itemBuilder: (ctx, index) {
-                      final blog = blogBox.getAt(index) ;
+                      final blog = blogBox.getAt(index);
                       if (blog.category == category) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -138,7 +135,6 @@ class _CategoriesState extends State<Categories> {
                                         Expanded(
                                             child:
                                                 TitleText(words: blog.title)),
-                                       
                                       ],
                                     ),
                                     Row(
@@ -161,12 +157,12 @@ class _CategoriesState extends State<Categories> {
                         );
                       }
                       Container(
+                        color: Colors.cyan,
+                        height: 300,
                         child: Text(
                           'data',
                           style: TextStyle(color: Colors.white),
                         ),
-                        color: Colors.cyan,
-                        height: 300,
                       );
                       return null;
                     },
@@ -185,9 +181,5 @@ class _CategoriesState extends State<Categories> {
         ],
       ),
     );
-  }
-
-  printcategory() {
-    print(category);
   }
 }

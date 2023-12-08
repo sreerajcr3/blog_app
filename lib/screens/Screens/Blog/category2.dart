@@ -95,9 +95,9 @@ class _Category2State extends State<Category2> {
                   }),
             ],
           ),
-         categoryList.isEmpty?Container(
+         categoryList.isEmpty?SizedBox(
           height: MediaQuery.sizeOf(context).height/1.4,
-          child: Center(child:TitleText(words: 'No blogs related to this Category'))):
+          child: const Center(child:TitleText(words: 'No blogs related to this Category'))):
           Expanded(
             child: ListView.builder(
               itemCount: categoryList.length,

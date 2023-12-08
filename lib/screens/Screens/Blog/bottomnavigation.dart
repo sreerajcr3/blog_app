@@ -1,9 +1,7 @@
-import 'package:blog_app/Appfunctions/appfunctions.dart';
 import 'package:blog_app/screens/Screens/Blog/Home.dart';
 import 'package:blog_app/screens/Screens/Blog/addBlog.dart';
 import 'package:blog_app/screens/Screens/Blog/category2.dart';
 import 'package:blog_app/screens/Screens/Blog/favorites.dart';
-import 'package:blog_app/screens/Screens/user/Loginpage.dart';
 import 'package:blog_app/screens/Screens/user/userProfile.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
