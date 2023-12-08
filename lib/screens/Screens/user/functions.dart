@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable, no_leading_underscores_for_local_identifiers
 
 import 'package:blog_app/screens/Screens/Blog/Home.dart';
+import 'package:blog_app/screens/Screens/Blog/bottomnavigation.dart';
 import 'package:blog_app/screens/Screens/user/Loginpage.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,7 @@ Future<int?> identifyUserIndex(
 
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (ctx) => HomeScreen(
+          builder: (ctx) => const BottomBavigationBar(
            // index: index,
           ),
         ),

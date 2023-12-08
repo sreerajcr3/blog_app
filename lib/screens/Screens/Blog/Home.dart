@@ -9,6 +9,7 @@ import 'package:blog_app/screens/Screens/Blog/BlogDetailPage.dart';
 import 'package:blog_app/screens/Screens/Blog/editPage.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -29,8 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
   bool iconValue = false;
 
   List<dynamic> _searchResults = [];
-  int Index = 0;
+
   int? indx;
+  int commentCount = 0;
 
   final _searchController = TextEditingController();
   final commentController = TextEditingController();
@@ -61,10 +63,16 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  updatedCommentCount(int count) {
+    setState(() {
+      commentCount = count;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      extendBody: true,
       key: _scaffoldKey,
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -145,12 +153,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ListView.builder(
                             itemCount: blogBox.length,
                             itemBuilder: (ctx, index) {
-                              var reversedIndex = blogBox.length -
-                                  1 -
-                                  index; // Reverse the index
-                              var blog = blogBox.getAt(reversedIndex);
-                              //  var blog = blogBox.getAt(index) as Blog;
+                              // var reversedIndex = blogBox.length -
+                              //     1 -
+                              //     index; // Reverse the index
+                              // var blog = blogBox.getAt(reversedIndex);
+                              var blog = blogBox.getAt(index) as Blog;
                               String imagePath = blog.imagePath;
+                              debugPrint(blog.key);
 
                               return InkWell(
                                 onTap: () {
@@ -183,7 +192,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     color: Colors.black),
                                                 child: Column(
                                                   children: [
-                                                  
                                                     Stack(
                                                       children: [
                                                         ClipRRect(
@@ -193,8 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                         30),
                                                             child: Image.file(
                                                               File(imagePath),
-                                                              fit:
-                                                                  BoxFit.fill,
+                                                              fit: BoxFit.fill,
                                                             )),
                                                         Positioned(
                                                           right: 20,
@@ -203,30 +210,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             onPressed: () {
                                                               setState(
                                                                 () {
-                                                                  final values =
-                                                                      favorites(
-                                                                    userIndex:
-                                                                        indx ??
-                                                                            0,
-                                                                    blogId: Blog(
-                                                                        date: blog
-                                                                            .date,
-                                                                        title: blog
-                                                                            .title,
-                                                                        imagePath:
-                                                                            imagePath,
-                                                                        description:
-                                                                            blog.description),
-                                                                  );
+                                                                  final values = favorites(
+                                                                      userIndex:
+                                                                          indx ??
+                                                                              0,
+                                                                      blogIndex:
+                                                                          index);
                                                                   blog.isFavorite =
                                                                       !blog
                                                                           .isFavorite;
-                                        
+
                                                                   blog.isFavorite
-                                                                      ? favoriteBox.add(
-                                                                          values)
+                                                                      ? favoriteBox
+                                                                          .add(
+                                                                              values)
                                                                       : favoriteBox
-                                                                          .deleteAt(index);
+                                                                          .deleteAt(
+                                                                              index);
                                                                 },
                                                               );
                                                             },
@@ -253,6 +253,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           child: TitleText(
                                                             words: blog.title,
                                                             trimmed: true,
+                                                            softwrap: false,
+                                                            maxLines: 2,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                           ),
                                                         ),
                                                         indx == blog.userIndex
@@ -281,25 +286,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             indx!,
                                                                         category:
                                                                             blog.category!,
+                                                                            blogkey: blog.key.toString(),
                                                                       ),
                                                                     ),
                                                                   );
                                                                 },
                                                                 icon: Icon(
-                                                                    Icons.edit))
+                                                                  CupertinoIcons
+                                                                      .pencil,
+                                                                ))
                                                             : SizedBox(),
-                                                        IconButton(
-                                                            onPressed: () {
-                                                              Navigator.of(context).push(
-                                                                  MaterialPageRoute(
-                                                                      builder: (ctx) =>
-                                                                          CommentPage(
-                                                                            blogIndex:
-                                                                                index,
-                                                                          )));
-                                                            },
-                                                            icon: Icon(Icons
-                                                                .comment_sharp))
+                                                        Column(
+                                                          children: [
+                                                            IconButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(MaterialPageRoute(
+                                                                          builder: (ctx) => CommentPage(
+                                                                                blogIndex: index,
+                                                                                updatedCommentCount: updatedCommentCount,
+                                                                                blogKey: blog.key.toString(),
+                                                                              )));
+                                                                },
+                                                                icon: Icon(
+                                                                    CupertinoIcons
+                                                                        .chat_bubble)),
+                                                            Text(
+                                                              blog.commentCount.toString()),
+                                                          ],
+                                                        )
                                                       ],
                                                     ),
                                                     DescriptionText(

@@ -14,6 +14,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+
   late Box userId;
   final _nameController = TextEditingController();
   final _usernameController = TextEditingController();
@@ -25,6 +26,7 @@ class _SignUpState extends State<SignUp> {
   void initState() {
     super.initState();
     userId = Hive.box('userid');
+ 
   }
 
   @override

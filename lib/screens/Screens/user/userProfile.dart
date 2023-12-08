@@ -37,7 +37,7 @@ class _UserProfileState extends State<UserProfile> {
         indx = value;
       });
     });
-    // imagePath = userId.get('imagePath');
+   checkLoggedinProfile(context);
   }
 
   @override
@@ -53,64 +53,60 @@ class _UserProfileState extends State<UserProfile> {
         ),
         backgroundColor: Colors.transparent,
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Center(
-            child: Container(
-              width: 200,
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(30)),
-              child: user.profilePic != null
-                  ? CircleAvatar(
-                      radius: 60,
-                      backgroundImage: FileImage(File(userlogged!.profilePic!))
-                      // ),
-                      )
-                  : const Icon(Icons.add_a_photo),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 50,
             ),
-          ),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (ctx) => EditProfile(
-                          index: indx!,
-                          user: user,
-                          ProfilePicPath: user.profilePic ?? ' no image',
-                        )));
-              },
-              child: const Text('edit profile')),
-          const SizedBox(height: 50),
-          TitleText(
-            words: 'Name : ${user.name}',
-            trimmed: true,
-          ),
-          Apptext(
-            words: 'Username :  ${user.username}',
-            trimmed: true,
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          InkWell(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (ctx) => Favorites(
-                      index: widget.index,
-                    ))),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Apptext(words: 'favorites'),
-                Icon(
-                  Icons.arrow_right_sharp,
-                  size: 40,
-                ),
-              ],
+            Center(
+              child: Container(
+                width: 200,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                child: user.profilePic != null
+                    ? CircleAvatar(
+                        radius: 60,
+                        backgroundImage: FileImage(File(userlogged!.profilePic!))
+                        // ),
+                        )
+                    : const Icon(Icons.add_a_photo),
+              ),
             ),
-          ),
-        ],
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (ctx) => EditProfile(
+                            index: indx!,
+                            user: user,
+                            ProfilePicPath: user.profilePic ?? ' no image',
+                          )));
+                },
+                child: const Text('edit profile')),
+            const SizedBox(height: 50),
+            TitleText(
+              words: 'Name : ${user.name}',
+              trimmed: true,
+            ),
+            Apptext(
+              words: 'Username :  ${user.username}',
+              trimmed: true,
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            InkWell(
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (ctx) => Favorites(
+                        index: widget.index,
+                      ))),
+              child: const Apptext(words: 'favorites'),
+
+            ),
+           // Apptext(words: 'Settings', )
+           
+          ],
+        ),
       ),
     );
   }

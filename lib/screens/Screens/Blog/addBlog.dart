@@ -41,20 +41,19 @@ class _AddBlogState extends State<AddBlog> {
   void initState() {
     super.initState();
     blogBox = Hive.box('blog');
-    natureBox = Hive.box('nature');
-    entertainmentBox = Hive.box('entertainment');
-    scienceBox = Hive.box('science');
-    politicsBox = Hive.box('politics');
+
     userIndexIdentification().then((value) {
       setState(() {
         indx = value;
       });
     });
+    checkLoggedin(context);
   }
 
   @override
   Widget build(BuildContext context) {
     final index = widget.index;
+  
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -214,14 +213,20 @@ class _AddBlogState extends State<AddBlog> {
                         alignment: Alignment.bottomLeft,
                         child: Apptext(words: 'Add description'),
                       ),
-                      descriptionfield(descriptionController, Description),
+                      descriptionfield(descriptionController),
                       SizedBox(
                         height: 20,
                       ),
                       Button(
-                          child: Text('Save'),
-                          onLongPress: () {},
-                          onPressed: () {
+                        child: Text('Save'),
+                        onLongPress: () {},
+                        onPressed: () {
+                          if (_key.currentState!.validate() &&
+                              _selectedValue != null &&
+                              _selectedValue != 'A' &&
+                              titleContoller.text.isNotEmpty &&
+                              descriptionController.text.isNotEmpty &&
+                              imagePath != null) {
                             saveData(
                                 _key,
                                 _selectedValue,
@@ -232,7 +237,17 @@ class _AddBlogState extends State<AddBlog> {
                                 indx,
                                 selectedCategory,
                                 context);
-                          }),
+                          } else {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Select Category'),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.red,
+                              margin: EdgeInsets.all(20),
+                            ));
+                          }
+                        },
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(15.0),
                         child: footerText(
@@ -249,14 +264,7 @@ class _AddBlogState extends State<AddBlog> {
     );
   }
 
-  // Blog getCopy() {
-  //   return Blog(
-  //       date: _selectedDate.toString(),
-  //       title: titleContoller.text,
-  //       imagePath: imagePath!,
-  //       description: descriptionController.text, category: '');
-  // }
-
+ 
   Future<XFile?> pickImageFromGallery() async {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);

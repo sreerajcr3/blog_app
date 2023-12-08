@@ -1,8 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:io';
+import 'package:blog_app/Appfunctions/appfunctions.dart';
 import 'package:blog_app/Databse/functions.dart';
-import 'package:blog_app/screens/Screens/Blog/Home.dart';
+import 'package:blog_app/screens/Screens/Blog/bottomnavigation.dart';
 import 'package:blog_app/screens/Screens/Blog/widgets/widget.dart';
 import 'package:intl/intl.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
@@ -20,18 +21,18 @@ class EditPage extends StatefulWidget {
   final int index;
   final int userIndex;
   final String category;
+  final String blogkey;
 
-  const EditPage({
-    super.key,
-    required this.title,
-    required this.description,
-    required this.image,
-    required this.blog,
-    required this.index,
-    required this.selectedDate,
-   required this.userIndex, required this.category
-   
-  });
+  const EditPage(
+      {super.key,
+      required this.title,
+      required this.description,
+      required this.image,
+      required this.blog,
+      required this.index,
+      required this.selectedDate,
+      required this.userIndex,
+      required this.category, required this.blogkey});
 
   @override
   State<EditPage> createState() => _EditPageState();
@@ -58,10 +59,6 @@ class _EditPageState extends State<EditPage> {
     _descriptionController.text = widget.description;
     // selectedDate = widget.selectedDate.toString() ;
     blogBox = Hive.box('blog');
-    natureBox = Hive.box('nature');
-    scienceBox = Hive.box('science');
-    entertainmentBox = Hive.box('entertainment');
-    politicsBox = Hive.box('politics');
   }
 
   @override
@@ -73,36 +70,38 @@ class _EditPageState extends State<EditPage> {
         children: [
           Stack(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: SizedBox(
-                  height: 300,
-                  child: GestureDetector(
-                    onTap: () async {
-                      await pickImageFromGallery();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(30),
-                        child: _updatedImage != null
-                            ? Image.file(File(_updatedImage!.path))
-                            : Image.file(File(widget.blog.imagePath)),
-                      ),
-                    ),
-                  ),
+              GestureDetector(
+                onTap: () async {
+                  await pickImageFromGallery();
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: _updatedImage != null
+                      ? Image.file(File(_updatedImage!.path))
+                      : Image.file(File(widget.blog.imagePath)),
                 ),
               ),
               Positioned(
-                //left: ,
-                top: 0,
+                left: 25,
+                top: 20,
                 child: IconButton(
                     onPressed: () {
                       Navigator.pop(context, 'refresh');
                     },
-                    icon: Icon(Icons.arrow_back)),
+                    icon: Icon(
+                      Icons.arrow_back,
+                      size: 30,
+                    )),
               ),
+              Positioned(
+                right: 25,
+                top: 20,
+                child: deleteButton(context, index),
+              )
             ],
+          ),
+          SizedBox(
+            height: 20,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -154,12 +153,15 @@ class _EditPageState extends State<EditPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  ElevatedButton(
+                  Button(
+                      child: Text('Update'),
+                      onLongPress: () {},
                       onPressed: () {
                         if (_key.currentState!.validate()) {
-                          final dflknd = DateTime.now().millisecondsSinceEpoch;
+//Unique key like Index
 
-                          debugPrint('fkkd $dflknd');
+                          //         final dflknd = DateTime.now().millisecondsSinceEpoch;
+                          //         debugPrint('fkkd $dflknd');
 
                           final updatedImagePath =
                               _updatedImage?.path ?? widget.blog.imagePath;
@@ -167,46 +169,32 @@ class _EditPageState extends State<EditPage> {
                               date: selectedDate.toString(),
                               title: _titleController.text,
                               imagePath: updatedImagePath,
-                              description: _descriptionController.text,userIndex: widget.userIndex,category:widget.category );
+                              description: _descriptionController.text,
+                              userIndex: widget.userIndex,
+                              category: widget.category,key: widget.blogkey);
 
                           updateBlog(
-                            index: index,
-                            context: context,
-                            title: _titleController.text,
-                            description: _descriptionController.text,
-                            selectedDate: selectedDate,updatedImagePath: widget.blog.imagePath,
-                            value: value
-                          
-                          );
-
-                          //   updateObjectInMultipleBoxes(value, boxes, index, context);
-                          // updateBlog(index,value,context);
+                              index: index,
+                              context: context,
+                              title: _titleController.text,
+                              description: _descriptionController.text,
+                              selectedDate: selectedDate,
+                              updatedImagePath: widget.blog.imagePath,
+                              value: value);
 
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (ctx) => const HomeScreen(
+                              builder: (ctx) => const BottomBavigationBar(
                                   // index: index,
                                   )));
                         }
-                      },
-                      child: Text('Update'))
+                      })
                 ],
               ),
             ),
           ),
-          // updateButton(
-          //     _updatedImage,
-          //     selectedDate,
-          //     _titleController,
-          //     _descriptionController,
-          //     index,
-          //     context,
-          //     widget.blog.imagePath,
-          //     _key,
-          //     natureBox),
           SizedBox(
             height: 30,
           ),
-          deleteButton(context, index),
           Padding(
             padding: const EdgeInsets.only(left: 25, right: 25, top: 15),
             child: Divider(
@@ -222,17 +210,5 @@ class _EditPageState extends State<EditPage> {
         ],
       ),
     );
-  }
-
-  Future<XFile?> pickImageFromGallery() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      setState(() {
-        _updatedImage = pickedImage;
-        //final imagePath = pickedImage.path;
-      });
-    }
-    return pickedImage;
   }
 }

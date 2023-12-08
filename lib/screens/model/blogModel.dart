@@ -24,7 +24,13 @@ class Blog extends HiveObject {
   @HiveField(6)
   final String? category;
 
-  Blog( {
+  @HiveField(7)
+  final String? key;
+
+  @HiveField(8)
+   int? commentCount;
+
+  Blog(  {
     this.isFavorite = false,
     required this.date,
     required this.title,
@@ -32,5 +38,7 @@ class Blog extends HiveObject {
     required this.description,
     this.userIndex,
     this.category,
+    this.key, 
+    this.commentCount = 0,
   });
 }

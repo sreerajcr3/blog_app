@@ -23,10 +23,6 @@ void main() async{
   Hive.registerAdapter(categoryAdapter());
   
   await Hive.openBox('blog');
-  await Hive.openBox('nature');
-  await Hive.openBox('science');
-  await Hive.openBox('entertainment');
-  await Hive.openBox('politics');
   await Hive.openBox('userid');
   await Hive.openBox('favorite');
   await Hive.openBox('comment'); 
@@ -42,6 +38,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         // fontFamily: ,
+        
           primaryIconTheme: IconThemeData(color: Colors.white),
           iconTheme: IconThemeData(color: Colors.white),
           textTheme: const TextTheme(

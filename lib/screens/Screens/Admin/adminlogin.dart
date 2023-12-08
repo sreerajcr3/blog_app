@@ -1,4 +1,3 @@
-
 import 'package:blog_app/screens/Screens/Admin/adminpanel.dart';
 import 'package:blog_app/screens/widgets/widets%20and%20functions.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +10,16 @@ class AdminLogin extends StatefulWidget {
 }
 
 class _AdminLoginState extends State<AdminLogin> {
+  
+
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _key = GlobalKey<FormState>();
+  @override
+  void initState() {
+    super.initState();
+   
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +30,9 @@ class _AdminLoginState extends State<AdminLogin> {
         child: Column(
           children: [
             //  AppbarContainer(child: Text('data',style: TextStyle(color: Colors.blue),),),
-            const AppbarContainer(
-             
-            ),
+            AppbarContainer(),
             Container(
-              color:Colors.yellow,
+              color: Colors.yellow,
               // const Color(0xFFC7D9E7),
               child: Container(
                 decoration: const BoxDecoration(
@@ -46,7 +50,8 @@ class _AdminLoginState extends State<AdminLogin> {
                         children: [
                           const Padding(
                             padding: EdgeInsets.only(top: 40),
-                            child: Center(child: TitleText(words: 'Admin Login')),
+                            child:
+                                Center(child: TitleText(words: 'Admin Login')),
                           ),
                           const SizedBox(
                             height: 30,

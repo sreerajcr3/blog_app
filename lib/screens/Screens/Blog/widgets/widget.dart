@@ -1,9 +1,11 @@
 // ignore_for_file: must_be_immutable, no_leading_underscores_for_local_identifiers
 
 import 'package:blog_app/Databse/functions.dart';
-import 'package:blog_app/screens/Screens/Blog/Home.dart';
+import 'package:blog_app/screens/Screens/Blog/bottomnavigation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 
 class SearchTextFormField extends StatelessWidget {
@@ -75,7 +77,7 @@ Future deleteDialog(context, widget, index) {
                 deleteBlog(widget.index);
 
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (ctx) => const HomeScreen(
+                    builder: (ctx) => const BottomBavigationBar(
                         // index: index,
                         )));
                 ScaffoldMessenger.of(context).clearSnackBars();
@@ -104,89 +106,46 @@ class DeleteBlog extends StatelessWidget {
 }
 
 deleteButton(context, index) {
+ Box commentBox = Hive.box('comment');
   return Padding(
-    padding: const EdgeInsets.only(left: 150, right: 150),
-    child: ElevatedButton(
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: ((context) {
-                return AlertDialog(
-                  title: const Text('Do you want to delete?'),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text('cancel')),
-                    TextButton(
-                        onPressed: () {
-                          deleteBlog(index);
+    padding: const EdgeInsets.only(left: 0, right: 0),
+    child: IconButton(
+      onPressed: () {
+        showDialog(
+            context: context,
+            builder: ((context) {
+              return AlertDialog(
+                title: const Text('Do you want to delete?'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('cancel')),
+                  TextButton(
+                      onPressed: () {
+                        deleteBlog(index);
 
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(
-                                  builder: (ctx) => const HomeScreen(
-                                      //  index: index
-                                      )));
-                          ScaffoldMessenger.of(context).clearSnackBars();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('deleted succesfully'),
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                        },
-                        child: const Text('ok'))
-                  ],
-                );
-              }));
-        },
-        style: ElevatedButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            fixedSize: const Size(20, 10),
-            backgroundColor: Colors.yellow,
-            foregroundColor: Colors.black),
-        child: const Text('delete')),
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (ctx) => const BottomBavigationBar()));
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('deleted succesfully'),
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      },
+                      child: const Text('ok'))
+                ],
+              );
+            }));
+      },
+      icon: Icon(CupertinoIcons.delete_solid,size: 30,),
+    ),
   );
 }
-
-// Widget updateButton(_updatedImage, selectedDate, _titleController,
-//     _descriptionController, index, context, imagePath, _key,natureBox) {
-    
-//   return Padding(
-//     padding: const EdgeInsets.only(left: 150, right: 150),
-//     child: ElevatedButton(
-//         onPressed: () {
-//           if (_key.currentState!.validate()) {
-//             final updatedImagePath = _updatedImage?.path ?? imagePath;
-//             final value = Blog(
-//                 date: selectedDate.toString(),
-//                 title: _titleController.text,
-//                 imagePath: updatedImagePath,
-//                 description: _descriptionController.text);
-
-//             updateBlog(index, value, context);
-             
-//          //   updateObjectInMultipleBoxes(value, boxes, index, context);
-//             // updateBlog(index,value,context);
-
-//             Navigator.of(context).push(MaterialPageRoute(
-//                 builder: (ctx) => const HomeScreen(
-//                     // index: index,
-//                     )));
-//           }
-//         },
-//         style: ElevatedButton.styleFrom(
-//             shape:
-//                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-//             fixedSize: const Size(20, 10),
-//             backgroundColor: Colors.yellow,
-//             foregroundColor: Colors.black),
-//         child: const Text('update')),
-//   );
-// }
 
 editPageDescriptionfield(_descriptionController) {
   return Padding(
@@ -236,7 +195,7 @@ Widget editPageTitleField(_titleController) {
   );
 }
 
-DateButton(context, selectedDate,setStateCallback) {
+DateButton(context, selectedDate, setStateCallback) {
   return ElevatedButton(
       onPressed: () async {
         final DateTime? dateTime = await showDatePicker(
@@ -258,5 +217,3 @@ DateButton(context, selectedDate,setStateCallback) {
       ),
       child: const Text('Select date'));
 }
-
-

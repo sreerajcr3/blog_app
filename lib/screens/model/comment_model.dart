@@ -12,12 +12,18 @@ class Comment extends HiveObject {
   final userid user;
 
   @HiveField(2)
-  final int blogid;
+  final int? blogid;
+
+  @HiveField(3)
+  final String date;
+
+ @HiveField(4)
+  final String key;
 
  
 
   String? get name => user.name ?? 'Unknown';
   Image get profilePic => Image.network(user.profilePic.toString());
 
-  Comment( {required this.comment, required this.user, required this.blogid});
+  Comment(  {required this.comment, required this.user,  this.blogid,required this.date,required this.key, });
 }

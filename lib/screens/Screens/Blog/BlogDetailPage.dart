@@ -77,9 +77,11 @@ class _BlogPageState extends State<BlogPage> {
                         children: [
                           Row(
                             children: [
-                              TitleText(
-                                words: widget.blog.title,
-                                trimmed: true,
+                              Expanded(
+                                child: TitleText(
+                                  words: widget.blog.title,
+                                  trimmed: true,
+                                ),
                               ),
                             ],
                           ),

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, must_be_immutable, camel_case_types
 
 import 'package:blog_app/screens/Screens/Admin/adminlogin.dart';
+import 'package:blog_app/screens/Screens/Blog/bottomnavigation.dart';
 import 'package:blog_app/screens/Screens/Blog/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -88,20 +89,7 @@ class HeadingWithIcon extends StatelessWidget {
   }
 }
 
-// Widget Apptext({
-//   required String words,
-// }) {
-//     final trimmedtext = words.trim();
-//    final word =trimmedtext.isNotEmpty? trimmedtext[0].toUpperCase()+trimmedtext.substring(1):trimmedtext;
-//   return Padding(
-//     padding: const EdgeInsets.all(15.0),
-  
-//     child: Text(
-//       word,
-//       style: GoogleFonts.poppins(fontSize: 20),
-//     ),
-//   );
-// }
+
 
 
 class Apptext extends StatelessWidget {
@@ -167,7 +155,10 @@ class Subtitle extends StatelessWidget {
 class TitleText extends StatelessWidget {
   final String words;
   final bool trimmed;
-  const TitleText({super.key, required this.words, this.trimmed = false});
+    final int? maxLines;
+  final bool? softwrap;
+  final TextOverflow? overflow;
+  const TitleText({super.key, required this.words, this.trimmed = false, this.maxLines, this.softwrap, this.overflow});
 
   @override
   Widget build(BuildContext context) {
@@ -181,6 +172,9 @@ class TitleText extends StatelessWidget {
         word,
         style: GoogleFonts.cabin(fontSize: 25, fontWeight: FontWeight.w700,),
         strutStyle: StrutStyle(height: 2.5),
+        maxLines: maxLines,
+        softWrap: softwrap,
+        overflow: overflow,
       ),
     );
   }
@@ -370,8 +364,9 @@ class Button extends StatelessWidget {
 
 
 class AppbarContainer extends StatelessWidget {
+ 
   const AppbarContainer({
-    super.key,
+    super.key
   });
 
   @override
@@ -398,7 +393,7 @@ class AppbarContainer extends StatelessWidget {
             top: 30,
             child: IconButton(
               onPressed: () {
-                Navigator.pop(context);
+               Navigator.push(context, MaterialPageRoute(builder: (ctx)=>BottomBavigationBar()));
               },
               icon: Icon(
                 Icons.arrow_back,
@@ -426,7 +421,7 @@ class AppbarContainer extends StatelessWidget {
   }
 }
 
-descriptionfield(descriptionController, Description) {
+descriptionfield(descriptionController) {
   return TextFormField(
     minLines: 3,
     maxLines: 5,
@@ -437,9 +432,7 @@ descriptionfield(descriptionController, Description) {
       }
       return null;
     },
-    onSaved: (newValue) {
-      Description = newValue;
-    },
+   
     decoration: InputDecoration(
       hintText: 'Enter the description......',
       filled: true,

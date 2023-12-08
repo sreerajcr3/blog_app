@@ -76,15 +76,15 @@ class _Category2State extends State<Category2> {
                           case 'nature':
                             selectedCategory = 'nature';
                             break;
-
+      
                           case 'science':
                             selectedCategory = 'science';
                             break;
-
+      
                           case 'entertainment':
                             selectedCategory = 'entertainment';
                             break;
-
+      
                           case 'politics':
                             selectedCategory = 'politics';
                             break;
@@ -95,12 +95,9 @@ class _Category2State extends State<Category2> {
                   }),
             ],
           ),
-         categoryList.isEmpty?Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-           children: [
-            Center(child: Text('data'))
-           ],
-         ):
+         categoryList.isEmpty?Container(
+          height: MediaQuery.sizeOf(context).height/1.4,
+          child: Center(child:TitleText(words: 'No blogs related to this Category'))):
           Expanded(
             child: ListView.builder(
               itemCount: categoryList.length,

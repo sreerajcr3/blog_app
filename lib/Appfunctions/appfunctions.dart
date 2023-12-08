@@ -1,7 +1,6 @@
-
 import 'package:blog_app/Databse/functions.dart';
-import 'package:blog_app/screens/Screens/Blog/Home.dart';
 import 'package:blog_app/screens/Screens/Blog/addBlog.dart';
+import 'package:blog_app/screens/Screens/Blog/bottomnavigation.dart';
 import 'package:blog_app/screens/Screens/user/Loginpage.dart';
 import 'package:blog_app/screens/Screens/user/userProfile.dart';
 import 'package:blog_app/screens/model/blogModel.dart';
@@ -27,11 +26,8 @@ Future<void> checkLoggedin(context) async {
   final sharedprefs = await SharedPreferences.getInstance();
   final userLoggedIn = sharedprefs.getBool(savedkey);
   if (userLoggedIn == false || userLoggedIn == null) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (ctx) => const LoginScreen()));
-  } else {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (ctx) => const AddBlog()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => const LoginScreen()));
   }
 }
 
@@ -39,12 +35,26 @@ Future<void> checkLoggedinProfile(context) async {
   final sharedprefs = await SharedPreferences.getInstance();
   final userLoggedIn = sharedprefs.getBool(savedkey);
   if (userLoggedIn == false || userLoggedIn == null) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (ctx) => const LoginScreen()));
-  } else {
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (ctx) => const UserProfile()));
+        MaterialPageRoute(builder: (ctx) => const LoginScreen()));
   }
+  //  else {
+  //   Navigator.of(context).pushReplacement(
+  //       MaterialPageRoute(builder: (ctx) => const UserProfile()));
+  // }
+}
+
+Future<void> checkLoggedinFavorite(context) async {
+  final sharedprefs = await SharedPreferences.getInstance();
+  final userLoggedIn = sharedprefs.getBool(savedkey);
+  if (userLoggedIn == false || userLoggedIn == null) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => const LoginScreen()));
+  }
+  //  else {
+  //   Navigator.of(context).pushReplacement(
+  //       MaterialPageRoute(builder: (ctx) => const UserProfile()));
+  // }
 }
 
 Future<int> userIndexIdentification() async {
@@ -67,28 +77,27 @@ Future<bool> checkLoggedinComment(context) async {
 void saveData(_key, _selectedValue, _selectedDate, titleContoller, imagePath,
     descriptionController, indx, selectedCategory, context) {
   Box blogBox = Hive.box('blog');
-  if (_key.currentState!.validate() &&
-      _selectedValue != null &&
-      _selectedValue != 'A') {
+  String key = DateTime.now().millisecondsSinceEpoch.toString();
+  print('key  = $key');
+
+  if (_selectedValue != null &&
+      _selectedValue != 'A' &&
+      titleContoller.text.isNotEmpty &&
+      descriptionController.text.isNotEmpty &&
+      imagePath != null) {
     final blogData = Blog(
         date: _selectedDate.toString(),
         title: titleContoller.text,
         imagePath: imagePath!,
         description: descriptionController.text,
         userIndex: indx,
-        category: selectedCategory);
+        category: selectedCategory,
+        key: key);
+    // blogBox.put(key, blogData);
     blogBox.add(blogData);
-
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text('Select Category'),
-      behavior: SnackBarBehavior.floating,
-      backgroundColor: Colors.red,
-      margin: EdgeInsets.all(20),
-    ));
   }
   Navigator.of(context)
-      .push(MaterialPageRoute(builder: (ctx) => const HomeScreen()));
+      .push(MaterialPageRoute(builder: (ctx) => const BottomBavigationBar()));
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
     content: Text('Blog uploaded successfully'),
@@ -105,6 +114,11 @@ Future<bool> checkLoggedinMenu(context) async {
     return false;
   }
   return true;
+}
+
+void loadData(context) async {
+  await checkLoggedinMenu(context);
+  // print(checkuser);
 }
 
 showdialogDelete(context, index) {
@@ -145,10 +159,37 @@ Future<void> signout(context) async {
       MaterialPageRoute(builder: (ctx) => const LoginScreen()),
       (route) => false);
 }
- //   var reversedIndex = box!.length - 1 - index;
-                      // final blog = box?.getAt(index) as Blog;
+//   var reversedIndex = box!.length - 1 - index;
+// final blog = box?.getAt(index) as Blog;
 
+Text dropdownText(text) {
+  return Text(
+    text,
+    style: GoogleFonts.aBeeZee(
+        fontWeight: FontWeight.w700, fontSize: 15, color: Colors.white),
+  );
+}
 
-  Text dropdownText(text){
-    return Text(text,style: GoogleFonts.aBeeZee(fontWeight: FontWeight.w700,fontSize: 15,color: Colors.white),);
+Future<void> checkLoggedinProfileMenu(context) async {
+  final sharedprefs = await SharedPreferences.getInstance();
+  final userLoggedIn = sharedprefs.getBool(savedkey);
+  if (userLoggedIn == false || userLoggedIn == null) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => const LoginScreen()));
+  } else {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => const UserProfile()));
   }
+}
+
+Future<void> checkLoggedinAddBlogMenu(context) async {
+  final sharedprefs = await SharedPreferences.getInstance();
+  final userLoggedIn = sharedprefs.getBool(savedkey);
+  if (userLoggedIn == false || userLoggedIn == null) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => const LoginScreen()));
+  } else {
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (ctx) => const AddBlog()));
+  }
+}

@@ -1,32 +1,25 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:blog_app/screens/Screens/user/Loginpage.dart';
+import 'package:blog_app/screens/model/comment_model.dart';
 import 'package:blog_app/screens/model/useridModel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 Future<void> deleteBlog(index) async {
   late Box blogBox = Hive.box('blog');
-  late Box natureBox = Hive.box('nature');
-  late Box scienceBox = Hive.box('science');
-  late Box entertainmentBox = Hive.box('entertainment');
-  late Box politicsBox = Hive.box('politics');
-  if (index >= 0 && index < scienceBox.length) {
-    scienceBox.deleteAt(index);
-  }
+  late Box commentBox = Hive.box('comment');
 
-  if (index >= 0 && index < natureBox.length) {
-    natureBox.deleteAt(index);
-  }
-
-  if (index >= 0 && index < politicsBox.length) {
-    politicsBox.deleteAt(index);
-  }
-
-  if (index >= 0 && index < entertainmentBox.length) {
-    entertainmentBox.deleteAt(index);
-  }
   blogBox.deleteAt(index);
+ 
+  for (var i = 0; i < commentBox.length; i++) {
+    final deletecomment = commentBox.getAt(i) as Comment;
+     if (deletecomment.blogid == index) {
+      commentBox.deleteAt(i);
+       
+     }
+  }
+
 }
 
 Future<void> updateBlog(
@@ -35,22 +28,18 @@ Future<void> updateBlog(
     selectedDate,
     title,
     updatedImagePath,
-    description,value}) async {
-   late Box blogBox = Hive.box('blog');
-
+    description,
+    value}) async {
+  late Box blogBox = Hive.box('blog');
 
 // final blog  =  Blog(
 //         date: selectedDate.toString(),
 //         title: title,
 //         imagePath: updatedImagePath,
 //         description: description,
-   //   );
+  //   );
 
-  blogBox.putAt(
-      index,value
-    );
-
-
+  blogBox.putAt(index, value);
 
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: Text('updated successfully'),
@@ -66,8 +55,6 @@ Future<void> updateObjectInMultipleBoxes(context) async {
     behavior: SnackBarBehavior.floating,
   ));
 }
-
-
 
 saveUserId(_key, _nameController, _usernameController, _passwordController,
     context, userId) {

@@ -1,6 +1,5 @@
 // ignore_for_file: camel_case_types
 
-import 'package:blog_app/screens/model/blogModel.dart';
 import 'package:hive/hive.dart';
 
 part 'useridModel.g.dart';
@@ -39,13 +38,11 @@ class userid extends HiveObject {
 @HiveType(typeId: 2)
 class favorites extends HiveObject {
   @HiveField(0)
-  final Blog? blogId;
+  final int blogIndex;
 
   @HiveField(1)
   int userIndex;
   
-  String get title => blogId!.title;
-  String get imagePath => blogId!.imagePath;
 
-  favorites({this.blogId, required this.userIndex});
+  favorites( {required this.blogIndex,required this.userIndex});
 }
