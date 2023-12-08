@@ -223,7 +223,7 @@ class _AddBlogState extends State<AddBlog> {
                         onPressed: () {
                           if (_key.currentState!.validate() &&
                               _selectedValue != null &&
-                              _selectedValue != 'A' &&
+                              _selectedValue != 'A'&&
                               titleContoller.text.isNotEmpty &&
                               descriptionController.text.isNotEmpty &&
                               imagePath != null) {
@@ -237,10 +237,19 @@ class _AddBlogState extends State<AddBlog> {
                                 indx,
                                 selectedCategory,
                                 context);
-                          } else {
+                          } else if( _selectedValue == null ||
+                              _selectedValue == 'A' ){
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(const SnackBar(
                               content: Text('Select Category'),
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.red,
+                              margin: EdgeInsets.all(20),
+                            ));
+                          }else if(imagePath==null){
+                              ScaffoldMessenger.of(context)
+                                .showSnackBar(const SnackBar(
+                              content: Text('Select Image'),
                               behavior: SnackBarBehavior.floating,
                               backgroundColor: Colors.red,
                               margin: EdgeInsets.all(20),
