@@ -46,7 +46,6 @@ class _CategoriesState extends State<Categories> {
 
   @override
   Widget build(BuildContext context) {
-    // final index = widget.index;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 50,
@@ -73,23 +72,7 @@ class _CategoriesState extends State<Categories> {
                       setState(
                         () {
                           category = value!;
-                          // switch (selectedCategory) {
-                          //   case 'nature':
-                          //     category = 'nature';
-                          //     break;
-
-                          //   case 'science':
-                          //     category = 'science';
-                          //     break;
-
-                          //   case 'entertainment':
-                          //     category = 'entertainment';
-                          //     break;
-
-                          //   case 'politics':
-                          //     category = 'politics';
-                          //     break;
-                          // }
+                       
                         },
                       );
                     }),

@@ -59,7 +59,7 @@ class _CommentPageState extends State<CommentPage> {
   int getCommentCount(String blogkey) {
     int count = 0;
     for (int i = 0; i < CommentBox.length; i++) {
-      final comments = CommentBox.getAt(i) as Comment;
+      final comments = CommentBox.getAt(i) ;
       if (comments != null && blogkey == comments.key) {
         count++;
       }

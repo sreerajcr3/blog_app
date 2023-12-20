@@ -27,6 +27,12 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 90,
+              child: Image.asset("assets/images/b.icon.2.png")),
+              SizedBox(
+                height: MediaQuery.sizeOf(context).height/9,
+              ),
             Align(
               child: Column(
                 children: [
@@ -47,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             textStyle: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 40,
-                                color: Colors.yellow)),
+                                color: Colors.yellowAccent)),
                       ),
                     ],
                   ),

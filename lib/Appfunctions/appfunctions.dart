@@ -212,3 +212,15 @@ Future<void> checkLoggedinAddBlogMenu(context) async {
         .pushReplacement(MaterialPageRoute(builder: (ctx) => const AddBlog()));
   }
 }
+
+Future<void> checkLoggedinHomeScreen(context) async {
+  final sharedprefs = await SharedPreferences.getInstance();
+  final userLoggedIn = sharedprefs.getBool(savedkey);
+  if (userLoggedIn == false || userLoggedIn == null) {
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => const LoginScreen()));
+  }else{
+     Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (ctx) => const AddBlog()));
+  }
+}

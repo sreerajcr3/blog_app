@@ -18,12 +18,12 @@ class _BottomBavigationBarState extends State<BottomBavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    final pages = [
-      const HomeScreen(),
-      const Category2(),
-      const AddBlog(),
-      const Favorites(),
-      const UserProfile()
+    const pages =[
+       HomeScreen(),
+       Category2(),
+       AddBlog(),
+       Favorites(),
+       UserProfile()
     ];
     return Scaffold(
         body: pages[index],

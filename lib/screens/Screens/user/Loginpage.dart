@@ -20,7 +20,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   late Box userId;
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -28,26 +27,20 @@ class _LoginScreenState extends State<LoginScreen> {
   //final bool userLoggedIn = false;
   int index1 = 0;
 
- 
-
   @override
   void initState() {
     super.initState();
     userId = Hive.box('userid');
-   
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            AppbarContainer(
-            
-            ),
+            AppbarContainer(),
             Container(
               color: Colors.yellow,
               //Color(0xFFC7D9E7),
@@ -117,7 +110,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               gotoHome(_usernameController, _passwordController,
                                   context, _key);
-                              // validate();
                             }),
                         SizedBox(
                           height: 40,
@@ -139,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (ctx) =>BottomBavigationBar(
+                                  builder: (ctx) => BottomBavigationBar(
                                       //  index: index1,
                                       ),
                                 ),
@@ -153,8 +145,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Center(
                               child: Padding(
                             padding: const EdgeInsets.only(top: 100),
-                            child: Column(
-                              children: const [
+                            child: const Column(
+                              children: [
                                 footerText(
                                     words: 'Copyright © owned by Sreeraj CR'),
                                 footerText(words: 'Privacy Policies')

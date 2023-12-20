@@ -32,7 +32,8 @@ class EditPage extends StatefulWidget {
       required this.index,
       required this.selectedDate,
       required this.userIndex,
-      required this.category, required this.blogkey});
+      required this.category,
+      required this.blogkey});
 
   @override
   State<EditPage> createState() => _EditPageState();
@@ -158,11 +159,6 @@ class _EditPageState extends State<EditPage> {
                       onLongPress: () {},
                       onPressed: () {
                         if (_key.currentState!.validate()) {
-//Unique key like Index
-
-                          //         final dflknd = DateTime.now().millisecondsSinceEpoch;
-                          //         debugPrint('fkkd $dflknd');
-
                           final updatedImagePath =
                               _updatedImage?.path ?? widget.blog.imagePath;
                           final value = Blog(
@@ -171,7 +167,8 @@ class _EditPageState extends State<EditPage> {
                               imagePath: updatedImagePath,
                               description: _descriptionController.text,
                               userIndex: widget.userIndex,
-                              category: widget.category,key: widget.blogkey);
+                              category: widget.category,
+                              key: widget.blogkey);
 
                           updateBlog(
                               index: index,

@@ -20,10 +20,15 @@ class Comment extends HiveObject {
  @HiveField(4)
   final String key;
 
+ @HiveField(5)
+   String? commentCount;
+
+
+
  
 
   String? get name => user.name ?? 'Unknown';
   Image get profilePic => Image.network(user.profilePic.toString());
 
-  Comment(  {required this.comment, required this.user,  this.blogid,required this.date,required this.key, });
+  Comment(   {required this.comment, required this.user,  this.blogid,required this.date,required this.key,this.commentCount, });
 }
